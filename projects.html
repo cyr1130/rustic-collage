@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Projects — Rustic Collage</title>
+    <meta name="description" content="Rustic Collage — 공간에 새겨진 결" />
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="subpage subpage--light">
+    <header class="nav" id="nav">
+      <div class="nav__inner">
+        <a class="nav__brand" href="index.html">Rustic Collage</a>
+
+        <nav class="nav__menu" aria-label="Primary">
+          <a href="./about.html">About</a>
+          <a href="./collection.html">Collage Collection</a>
+          <a href="./projects.html">Projects</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+
+        <button
+          class="nav__toggle"
+          type="button"
+          aria-label="메뉴 열기"
+          aria-expanded="false"
+          aria-controls="nav-drawer"
+        >
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="nav__backdrop" aria-hidden="true"></div>
+    <aside class="nav__drawer" id="nav-drawer" aria-hidden="true">
+      <nav class="nav__drawer-menu" aria-label="모바일 메뉴">
+        <a href="./about.html">About</a>
+        <a href="./collection.html">Collage Collection</a>
+        <a href="./projects.html">Projects</a>
+        <a href="./contact.html">Contact</a>
+      </nav>
+    </aside>
+
+    <main id="top">
+      <!-- ======================== PAGE HEADER ======================== -->
+      <section class="proj-page-hero">
+        <div class="container">
+          <h1 class="proj-page-hero__title">Projects</h1>
+          <p class="proj-page-hero__lead">Discover handpicked products made just for you.</p>
+        </div>
+      </section>
+
+      <!-- ======================== GRID LIST ======================== -->
+      <section class="proj-page-list">
+        <div class="container">
+          <div class="proj-page-list__grid" id="projects-grid">
+            <!-- projects-data.json 에서 자동 렌더링됨 -->
+          </div>
+        </div>
+      </section>
+
+      <script>
+        (function () {
+          var grid = document.getElementById('projects-grid');
+          if (!grid) return;
+          fetch('./projects-data.json?t=' + Date.now())
+            .then(function (r) {
+              if (!r.ok) throw new Error('HTTP ' + r.status);
+              return r.json();
+            })
+            .then(function (data) {
+              var html = (data.projects || [])
+                .map(function (p) {
+                  return (
+                    '<a class="proj-card" href="./project-detail.html?id=' +
+                    encodeURIComponent(p.id) + '">' +
+                      '<figure class="proj-card__media">' +
+                        '<img src="' + esc(p.thumbnail) + '" alt="" loading="lazy" />' +
+                      '</figure>' +
+                      '<p class="proj-card__name">' + esc(p.name) + '</p>' +
+                    '</a>'
+                  );
+                })
+                .join('');
+              grid.innerHTML = html;
+            })
+            .catch(function (err) {
+              grid.innerHTML = '<p style="color:#888;font-size:14px;">프로젝트 목록을 불러오지 못했습니다.</p>';
+              console.error(err);
+            });
+          function esc(s) {
+            return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+              return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+            });
+          }
+        })();
+      </script>
+    </main>
+
+    <!-- ======================== FOOTER ======================== -->
+    <footer class="footer">
+      <div class="container footer__inner">
+        <div class="footer__brand">
+          <h2 class="footer__title">Rustic Collage</h2>
+          <div class="footer__contacts">
+            <a href="mailto:rusticcollage@design.com">Rustic Collage@design.com</a>
+            <a href="tel:01012345678">01012345678</a>
+          </div>
+        </div>
+
+        <nav class="footer__nav" aria-label="Footer">
+          <ul class="footer__nav-col">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="#">How to Use</a></li>
+          </ul>
+          <ul class="footer__nav-col">
+            <li><a href="collection.html">Collage Collection</a></li>
+            <li><a href="projects.html">Projects</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

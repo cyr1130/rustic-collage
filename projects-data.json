@@ -1,0 +1,116 @@
+{
+  "projects": [
+    {
+      "id": "project-1",
+      "name": "프로젝트 이름",
+      "thumbnail": "https://framerusercontent.com/images/mWGKWCXw1em9l6sTY9wdoJWJM.jpg?width=1200",
+      "title": "Other Project",
+      "description": "A lightweight yet deeply moisturizing cream that keeps your skin soft and hydrated all day. Perfect for daily use, it absorbs quickly without feeling greasy.",
+      "details": "프로젝트의 상세 정보를 여기에 작성합니다. 사용된 자재, 시공 방법, 협력사 등을 기재할 수 있습니다.",
+      "size": "전체 면적, 시공 면적, 마감 두께 등의 사이즈 정보를 여기에 기재합니다.",
+      "gallery": [
+        "https://framerusercontent.com/images/Te8MC7HECQmCjXUKDj9Xx6MiBg.png?width=1600",
+        "https://framerusercontent.com/images/mWGKWCXw1em9l6sTY9wdoJWJM.jpg?width=1600",
+        "https://framerusercontent.com/images/7ZwkPLQSg8aybrFZSIETA0sh0.jpg?width=1600"
+      ]
+    },
+    {
+      "id": "project-2",
+      "name": "Rustic Collage",
+      "thumbnail": "https://framerusercontent.com/images/jFjYYpjxlnqR2q938s1Rggthg.jpg?width=1200",
+      "title": "Rustic Collage",
+      "description": "공간에 새겨진 우드의 결을 디자인 언어로 풀어낸 프로젝트입니다.",
+      "details": "오크, 월넛, 메이플 — 자재의 자연스러운 톤을 살린 시공.",
+      "size": "전용 면적 132m². 시공 기간 4주.",
+      "gallery": [
+        "https://framerusercontent.com/images/jFjYYpjxlnqR2q938s1Rggthg.jpg?width=1600",
+        "https://framerusercontent.com/images/Dpo8uPfpHHGjKSTKkSkzC1hLqJI.jpg?width=1600",
+        "https://framerusercontent.com/images/NWSt0NBHa692nVWmcUbK8u2Po.jpg?width=1600"
+      ]
+    },
+    {
+      "id": "project-3",
+      "name": "Rustic Collage",
+      "thumbnail": "https://framerusercontent.com/images/ztVfgze1PwplOyJghqO9aBP6Y.jpg?width=1200",
+      "title": "Rustic Collage",
+      "description": "라운지를 위한 따뜻한 톤의 마루.",
+      "details": "내추럴 오크 헤링본, 자연 오일 마감.",
+      "size": "210m².",
+      "gallery": [
+        "https://framerusercontent.com/images/ztVfgze1PwplOyJghqO9aBP6Y.jpg?width=1600",
+        "https://framerusercontent.com/images/7ZwkPLQSg8aybrFZSIETA0sh0.jpg?width=1600",
+        "https://framerusercontent.com/images/XTkp20wHzW9mUi8nbUXiVmnMbo8.jpg?width=1600"
+      ]
+    },
+    {
+      "id": "project-4",
+      "name": "Rustic Collage",
+      "thumbnail": "https://framerusercontent.com/images/7ZwkPLQSg8aybrFZSIETA0sh0.jpg?width=1200",
+      "title": "Rustic Collage",
+      "description": "쇼룸을 위한 큐레이션. 결이 다른 다섯 종의 우드를 한 공간에서 비교할 수 있는 전시 동선.",
+      "details": "메인 자재: 오크 와이드 플랭크. 보조: 월넛, 애쉬.",
+      "size": "180m².",
+      "gallery": [
+        "https://framerusercontent.com/images/7ZwkPLQSg8aybrFZSIETA0sh0.jpg?width=1600",
+        "https://framerusercontent.com/images/mWGKWCXw1em9l6sTY9wdoJWJM.jpg?width=1600",
+        "https://framerusercontent.com/images/Te8MC7HECQmCjXUKDj9Xx6MiBg.png?width=1600"
+      ]
+    },
+    {
+      "id": "project-5",
+      "name": "Rustic Collage",
+      "thumbnail": "https://framerusercontent.com/images/7nPpvgDGNRpPRcKCGP8AfeHakCQ.jpg?width=1200",
+      "title": "Rustic Collage",
+      "description": "어두운 톤으로 정리한 사무 공간.",
+      "details": "다크 스테인 처리한 월넛.",
+      "size": "95m².",
+      "gallery": [
+        "https://framerusercontent.com/images/7nPpvgDGNRpPRcKCGP8AfeHakCQ.jpg?width=1600",
+        "https://framerusercontent.com/images/Dpo8uPfpHHGjKSTKkSkzC1hLqJI.jpg?width=1600",
+        "https://framerusercontent.com/images/NWSt0NBHa692nVWmcUbK8u2Po.jpg?width=1600"
+      ]
+    },
+    {
+      "id": "project-6",
+      "name": "Rustic Collage",
+      "thumbnail": "https://framerusercontent.com/images/XTkp20wHzW9mUi8nbUXiVmnMbo8.jpg?width=1200",
+      "title": "Rustic Collage",
+      "description": "다이닝 공간을 위한 풀그레인 플로어.",
+      "details": "오일 마감의 화이트 오크.",
+      "size": "76m².",
+      "gallery": [
+        "https://framerusercontent.com/images/XTkp20wHzW9mUi8nbUXiVmnMbo8.jpg?width=1600",
+        "https://framerusercontent.com/images/ztVfgze1PwplOyJghqO9aBP6Y.jpg?width=1600",
+        "https://framerusercontent.com/images/jFjYYpjxlnqR2q938s1Rggthg.jpg?width=1600"
+      ]
+    },
+    {
+      "id": "project-7",
+      "name": "Rustic Collager",
+      "thumbnail": "https://framerusercontent.com/images/NWSt0NBHa692nVWmcUbK8u2Po.jpg?width=1200",
+      "title": "Rustic Collager",
+      "description": "주거 공간을 위한 컬렉션 시공 사례.",
+      "details": "프리미엄 메이플, UV 마감.",
+      "size": "112m².",
+      "gallery": [
+        "https://framerusercontent.com/images/NWSt0NBHa692nVWmcUbK8u2Po.jpg?width=1600",
+        "https://framerusercontent.com/images/VkhdD2wnqxORukD9IFpcgFbB2nM.jpg?width=1600",
+        "https://framerusercontent.com/images/mWGKWCXw1em9l6sTY9wdoJWJM.jpg?width=1600"
+      ]
+    },
+    {
+      "id": "project-8",
+      "name": "Rustic Collage",
+      "thumbnail": "https://framerusercontent.com/images/VkhdD2wnqxORukD9IFpcgFbB2nM.jpg?width=1200",
+      "title": "Rustic Collage",
+      "description": "스튜디오 공간을 위한 미니멀 마감.",
+      "details": "엔지니어드 오크, 매트 마감.",
+      "size": "58m².",
+      "gallery": [
+        "https://framerusercontent.com/images/VkhdD2wnqxORukD9IFpcgFbB2nM.jpg?width=1600",
+        "https://framerusercontent.com/images/7nPpvgDGNRpPRcKCGP8AfeHakCQ.jpg?width=1600",
+        "https://framerusercontent.com/images/XTkp20wHzW9mUi8nbUXiVmnMbo8.jpg?width=1600"
+      ]
+    }
+  ]
+}

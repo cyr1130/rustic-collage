@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project Admin — Rustic Collage</title>
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css"
+    />
+
+    <style>
+      :root {
+        --bg: #f6f6f4;
+        --card: #ffffff;
+        --line: #e5e5e3;
+        --line-strong: #cfcfca;
+        --ink-900: #111111;
+        --ink-700: #444443;
+        --ink-500: #6b6b67;
+        --ink-400: #9a9a96;
+        --accent: #111111;
+        --danger: #c62828;
+        --success: #1a7a3d;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--ink-900);
+        font-family: 'Pretendard Variable', 'Pretendard', system-ui, -apple-system, sans-serif;
+        font-size: 14px;
+        letter-spacing: -0.03em;
+        -webkit-font-smoothing: antialiased;
+        word-break: keep-all;
+      }
+      a { color: inherit; text-decoration: none; }
+      button { font: inherit; cursor: pointer; }
+
+      /* Top bar */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(246, 246, 244, 0.92);
+        backdrop-filter: saturate(180%) blur(14px);
+        -webkit-backdrop-filter: saturate(180%) blur(14px);
+        border-bottom: 1px solid var(--line);
+      }
+      .topbar__inner {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .topbar__title {
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0;
+      }
+      .topbar__title small { color: var(--ink-500); font-weight: 400; margin-left: 8px; }
+      .topbar__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+      .btn {
+        height: 36px;
+        padding: 0 16px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--ink-900);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: -0.03em;
+        transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+      }
+      .btn--primary { background: var(--ink-900); color: #fff; }
+      .btn--primary:hover:not(:disabled) { background: #2a2a2a; }
+      .btn--ghost { border-color: var(--line-strong); }
+      .btn--ghost:hover { background: #fff; }
+      .btn--danger { color: var(--danger); border-color: var(--line-strong); }
+      .btn--danger:hover { background: #fff5f5; border-color: var(--danger); }
+      .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+      /* Container */
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 28px 24px 80px;
+      }
+
+      .help {
+        background: #fffceb;
+        border: 1px solid #f7e9b8;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 13px;
+        line-height: 1.6;
+        color: var(--ink-700);
+        margin: 0 0 24px;
+      }
+      .help b { color: var(--ink-900); font-weight: 500; }
+
+      /* Project card */
+      .proj {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+      .proj__head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .proj__thumb {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        background: var(--bg);
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+      .proj__head-text { flex: 1; min-width: 0; }
+      .proj__name {
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0 0 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .proj__id {
+        font-size: 12px;
+        color: var(--ink-400);
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+      }
+      .proj__actions { display: flex; gap: 4px; }
+      .icon-btn {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        background: transparent;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--ink-700);
+        font-size: 13px;
+      }
+      .icon-btn:hover { background: var(--bg); }
+      .icon-btn--danger:hover { background: #fff5f5; color: var(--danger); border-color: var(--danger); }
+
+      .proj__body {
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--line);
+        display: none;
+      }
+      .proj.is-open .proj__body { display: block; }
+
+      .field { margin-bottom: 14px; }
+      .field:last-child { margin-bottom: 0; }
+      .label {
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--ink-500);
+        margin-bottom: 6px;
+      }
+      .label .hint { color: var(--ink-400); font-weight: 400; margin-left: 6px; }
+      .input, .textarea {
+        width: 100%;
+        padding: 9px 12px;
+        font-family: inherit;
+        font-size: 13px;
+        color: var(--ink-900);
+        background: #fff;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        letter-spacing: -0.03em;
+      }
+      .input:focus, .textarea:focus {
+        outline: none;
+        border-color: var(--ink-900);
+        box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.06);
+      }
+      .input--mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; }
+      .textarea { resize: vertical; min-height: 64px; }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+
+      .add-row {
+        display: flex;
+        justify-content: center;
+        padding: 8px 0 0;
+      }
+      .add-row button {
+        background: transparent;
+        border: 1px dashed var(--line-strong);
+        color: var(--ink-500);
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .add-row button:hover { color: var(--ink-900); border-color: var(--ink-900); }
+
+      /* Toast */
+      .toast {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        background: var(--ink-900);
+        color: #fff;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-size: 13px;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 200ms, transform 200ms;
+        z-index: 100;
+        max-width: calc(100vw - 48px);
+      }
+      .toast.is-show { opacity: 1; transform: translateY(0); }
+      .toast--success { background: var(--success); }
+      .toast--error { background: var(--danger); }
+
+      /* Login overlay */
+      .login {
+        position: fixed; inset: 0;
+        background: rgba(246, 246, 244, 0.94);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
+        padding: 24px;
+      }
+      .login.is-show { display: flex; }
+      .login__card {
+        width: 100%;
+        max-width: 360px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 28px;
+      }
+      .login__title { margin: 0 0 6px; font-size: 16px; font-weight: 500; }
+      .login__hint { margin: 0 0 18px; font-size: 13px; color: var(--ink-500); line-height: 1.5; }
+      .login__error { color: var(--danger); font-size: 12px; margin: 8px 0 0; }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar__inner">
+        <h1 class="topbar__title">Project Admin <small>projects-data.json</small></h1>
+        <div class="topbar__actions">
+          <button class="btn btn--ghost" id="btn-reload" title="서버에서 다시 불러오기">Reload</button>
+          <a class="btn btn--ghost" href="../projects.html" target="_blank" rel="noopener">Preview ↗</a>
+          <button class="btn btn--primary" id="btn-save">Save & Publish</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="help">
+        <b>Save & Publish</b>를 누르면 GitHub에 자동 커밋되고 Vercel이 사이트를 다시 빌드합니다 (보통 30~60초).
+        이미지는 외부 URL을 직접 입력하거나, GitHub 저장소의 <code>/images/</code> 폴더에 업로드 후 <code>./images/파일명.jpg</code> 경로를 입력하세요.
+      </div>
+
+      <div id="projects-list"></div>
+
+      <div class="add-row">
+        <button id="btn-add">+ Add Project</button>
+      </div>
+    </main>
+
+    <!-- Login overlay -->
+    <div class="login" id="login">
+      <form class="login__card" id="login-form">
+        <p class="login__title">관리자 인증</p>
+        <p class="login__hint">Vercel 환경변수 <code>ADMIN_PASSWORD</code>에 설정한 비밀번호를 입력하세요.</p>
+        <div class="field">
+          <label class="label">비밀번호</label>
+          <input type="password" class="input" id="login-password" autocomplete="current-password" required />
+        </div>
+        <button type="submit" class="btn btn--primary" style="width:100%;">로그인</button>
+        <p class="login__error" id="login-error" hidden></p>
+      </form>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      'use strict';
+
+      var STATE = { projects: [] };
+      var SESSION_KEY = 'rc_admin_pw';
+
+      // -------- 유틸 --------
+      function $(s) { return document.querySelector(s); }
+      function el(tag, attrs, children) {
+        var n = document.createElement(tag);
+        if (attrs) Object.keys(attrs).forEach(function (k) {
+          if (attrs[k] == null) return;
+          if (k === 'class') n.className = attrs[k];
+          else if (k === 'text') n.textContent = attrs[k];
+          else if (k === 'html') n.innerHTML = attrs[k];
+          else n.setAttribute(k, attrs[k]);
+        });
+        if (children) children.forEach(function (c) {
+          if (c == null) return;
+          if (typeof c === 'string') n.appendChild(document.createTextNode(c));
+          else n.appendChild(c);
+        });
+        return n;
+      }
+      function getPath(o, p) { return p.split('.').reduce(function (a, k) { return a == null ? a : a[k]; }, o); }
+      function setPath(o, p, v) {
+        var keys = p.split('.');
+        var cur = o;
+        for (var i = 0; i < keys.length - 1; i++) {
+          if (cur[keys[i]] == null) cur[keys[i]] = {};
+          cur = cur[keys[i]];
+        }
+        cur[keys[keys.length - 1]] = v;
+      }
+
+      // -------- Toast --------
+      var toastTimer;
+      function toast(kind, msg) {
+        var t = $('#toast');
+        t.className = 'toast' + (kind ? ' toast--' + kind : '');
+        t.textContent = msg;
+        t.classList.add('is-show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { t.classList.remove('is-show'); }, 3000);
+      }
+
+      // -------- 데이터 로드 --------
+      function loadFromServer() {
+        return fetch('../projects-data.json?t=' + Date.now(), { cache: 'no-store' })
+          .then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          });
+      }
+
+      // -------- 렌더 --------
+      function renderList() {
+        var host = $('#projects-list');
+        host.innerHTML = '';
+        STATE.projects = STATE.projects || [];
+        STATE.projects.forEach(function (p, idx) {
+          host.appendChild(renderProj(p, idx));
+        });
+      }
+
+      function renderProj(p, index) {
+        var card = el('div', { class: 'proj' });
+
+        var thumb = el('img', {
+          class: 'proj__thumb',
+          src: p.thumbnail || 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 60%22><rect fill=%22%23eee%22 width=%2260%22 height=%2260%22/></svg>',
+          alt: '',
+        });
+
+        var headText = el('div', { class: 'proj__head-text' }, [
+          el('p', { class: 'proj__name', text: p.name || '(제목 없음)' }),
+          el('span', { class: 'proj__id', text: p.id || '(id 없음)' }),
+        ]);
+
+        var actions = el('div', { class: 'proj__actions' });
+        actions.appendChild(iconBtn('▲', function () { move(index, -1); }));
+        actions.appendChild(iconBtn('▼', function () { move(index, 1); }));
+        actions.appendChild(iconBtn(card.classList.contains('is-open') ? '▴' : '▾', function () {
+          card.classList.toggle('is-open');
+        }));
+        actions.appendChild(iconBtn('✕', function () { removeProj(index); }, true));
+
+        var head = el('div', { class: 'proj__head' }, [thumb, headText, actions]);
+        head.querySelector('.proj__head-text').addEventListener('click', function () {
+          card.classList.toggle('is-open');
+        });
+
+        var body = el('div', { class: 'proj__body' });
+        body.appendChild(textInput('ID (slug, URL에 사용됨, 영문/숫자/하이픈)', p.id || '', function (v) {
+          p.id = v.trim().toLowerCase().replace(/\s+/g, '-');
+          headText.querySelector('.proj__id').textContent = p.id;
+        }, 'mono'));
+        body.appendChild(textInput('카드 이름 (목록에 표시)', p.name || '', function (v) {
+          p.name = v;
+          headText.querySelector('.proj__name').textContent = p.name || '(제목 없음)';
+        }));
+        body.appendChild(textInput('썸네일 URL', p.thumbnail || '', function (v) {
+          p.thumbnail = v;
+          thumb.src = v || thumb.src;
+        }));
+        body.appendChild(textInput('상세 페이지 타이틀', p.title || '', function (v) { p.title = v; }));
+        body.appendChild(textareaInput('설명 (description)', p.description || '', function (v) { p.description = v; }));
+        body.appendChild(textareaInput('Product Details', p.details || '', function (v) { p.details = v; }));
+        body.appendChild(textareaInput('Size', p.size || '', function (v) { p.size = v; }));
+
+        // Gallery
+        body.appendChild(el('p', { class: 'label', text: '갤러리 이미지 URL (3장)', html: '갤러리 이미지 URL <span class="hint">(3장)</span>' }));
+        var gal = p.gallery || ['', '', ''];
+        if (gal.length < 3) gal = gal.concat(['', '', '']).slice(0, 3);
+        p.gallery = gal;
+        for (var i = 0; i < 3; i++) (function (idx) {
+          body.appendChild(textInput((idx + 1) + '번 이미지', p.gallery[idx] || '', function (v) {
+            p.gallery[idx] = v;
+          }));
+        })(i);
+
+        card.appendChild(head);
+        card.appendChild(body);
+        return card;
+      }
+
+      function textInput(label, value, onChange, modifier) {
+        var input = el('input', { class: 'input' + (modifier === 'mono' ? ' input--mono' : ''), type: 'text', value: value || '' });
+        input.addEventListener('input', function (e) { onChange(e.target.value); });
+        return el('div', { class: 'field' }, [
+          el('label', { class: 'label', text: label }),
+          input,
+        ]);
+      }
+      function textareaInput(label, value, onChange) {
+        var t = el('textarea', { class: 'textarea', rows: '3' });
+        t.value = value || '';
+        t.addEventListener('input', function (e) { onChange(e.target.value); });
+        return el('div', { class: 'field' }, [
+          el('label', { class: 'label', text: label }),
+          t,
+        ]);
+      }
+      function iconBtn(text, onClick, danger) {
+        var b = el('button', { class: 'icon-btn' + (danger ? ' icon-btn--danger' : ''), type: 'button', text: text });
+        b.addEventListener('click', onClick);
+        return b;
+      }
+
+      // -------- 액션 --------
+      function move(index, delta) {
+        var to = index + delta;
+        if (to < 0 || to >= STATE.projects.length) return;
+        var arr = STATE.projects;
+        var tmp = arr[index]; arr[index] = arr[to]; arr[to] = tmp;
+        renderList();
+      }
+      function removeProj(index) {
+        if (!confirm('이 프로젝트를 삭제할까요?')) return;
+        STATE.projects.splice(index, 1);
+        renderList();
+      }
+      function addProj() {
+        var nextNum = STATE.projects.length + 1;
+        STATE.projects.push({
+          id: 'project-' + nextNum,
+          name: '새 프로젝트',
+          thumbnail: '',
+          title: '',
+          description: '',
+          details: '',
+          size: '',
+          gallery: ['', '', ''],
+        });
+        renderList();
+        // 마지막 카드를 자동으로 펼침
+        var cards = document.querySelectorAll('.proj');
+        if (cards.length) cards[cards.length - 1].classList.add('is-open');
+      }
+
+      // -------- 저장 --------
+      function save() {
+        var pw = sessionStorage.getItem(SESSION_KEY);
+        if (!pw) {
+          showLogin();
+          return;
+        }
+        $('#btn-save').disabled = true;
+        toast('', '저장 중…');
+        fetch('/api/save-projects', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pw, projects: STATE.projects }),
+        })
+          .then(function (r) {
+            if (r.status === 401) {
+              sessionStorage.removeItem(SESSION_KEY);
+              showLogin('비밀번호가 일치하지 않습니다.');
+              throw new Error('unauthorized');
+            }
+            if (!r.ok) return r.json().then(function (d) { throw new Error(d.error || ('HTTP ' + r.status)); });
+            return r.json();
+          })
+          .then(function () {
+            toast('success', '저장 완료. Vercel 빌드가 곧 시작됩니다 (30~60초).');
+          })
+          .catch(function (err) {
+            if (err.message !== 'unauthorized') {
+              toast('error', '저장 실패: ' + err.message);
+            }
+          })
+          .then(function () { $('#btn-save').disabled = false; });
+      }
+
+      // -------- 로그인 --------
+      function showLogin(errorMsg) {
+        var login = $('#login');
+        login.classList.add('is-show');
+        var err = $('#login-error');
+        if (errorMsg) {
+          err.textContent = errorMsg;
+          err.hidden = false;
+        } else {
+          err.hidden = true;
+        }
+        setTimeout(function () { $('#login-password').focus(); }, 50);
+      }
+      function hideLogin() { $('#login').classList.remove('is-show'); }
+
+      $('#login-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var pw = $('#login-password').value;
+        if (!pw) return;
+        sessionStorage.setItem(SESSION_KEY, pw);
+        hideLogin();
+        save();
+      });
+
+      // -------- Init --------
+      $('#btn-save').addEventListener('click', save);
+      $('#btn-add').addEventListener('click', addProj);
+      $('#btn-reload').addEventListener('click', function () {
+        if (!confirm('저장하지 않은 변경사항이 사라집니다. 다시 불러올까요?')) return;
+        init();
+      });
+
+      function init() {
+        loadFromServer()
+          .then(function (data) {
+            STATE = { projects: data.projects || [] };
+            renderList();
+            toast('success', '프로젝트 ' + STATE.projects.length + '개 불러옴');
+          })
+          .catch(function (err) {
+            toast('error', 'projects-data.json 을 불러오지 못했습니다.');
+            console.error(err);
+            STATE = { projects: [] };
+            renderList();
+          });
+      }
+      init();
+    </script>
+  </body>
+</html>

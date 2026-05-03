@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>프로젝트 이름 — Rustic Collage</title>
+    <meta name="description" content="Rustic Collage — 프로젝트 디테일" />
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="subpage subpage--light">
+    <header class="nav" id="nav">
+      <div class="nav__inner">
+        <a class="nav__brand" href="index.html">Rustic Collage</a>
+
+        <nav class="nav__menu" aria-label="Primary">
+          <a href="./about.html">About</a>
+          <a href="./collection.html">Collage Collection</a>
+          <a href="./projects.html">Projects</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+
+        <button
+          class="nav__toggle"
+          type="button"
+          aria-label="메뉴 열기"
+          aria-expanded="false"
+          aria-controls="nav-drawer"
+        >
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="nav__backdrop" aria-hidden="true"></div>
+    <aside class="nav__drawer" id="nav-drawer" aria-hidden="true">
+      <nav class="nav__drawer-menu" aria-label="모바일 메뉴">
+        <a href="./about.html">About</a>
+        <a href="./collection.html">Collage Collection</a>
+        <a href="./projects.html">Projects</a>
+        <a href="./contact.html">Contact</a>
+      </nav>
+    </aside>
+
+    <main id="top">
+      <!-- ======================== BREADCRUMB ======================== -->
+      <section class="proj-detail-bc">
+        <div class="container">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="./projects.html">Projects</a>
+            <span class="breadcrumb__sep">/</span>
+            <span class="breadcrumb__current" id="bc-current">프로젝트 이름</span>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ======================== DETAIL GALLERY + INFO ======================== -->
+      <section class="proj-detail">
+        <div class="container">
+          <div class="proj-detail__grid" id="detail-grid">
+            <!-- projects-data.json + URL ?id= 로 자동 렌더링됨 -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================== OTHER PROJECT ======================== -->
+      <section class="other-projects">
+        <div class="container">
+          <h2 class="other-projects__title">Other Project</h2>
+          <div class="other-projects__grid" id="other-grid">
+            <!-- 자동 렌더링 -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var requestedId = params.get('id');
+
+        var detailGrid = document.getElementById('detail-grid');
+        var otherGrid = document.getElementById('other-grid');
+        var bcCurrent = document.getElementById('bc-current');
+
+        fetch('./projects-data.json?t=' + Date.now())
+          .then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          })
+          .then(function (data) {
+            var list = data.projects || [];
+            var current = list.find(function (p) { return p.id === requestedId; }) || list[0];
+            if (!current) {
+              detailGrid.innerHTML = '<p style="color:#888;">프로젝트를 찾을 수 없습니다.</p>';
+              return;
+            }
+            renderDetail(current);
+            renderOther(list, current.id);
+          })
+          .catch(function (err) {
+            detailGrid.innerHTML = '<p style="color:#888;">프로젝트 정보를 불러오지 못했습니다.</p>';
+            console.error(err);
+          });
+
+        function renderDetail(p) {
+          if (bcCurrent) bcCurrent.textContent = p.name || '';
+          document.title = (p.name || 'Project') + ' — Rustic Collage';
+
+          var gallery = (p.gallery || []).slice(0, 3);
+          var imgs = gallery.map(function (src, i) {
+            return (
+              '<figure class="proj-detail__img proj-detail__img--' + (i + 1) + '">' +
+                '<img src="' + esc(src) + '" alt="' + esc(p.name) + ' 이미지 ' + (i + 1) + '" loading="lazy" />' +
+              '</figure>'
+            );
+          });
+
+          var info =
+            '<div class="proj-detail__info">' +
+              '<h1 class="proj-detail__title">' + esc(p.title || p.name) + '</h1>' +
+              '<p class="proj-detail__desc">' + escMultiline(p.description || '') + '</p>' +
+              '<details class="proj-detail__expand">' +
+                '<summary>Product Details</summary>' +
+                '<div class="proj-detail__expand-body"><p>' + escMultiline(p.details || '') + '</p></div>' +
+              '</details>' +
+              '<details class="proj-detail__expand">' +
+                '<summary>Size</summary>' +
+                '<div class="proj-detail__expand-body"><p>' + escMultiline(p.size || '') + '</p></div>' +
+              '</details>' +
+            '</div>';
+
+          // 이미지 1 → 정보 → 이미지 2 → 이미지 3 순서로 출력 (그리드 areas가 데스크톱/모바일 자동 배치)
+          var parts = [];
+          if (imgs[0]) parts.push(imgs[0]);
+          parts.push(info);
+          if (imgs[1]) parts.push(imgs[1]);
+          if (imgs[2]) parts.push(imgs[2]);
+          detailGrid.innerHTML = parts.join('');
+        }
+
+        function renderOther(list, currentId) {
+          if (!otherGrid) return;
+          var others = list.filter(function (p) { return p.id !== currentId; });
+          // 셔플 후 2개 선택
+          for (var i = others.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var tmp = others[i]; others[i] = others[j]; others[j] = tmp;
+          }
+          var picks = others.slice(0, 2);
+          otherGrid.innerHTML = picks.map(function (p) {
+            return (
+              '<a class="proj-card" href="./project-detail.html?id=' + encodeURIComponent(p.id) + '">' +
+                '<figure class="proj-card__media">' +
+                  '<img src="' + esc(p.thumbnail) + '" alt="" loading="lazy" />' +
+                '</figure>' +
+                '<p class="proj-card__name">' + esc(p.name) + '</p>' +
+              '</a>'
+            );
+          }).join('');
+        }
+
+        function esc(s) {
+          return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+            return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+          });
+        }
+        function escMultiline(s) {
+          return esc(s).replace(/\n/g, '<br>');
+        }
+      })();
+    </script>
+
+    <!-- ======================== FOOTER ======================== -->
+    <footer class="footer">
+      <div class="container footer__inner">
+        <div class="footer__brand">
+          <h2 class="footer__title">Rustic Collage</h2>
+          <div class="footer__contacts">
+            <a href="mailto:rusticcollage@design.com">Rustic Collage@design.com</a>
+            <a href="tel:01012345678">01012345678</a>
+          </div>
+        </div>
+
+        <nav class="footer__nav" aria-label="Footer">
+          <ul class="footer__nav-col">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="#">How to Use</a></li>
+          </ul>
+          <ul class="footer__nav-col">
+            <li><a href="collection.html">Collage Collection</a></li>
+            <li><a href="projects.html">Projects</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

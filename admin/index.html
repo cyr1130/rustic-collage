@@ -1178,7 +1178,7 @@
         });
         titleField.querySelector('input').setAttribute('data-field', 'title');
         host.appendChild(titleField);
-        host.appendChild(textareaInput('제품 설명', p.description || '', '', function (v) {
+        host.appendChild(textareaInput('프로젝트 설명', p.description || '', '', function (v) {
           p.description = v; markDirty();
         }));
         host.appendChild(textareaInput('프로덕트 디테일', p.details || '', '', function (v) {
@@ -1221,7 +1221,7 @@
         // ── Detail Page 섹션 ──
         host.appendChild(el('div', { class: 'form-section' }));
         host.appendChild(row('프로젝트 이름', p.title || p.name));
-        host.appendChild(row('제품 설명', p.description));
+        host.appendChild(row('프로젝트 설명', p.description));
         host.appendChild(row('프로덕트 디테일', p.details));
         host.appendChild(row('사이즈', p.size));
 
@@ -1289,7 +1289,7 @@
         });
         titleField.querySelector('input').setAttribute('data-field', 'title');
         host.appendChild(titleField);
-        host.appendChild(textareaInput('제품 설명', DRAFT.description || '', '', function (v) {
+        host.appendChild(textareaInput('프로젝트 설명', DRAFT.description || '', '', function (v) {
           DRAFT.description = v;
         }));
         host.appendChild(textareaInput('프로덕트 디테일', DRAFT.details || '', '', function (v) {

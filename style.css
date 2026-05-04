@@ -310,7 +310,7 @@ body.menu-open { overflow: hidden; }
 .hero__title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(56px, 8.5vw, 48px);
+  font-size: clamp(38px, 8.5vw, 48px);
   line-height: 1.0;
   letter-spacing: -0.03em;
   color: var(--hero-text);
@@ -321,8 +321,8 @@ body.menu-open { overflow: hidden; }
 .hero__copy {
   margin: 0;
   color: var(--hero-text-soft);
-  font-size: clamp(15px, 1.1vw, 17px);
-  line-height: 1.85;
+  font-size: clamp(12px, 1.1vw, 17px);
+  line-height: clamp(1, 1.1vw, 1.7);
   letter-spacing: -0.03em;
   font-weight: 400;
 }
@@ -361,13 +361,13 @@ body.menu-open { overflow: hidden; }
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 24px 32px;
-  margin-bottom: clamp(36px, 7vh, 36px);
+  margin-bottom: clamp(36px, 7vh, 24px);
 }
 
 .collection__title {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(36px, 5.2vw, 36px);
+  font-size: clamp(28px, 5.2vw, 15px);
   line-height: 1.05;
   letter-spacing: -0.03em;
   margin: 0;
@@ -479,7 +479,7 @@ body.menu-open { overflow: hidden; }
 .projects__title {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(36px, 5.2vw, 36px);
+  font-size: clamp(28px, 5.2vw, 36px);
   line-height: 1.05;
   letter-spacing: -0.03em;
   margin: 0;

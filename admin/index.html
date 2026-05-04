@@ -1215,35 +1215,8 @@
         b.addEventListener('click', function () { switchView(b.dataset.view); });
       });
 
-      // 로컬 file:// 테스트 시 fetch가 막히면 사용할 샘플 프로젝트
-      var SAMPLE_FALLBACK = {
-        projects: [
-          {
-            id: 'sample-1',
-            name: '샘플 프로젝트 (테스트용)',
-            thumbnail: 'https://framerusercontent.com/images/mWGKWCXw1em9l6sTY9wdoJWJM.jpg?width=1200',
-            title: '샘플 프로젝트',
-            description: '로컬에서 admin UI를 미리 보기 위한 샘플 데이터예요. Vercel에 배포하면 실제 projects-data.json 을 불러옵니다.',
-            details: '여기에 시공 자재, 협력사, 진행 기간 등을 적어요.',
-            size: '예: 전용 132m². 시공 4주.',
-            gallery: [
-              'https://framerusercontent.com/images/Te8MC7HECQmCjXUKDj9Xx6MiBg.png?width=1600',
-              'https://framerusercontent.com/images/7ZwkPLQSg8aybrFZSIETA0sh0.jpg?width=1600',
-              'https://framerusercontent.com/images/jFjYYpjxlnqR2q938s1Rggthg.jpg?width=1600',
-            ],
-          },
-          {
-            id: 'sample-2',
-            name: '두 번째 샘플',
-            thumbnail: 'https://framerusercontent.com/images/jFjYYpjxlnqR2q938s1Rggthg.jpg?width=1200',
-            title: '두 번째 샘플',
-            description: '카드 두 개 이상이 있을 때 어떻게 보이는지 확인용이에요.',
-            details: '',
-            size: '',
-            gallery: [],
-          },
-        ],
-      };
+      // fetch 실패 시 사용할 빈 폴백
+      var SAMPLE_FALLBACK = { projects: [] };
 
       function init() {
         var host = $('#projects-list');

@@ -1241,7 +1241,14 @@
               showLogin('비밀번호가 일치하지 않아요.');
               throw new Error('unauthorized');
             }
-            if (!r.ok) return r.json().then(function (d) { throw new Error(d.error || ('HTTP ' + r.status)); });
+            if (!r.ok) {
+              return r.text().then(function (text) {
+                var d;
+                try { d = JSON.parse(text); } catch { d = { error: text }; }
+                console.error('[save] server response:', { status: r.status, body: d });
+                throw new Error((d.error || ('HTTP ' + r.status)) + (d.diag ? '  | diag=' + JSON.stringify(d.diag) : ''));
+              });
+            }
             return r.json();
           })
           .then(function () {

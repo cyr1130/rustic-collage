@@ -3,15 +3,17 @@
     {
       "id": "01",
       "name": "테스트 프로젝트01",
-      "thumbnail": "./images/projects/1777901338613-0111.jpeg",
+      "thumbnail": "./images/projects/1777903723602-pasted-1777903721215.png",
       "title": "테스트 프로젝트01",
-      "description": "",
-      "details": "",
-      "size": "",
+      "description": "테스트01 입니다 <br> 테스트입니다",
+      "details": "테스트 디테일",
+      "size": "테스트 사이즈",
       "gallery": [
-        "",
-        "",
-        ""
+        "./images/projects/1777903740647-pasted-1777903738924.png",
+        "./images/projects/1777903757445-pasted-1777903755767.png",
+        "./images/projects/1777903767982-pasted-1777903766510.png",
+        "./images/projects/1777903760268-pasted-1777903758728.png",
+        "./images/projects/1777903780583-pasted-1777903779057.png"
       ]
     }
   ]

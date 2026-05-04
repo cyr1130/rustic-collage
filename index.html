@@ -215,7 +215,8 @@
                   var name = esc(p.name || '');
                   // HOME 영역 전용 필드 사용 (없으면 fallback)
                   var thumbTitle = esc(p.thumbnailTitle || p.name || '');
-                  var thumbDesc = esc(p.thumbnailDesc || '');
+                  // 썸네일 설명은 <br>를 줄바꿈으로 인식 (escMultiline)
+                  var thumbDesc = escMultiline(p.thumbnailDesc || '');
                   var thumb = esc(p.thumbnail || '');
                   return (
                     '<a class="product-card" href="./project-detail.html?id=' + encodeURIComponent(p.id) + '">' +
@@ -238,6 +239,11 @@
               return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
                 return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
               });
+            }
+            // <br>은 줄바꿈으로 허용, 그 외 HTML은 모두 이스케이프
+            function escMultiline(s) {
+              var withBreaks = String(s == null ? '' : s).replace(/<br\s*\/?>/gi, '\n');
+              return esc(withBreaks).replace(/\n/g, '<br>');
             }
           })();
         </script>

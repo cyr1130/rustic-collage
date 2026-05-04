@@ -77,6 +77,8 @@
             })
             .then(function (data) {
               var html = (data.projects || [])
+                .slice()
+                .reverse()
                 .map(function (p) {
                   return (
                     '<a class="proj-card" href="./project-detail.html?id=' +

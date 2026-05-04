@@ -20,13 +20,13 @@
     {
       "id": "01-copy",
       "name": "테스트 프로젝트02",
-      "thumbnail": "./images/projects/1777903723602-pasted-1777903721215.png",
+      "thumbnail": "./images/projects/1777906591660-pasted-1777906588593.png",
       "title": "테스트 프로젝트02",
       "description": "테스트01 입니다\n프로젝트의 설명을 적는 테스트입니다",
       "details": "테스트 디테일",
       "size": "테스트 사이즈",
       "gallery": [
-        "./images/projects/1777903740647-pasted-1777903738924.png",
+        "./images/projects/1777906635647-pasted-1777906634602.png",
         "./images/projects/1777903757445-pasted-1777903755767.png",
         "./images/projects/1777903767982-pasted-1777903766510.png",
         "./images/projects/1777903760268-pasted-1777903758728.png",
@@ -38,7 +38,7 @@
     {
       "id": "01-copy-3",
       "name": "테스트 프로젝트03",
-      "thumbnail": "./images/projects/1777903723602-pasted-1777903721215.png",
+      "thumbnail": "./images/projects/1777906657730-pasted-1777906657152.png",
       "title": "테스트 프로젝트03",
       "description": "테스트01 입니다\n프로젝트의 설명을 적는 테스트입니다",
       "details": "테스트 디테일",

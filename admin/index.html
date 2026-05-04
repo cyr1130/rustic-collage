@@ -356,7 +356,24 @@
       .textarea { resize: vertical; min-height: 76px; line-height: 1.55; }
 
       /* ---------- Image input ---------- */
-      .img-input { display: flex; gap: 10px; align-items: center; }
+      .img-input {
+        display: flex; gap: 10px; align-items: center;
+        position: relative;
+        border: 1px dashed transparent; border-radius: var(--radius-md);
+        padding: 4px; margin: -4px;
+        transition: border-color .15s ease, background .15s ease;
+      }
+      .img-input--dragover {
+        border-color: var(--blue-500);
+        background: rgba(49, 130, 246, 0.06);
+      }
+      .img-input--dragover::after {
+        content: '여기에 드롭하세요';
+        position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+        font-size: 13px; font-weight: 600; color: var(--blue-500);
+        background: rgba(255,255,255,0.85); border-radius: var(--radius-md);
+        pointer-events: none;
+      }
       .img-input__preview {
         width: 56px; height: 56px;
         border-radius: var(--radius-sm); background: var(--gray-100);
@@ -868,7 +885,7 @@
         var wrap = el('div', { class: 'field' });
         wrap.appendChild(el('div', { class: 'label' }, [
           '갤러리',
-          el('span', { class: 'label__hint', text: '디테일 페이지에 들어갈 이미지예요 (3장 권장)' }),
+          el('span', { class: 'label__hint', text: '3장 권장 · 썸네일 클릭/붙여넣기/드래그도 가능' }),
         ]));
 
         target.gallery = Array.isArray(target.gallery) ? target.gallery.slice() : [];
@@ -881,7 +898,7 @@
             preview.addEventListener('error', function () { preview.src = placeholderSvg(); });
             var input = el('input', {
               class: 'input', type: 'text', value: url || '',
-              placeholder: 'https://… 또는 ./images/파일명.jpg',
+              placeholder: 'https://… 또는 붙여넣기/드래그',
             });
             input.addEventListener('input', function (e) {
               target.gallery[idx] = e.target.value;
@@ -898,6 +915,12 @@
               target.gallery.splice(idx, 1); refresh(); onChange();
             }, true, '이미지 제거');
             var row = el('div', { class: 'img-input' }, [preview, input, uploadBtn, removeBtn]);
+            attachImagePasteAndDrop(row, input, preview, uploadBtn, function (path) {
+              target.gallery[idx] = path;
+              input.value = path;
+              preview.src = path;
+              onChange();
+            });
             listEl.appendChild(row);
           });
         }
@@ -939,7 +962,7 @@
       function imageInputField(label, hint, value, onChange) {
         var input = el('input', {
           class: 'input', type: 'text', value: value || '',
-          placeholder: 'https://… 또는 ./images/파일명.jpg',
+          placeholder: 'https://… 또는 붙여넣기/드래그',
         });
         var preview = el('img', { class: 'img-input__preview', src: value || placeholderSvg(), alt: '' });
         preview.addEventListener('error', function () { preview.src = placeholderSvg(); });
@@ -957,7 +980,69 @@
           hint ? el('span', { class: 'label__hint', text: hint }) : null,
         ]);
         var row = el('div', { class: 'img-input' }, [preview, input, uploadBtn]);
+        attachImagePasteAndDrop(row, input, preview, uploadBtn, function (path) {
+          input.value = path;
+          preview.src = path;
+          onChange(path);
+        });
         return el('div', { class: 'field' }, [labelEl, row]);
+      }
+
+      // 이미지 입력 행에 붙여넣기/드래그앤드롭/썸네일 클릭 업로드 부착
+      function attachImagePasteAndDrop(row, input, preview, uploadBtn, onUploaded) {
+        var actualBtn = uploadBtn.querySelector('button');
+        function applyUpload(file) {
+          if (!file) return;
+          handleImageUpload(file, actualBtn, onUploaded);
+        }
+
+        // 붙여넣기 (input 또는 썸네일에 포커스 시)
+        function onPaste(e) {
+          var items = e.clipboardData && e.clipboardData.items;
+          if (!items) return;
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (item.type && item.type.indexOf('image') === 0) {
+              e.preventDefault();
+              var blob = item.getAsFile();
+              if (!blob) return;
+              var ext = (blob.type.split('/')[1] || 'png').replace('jpeg', 'jpg');
+              var pasted = new File([blob], 'pasted-' + Date.now() + '.' + ext, { type: blob.type });
+              applyUpload(pasted);
+              return;
+            }
+          }
+        }
+        input.addEventListener('paste', onPaste);
+        preview.addEventListener('paste', onPaste);
+        preview.setAttribute('tabindex', '0');
+        preview.style.cursor = 'pointer';
+        preview.title = '클릭하여 업로드';
+        preview.addEventListener('click', function () { actualBtn.click(); });
+
+        // 드래그앤드롭
+        ['dragenter', 'dragover'].forEach(function (evt) {
+          row.addEventListener(evt, function (e) {
+            if (e.dataTransfer && Array.from(e.dataTransfer.types || []).indexOf('Files') !== -1) {
+              e.preventDefault();
+              row.classList.add('img-input--dragover');
+            }
+          });
+        });
+        ['dragleave', 'drop'].forEach(function (evt) {
+          row.addEventListener(evt, function () { row.classList.remove('img-input--dragover'); });
+        });
+        row.addEventListener('drop', function (e) {
+          var files = e.dataTransfer && e.dataTransfer.files;
+          if (!files || !files.length) return;
+          var f = files[0];
+          if (!f.type || f.type.indexOf('image') !== 0) {
+            toast('error', '이미지 파일만 업로드할 수 있어요.');
+            return;
+          }
+          e.preventDefault();
+          applyUpload(f);
+        });
       }
 
       // 업로드 버튼 (파일 선택 → 압축 → /api/upload-image)

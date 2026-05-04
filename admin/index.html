@@ -414,7 +414,7 @@
 
       /* ---------- Form card (Add new) ---------- */
       .form-card {
-        background: #fff;
+        background: #ffff;
         border: 1px solid var(--gray-200);
         border-radius: var(--radius-lg);
         padding: 28px;
@@ -424,20 +424,12 @@
         margin-top: 24px; padding-top: 24px;
         border-top: 1px solid var(--gray-200);
       }
-      /* 폼 섹션 헤더 (HOME / Detail Page 구분) */
+      /* 폼 섹션 구분선 (HOME / Detail Page) */
       .form-section {
-        margin: 28px 0 12px;
-        padding: 10px 12px;
-        background: var(--gray-100);
-        border-radius: var(--radius-sm);
-        font-size: 12px; font-weight: 700;
-        color: var(--gray-700);
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        display: inline-block;
+        height: 0;
+        margin: 36px 0;
+        border-top: 1px solid var(--gray-300);
       }
-      .form-section:first-child { margin-top: 0; }
-      .form-section + .field { margin-top: 0; }
 
       /* ---------- Field ---------- */
       .field { margin-bottom: 16px; }
@@ -1164,7 +1156,7 @@
         }));
 
         // ── HOME 섹션 ──
-        host.appendChild(el('div', { class: 'form-section', text: 'HOME' }));
+        host.appendChild(el('div', { class: 'form-section' }));
         host.appendChild(imageInputField('썸네일 이미지', '', p.thumbnail || '', function (v) {
           p.thumbnail = v; markDirty();
         }));
@@ -1180,7 +1172,7 @@
         }));
 
         // ── Detail Page 섹션 ──
-        host.appendChild(el('div', { class: 'form-section', text: 'Detail Page' }));
+        host.appendChild(el('div', { class: 'form-section' }));
         var titleField = textInput('프로젝트 이름', p.title || p.name || '', '', function (v) {
           p.title = v;
           p._titleEdited = true;
@@ -1223,13 +1215,13 @@
         host.appendChild(row('프로젝트 이름', p.name));
 
         // ── HOME 섹션 ──
-        host.appendChild(el('div', { class: 'form-section', text: 'HOME' }));
+        host.appendChild(el('div', { class: 'form-section' }));
         host.appendChild(row('썸네일 이미지', p.thumbnail, { image: true }));
         host.appendChild(row('썸네일 타이틀', p.thumbnailTitle || p.name));
         host.appendChild(row('썸네일 설명', p.thumbnailDesc));
 
         // ── Detail Page 섹션 ──
-        host.appendChild(el('div', { class: 'form-section', text: 'Detail Page' }));
+        host.appendChild(el('div', { class: 'form-section' }));
         host.appendChild(row('프로젝트 이름', p.title || p.name));
         host.appendChild(row('제품 설명', p.description));
         host.appendChild(row('프로덕트 디테일', p.details));
@@ -1277,7 +1269,7 @@
         }));
 
         // ── HOME 섹션 ──
-        host.appendChild(el('div', { class: 'form-section', text: 'HOME' }));
+        host.appendChild(el('div', { class: 'form-section' }));
         host.appendChild(imageInputField('썸네일 이미지', '', DRAFT.thumbnail || '', function (v) {
           DRAFT.thumbnail = v;
         }));
@@ -1292,7 +1284,7 @@
         }));
 
         // ── Detail Page 섹션 ──
-        host.appendChild(el('div', { class: 'form-section', text: 'Detail Page' }));
+        host.appendChild(el('div', { class: 'form-section' }));
         var titleField = textInput('프로젝트 이름', DRAFT.title || '', '', function (v) {
           DRAFT.title = v;
           DRAFT._titleEdited = true;

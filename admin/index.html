@@ -13,11 +13,7 @@
     />
 
     <style>
-      /* ============================================================
-         Toss Design System — 영감받은 어드민 UI
-         ============================================================ */
       :root {
-        /* TDS Color Tokens */
         --blue-50:  #F4F9FF;
         --blue-100: #E8F3FF;
         --blue-200: #C9DEFD;
@@ -42,7 +38,6 @@
         --yellow-bg: #FFF6D9;
         --yellow-fg: #8A6A00;
 
-        /* Layout */
         --radius-xs: 6px;
         --radius-sm: 8px;
         --radius: 12px;
@@ -50,14 +45,14 @@
         --radius-xl: 20px;
         --radius-pill: 999px;
 
-        --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-        --shadow: 0 2px 8px rgba(0,0,0,0.04);
+        --sidebar-w: 240px;
+        --topbar-h: 64px;
       }
 
       * { box-sizing: border-box; }
       html, body {
         margin: 0; padding: 0;
-        background: var(--gray-100);
+        background: #ffffff;
         color: var(--gray-900);
         font-family: 'Pretendard Variable', 'Pretendard', system-ui, -apple-system, sans-serif;
         font-size: 15px;
@@ -76,15 +71,17 @@
 
       /* ---------- Top bar ---------- */
       .topbar {
-        position: sticky; top: 0; z-index: 20;
+        position: sticky; top: 0; z-index: 30;
+        height: var(--topbar-h);
         background: rgba(242, 244, 246, 0.85);
         backdrop-filter: saturate(180%) blur(20px);
         -webkit-backdrop-filter: saturate(180%) blur(20px);
         border-bottom: 1px solid var(--gray-200);
       }
       .topbar__inner {
-        max-width: 1080px; margin: 0 auto;
-        padding: 16px 24px;
+        height: 100%;
+        margin: 0;
+        padding: 0 24px;
         display: flex; align-items: center; justify-content: space-between;
         gap: 16px;
       }
@@ -99,8 +96,7 @@
         font-size: 12px; font-weight: 500;
         display: inline-flex; align-items: center; gap: 6px;
         padding: 5px 12px; border-radius: var(--radius-pill);
-        background: var(--gray-100);
-        color: var(--gray-600);
+        background: var(--gray-100); color: var(--gray-600);
         white-space: nowrap;
         transition: background 200ms ease, color 200ms ease;
       }
@@ -108,30 +104,18 @@
         content: ''; width: 6px; height: 6px; border-radius: 50%;
         background: var(--gray-400);
       }
-      .save-status[data-state="dirty"] {
-        background: var(--yellow-bg); color: var(--yellow-fg);
-      }
+      .save-status[data-state="dirty"]    { background: var(--yellow-bg); color: var(--yellow-fg); }
       .save-status[data-state="dirty"]::before { background: #D4A017; }
-      .save-status[data-state="saving"] {
-        background: var(--blue-100); color: var(--blue-600);
-      }
-      .save-status[data-state="saving"]::before {
-        background: var(--blue-500);
-        animation: pulse 1s infinite;
-      }
-      .save-status[data-state="saved"] {
-        background: var(--green-bg); color: var(--green-fg);
-      }
+      .save-status[data-state="saving"]   { background: var(--blue-100); color: var(--blue-600); }
+      .save-status[data-state="saving"]::before { background: var(--blue-500); animation: pulse 1s infinite; }
+      .save-status[data-state="saved"]    { background: var(--green-bg); color: var(--green-fg); }
       .save-status[data-state="saved"]::before { background: var(--green-fg); }
-      .save-status[data-state="error"] {
-        background: var(--red-bg); color: var(--red-fg);
-      }
+      .save-status[data-state="error"]    { background: var(--red-bg); color: var(--red-fg); }
       .save-status[data-state="error"]::before { background: var(--red-fg); }
       @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
       .topbar__actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-      /* ---------- Buttons (TDS) ---------- */
       .btn {
         height: 40px; padding: 0 18px;
         border-radius: var(--radius-sm); border: 0;
@@ -142,17 +126,11 @@
         display: inline-flex; align-items: center; gap: 6px;
       }
       .btn:active:not(:disabled) { transform: scale(0.98); }
-      .btn--primary {
-        background: var(--blue-500); color: #fff;
-      }
+      .btn--primary { background: var(--blue-500); color: #fff; }
       .btn--primary:hover:not(:disabled) { background: var(--blue-600); }
-      .btn--ghost {
-        background: var(--gray-100); color: var(--gray-700);
-      }
+      .btn--ghost { background: var(--gray-100); color: var(--gray-700); }
       .btn--ghost:hover:not(:disabled) { background: var(--gray-200); }
-      .btn--text {
-        background: transparent; color: var(--gray-700);
-      }
+      .btn--text { background: transparent; color: var(--gray-700); }
       .btn--text:hover:not(:disabled) { background: var(--gray-100); }
       .btn:disabled { opacity: 0.45; cursor: not-allowed; }
       .btn--small { height: 34px; padding: 0 14px; font-size: 13px; }
@@ -164,31 +142,105 @@
         opacity: 0.55;
       }
 
-      /* ---------- Container ---------- */
-      .container {
-        max-width: 1080px; margin: 0 auto;
-        padding: 32px 24px 120px;
+      /* ---------- Layout (sidebar + content) ---------- */
+      .layout {
+        display: grid;
+        grid-template-columns: var(--sidebar-w) 1fr;
+        margin: 0;
+        min-height: calc(100vh - var(--topbar-h));
       }
 
+      .sidebar {
+        position: sticky;
+        top: var(--topbar-h);
+        align-self: start;
+        height: calc(100vh - var(--topbar-h));
+        padding: 24px 16px;
+        border-right: 1px solid var(--gray-200);
+        background: var(--gray-100);
+      }
+      .sidebar__group { margin-bottom: 20px; }
+      .sidebar__group-title {
+        font-size: 11px; font-weight: 700;
+        color: var(--gray-500);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin: 0 12px 8px;
+      }
+      .sidebar__item {
+        display: flex; align-items: center; gap: 10px;
+        padding: 10px 12px;
+        border-radius: var(--radius-sm);
+        color: var(--gray-700);
+        font-size: 14px; font-weight: 500;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
+        width: 100%;
+        text-align: left;
+        transition: background 160ms ease, color 160ms ease;
+      }
+      .sidebar__item:hover { background: var(--gray-100); color: var(--gray-900); }
+      .sidebar__item.is-active {
+        background: var(--blue-100); color: var(--blue-600);
+      }
+      .sidebar__item .icon {
+        width: 18px; height: 18px;
+        display: inline-flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+      }
+      .sidebar__item .badge {
+        margin-left: auto;
+        font-size: 11px; font-weight: 600;
+        padding: 2px 8px;
+        background: var(--gray-100); color: var(--gray-700);
+        border-radius: var(--radius-pill);
+      }
+      .sidebar__item.is-active .badge {
+        background: rgba(255, 255, 255, 0.6); color: var(--blue-600);
+      }
+
+      .content {
+        padding: 32px 32px 120px;
+        min-width: 0;
+        background: #ffffff;
+      }
+      .content__title {
+        font-size: 22px; font-weight: 700;
+        margin: 0 0 4px;
+        color: var(--gray-900);
+        letter-spacing: -0.03em;
+      }
+      .content__subtitle {
+        font-size: 14px; color: var(--gray-600);
+        margin: 0 0 24px;
+      }
+
+      /* ---------- View switcher ---------- */
+      .view { display: none; }
+      .view.is-active { display: block; }
+
+      /* ---------- Tip banner ---------- */
       .tip {
         background: var(--blue-50);
         border: 1px solid var(--blue-100);
         border-radius: var(--radius);
-        padding: 16px 20px;
-        margin: 0 0 24px;
-        display: flex; gap: 12px;
-        font-size: 14px; line-height: 1.65;
+        padding: 14px 18px;
+        margin: 0 0 20px;
+        display: flex; gap: 8px;
+        font-size: 14px; line-height: 1.5;
         color: var(--gray-800);
       }
       .tip__icon {
-        flex-shrink: 0; width: 20px; height: 20px;
+        flex-shrink: 0; width: 18px; height: 18px;
         border-radius: 50%; background: var(--blue-500);
         color: #fff;
         display: flex; align-items: center; justify-content: center;
         font-size: 12px; font-weight: 700;
+        line-height: 20px;
         margin-top: 1px;
       }
-      .tip strong { color: var(--gray-900); font-weight: 700; }
+      .tip strong { font-size: 16px; color: var(--gray-900); font-weight: 700;}
       .tip kbd {
         display: inline-block;
         font-size: 11px; padding: 1px 6px;
@@ -207,33 +259,27 @@
       .summary-bar__count strong { color: var(--gray-900); font-weight: 700; }
       .summary-bar__actions { display: flex; gap: 4px; }
 
-      /* ---------- Project card ---------- */
+      /* ---------- Project card (list) ---------- */
       .proj {
-        background: #fff;
-        border: 1px solid var(--gray-200);
+        background: #f9fafb;
         border-radius: var(--radius-lg);
+        border: 1px solid #ffffff;
         padding: 16px 18px;
         margin-bottom: 12px;
         transition: border-color 200ms ease, box-shadow 200ms ease;
       }
-      .proj:hover { border-color: var(--gray-300); }
-      .proj.is-open {
-        border-color: var(--gray-300);
-        box-shadow: var(--shadow);
-      }
-      .proj__head {
-        display: flex; align-items: center; gap: 14px;
-      }
+      .proj:hover { 
+        border: 1px solid var(--gray-300);
+        border-color: var(--gray-300); }
+      .proj.is-open { border-color: var(--gray-300); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+      .proj__head { display: flex; align-items: center; gap: 14px; }
       .proj__thumb {
         width: 56px; height: 56px;
         border-radius: var(--radius-sm);
         background: var(--gray-100);
         object-fit: cover; flex-shrink: 0;
       }
-      .proj__head-text {
-        flex: 1; min-width: 0;
-        cursor: pointer;
-      }
+      .proj__head-text { flex: 1; min-width: 0; cursor: pointer; }
       .proj__name {
         font-size: 15px; font-weight: 700;
         margin: 0 0 2px;
@@ -247,10 +293,12 @@
       .proj__actions { display: flex; gap: 4px; flex-shrink: 0; }
 
       .icon-btn {
-        width: 34px; height: 34px; padding: 0;
+        width: 38px; height: 38px; padding: 0;
+        color: black;
         background: transparent; border: 0;
         border-radius: var(--radius-sm); color: var(--gray-600);
-        font-size: 14px;
+        font-size: 20px; font-weight: 500;
+        line-height: 1;
         display: inline-flex; align-items: center; justify-content: center;
         transition: background 160ms ease, color 160ms ease;
       }
@@ -265,6 +313,19 @@
         display: none;
       }
       .proj.is-open .proj__body { display: block; }
+
+      /* ---------- Form card (Add new) ---------- */
+      .form-card {
+        background: #fff;
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-lg);
+        padding: 28px;
+      }
+      .form-card__footer {
+        display: flex; gap: 8px; justify-content: flex-end;
+        margin-top: 24px; padding-top: 24px;
+        border-top: 1px solid var(--gray-200);
+      }
 
       /* ---------- Field ---------- */
       .field { margin-bottom: 16px; }
@@ -295,9 +356,7 @@
       .textarea { resize: vertical; min-height: 76px; line-height: 1.55; }
 
       /* ---------- Image input ---------- */
-      .img-input {
-        display: flex; gap: 10px; align-items: center;
-      }
+      .img-input { display: flex; gap: 10px; align-items: center; }
       .img-input__preview {
         width: 56px; height: 56px;
         border-radius: var(--radius-sm); background: var(--gray-100);
@@ -318,31 +377,34 @@
         transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
       }
       .gallery-add:hover {
-        background: var(--blue-50);
-        color: var(--blue-600);
-        border-color: var(--blue-200);
+        background: var(--blue-50); color: var(--blue-600); border-color: var(--blue-200);
       }
 
-      /* ---------- Add project ---------- */
-      .add-row {
-        display: flex; justify-content: center;
-        padding: 12px 0 0;
+      /* ---------- Inline SVG 아이콘 ---------- */
+      .icon-btn svg { width: 20px; height: 20px; display: block; }
+      .sidebar__item svg,
+      .btn svg,
+      .upload-btn svg {
+        flex-shrink: 0;
       }
-      .add-row button {
-        background: var(--gray-50);
-        border: 1px dashed var(--gray-300);
-        color: var(--gray-700);
-        padding: 16px 32px;
-        border-radius: var(--radius-lg);
-        font-size: 14px; font-weight: 600;
+
+      /* ---------- Upload button ---------- */
+      .upload-btn {
+        flex-shrink: 0;
+        display: inline-flex; align-items: center; gap: 5px;
+        padding: 0 12px; height: 36px;
+        background: var(--blue-50); color: var(--blue-600);
+        border: 1px solid var(--blue-100);
+        border-radius: var(--radius-sm);
+        font-size: 12px; font-weight: 600;
         cursor: pointer;
-        transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+        transition: background 160ms ease, color 160ms ease;
       }
-      .add-row button:hover {
-        background: var(--blue-50);
-        color: var(--blue-600);
-        border-color: var(--blue-200);
+      .upload-btn:hover:not(:disabled) {
+        background: var(--blue-500); color: #fff; border-color: var(--blue-500);
       }
+      .upload-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+      .upload-btn svg { width: 13px; height: 13px; }
 
       /* ---------- Toast ---------- */
       .toast {
@@ -386,17 +448,40 @@
       .empty {
         text-align: center; padding: 80px 20px;
         color: var(--gray-500); font-size: 15px;
+        background: #fff;
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-lg);
       }
       .empty__title { color: var(--gray-800); font-weight: 700; font-size: 17px; margin: 0 0 6px; }
       .empty p { margin: 0; }
       .loading {
         display: flex; align-items: center; justify-content: center;
         padding: 100px 20px; color: var(--gray-500); font-size: 14px; font-weight: 500;
+        background: #fff;
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-lg);
       }
 
-      @media (max-width: 600px) {
-        .topbar__inner { padding: 14px 18px; }
-        .container { padding: 24px 18px 100px; }
+      /* ---------- Responsive ---------- */
+      @media (max-width: 880px) {
+        body::before { display: none; }
+        .layout { grid-template-columns: 1fr; }
+        .sidebar {
+          position: static;
+          height: auto;
+          padding: 12px;
+          border-right: 0;
+          border-bottom: 1px solid var(--gray-200);
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .sidebar__group { display: contents; }
+        .sidebar__group-title { display: none; }
+        .sidebar__group:first-child .sidebar__group-title { display: none; }
+        .sidebar__item { padding: 10px 14px; }
+        .content { padding: 24px 18px 100px; }
+        .topbar__inner { padding: 0 18px; }
         .topbar__title { font-size: 15px; }
         .save-status { display: none; }
         .btn { height: 38px; padding: 0 14px; font-size: 13px; }
@@ -412,43 +497,82 @@
           <span class="save-status" id="save-status" data-state="idle">동기화됨</span>
         </div>
         <div class="topbar__actions">
-          <button class="btn btn--ghost" id="btn-reload" title="서버에서 다시 불러오기">새로고침</button>
-          <a class="btn btn--ghost" href="../projects.html" target="_blank" rel="noopener">사이트 보기 ↗</a>
+          <button class="btn btn--ghost" id="btn-reload" title="서버에서 다시 불러오기">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0115.5-6.3M21 4v5h-5M21 12a9 9 0 01-15.5 6.3M3 20v-5h5"/></svg>
+            <span>새로고침</span>
+          </button>
+          <a class="btn btn--ghost" href="../projects.html" target="_blank" rel="noopener">
+            <span>사이트 보기</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </a>
           <button class="btn btn--primary" id="btn-save" title="저장 (⌘+S / Ctrl+S)">
             <span id="btn-save-label">저장하고 게시</span>
-            <span class="kbd" id="btn-save-kbd">⌘S</span>
           </button>
         </div>
       </div>
     </header>
 
-    <main class="container">
-      <div class="tip">
-        <span class="tip__icon">!</span>
-        <div>
-          <strong>편집 팁이에요</strong><br />
-          카드 헤더를 클릭해서 펼치고 접을 수 있어요. <kbd>⌘</kbd>+<kbd>S</kbd> (또는 <kbd>Ctrl</kbd>+<kbd>S</kbd>) 로 빠르게 저장할 수 있고요.
-          이미지는 외부 URL이나 GitHub 저장소의 <code>/images/</code> 경로 (<code>./images/파일명.jpg</code>)를 입력해 주세요.
-          저장하고 게시한 뒤엔 30~60초 안에 사이트에 반영돼요.
+    <div class="layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar__group">
+          <p class="sidebar__group-title">프로젝트</p>
+          <button class="sidebar__item is-active" data-view="list" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <span>프로젝트 목록</span>
+            <span class="badge" id="sidebar-count">0</span>
+          </button>
+          <button class="sidebar__item" data-view="add" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            <span>신규 등록</span>
+          </button>
         </div>
-      </div>
+      </aside>
 
-      <div class="summary-bar">
-        <span class="summary-bar__count">총 <strong id="proj-count">0</strong>개의 프로젝트</span>
-        <div class="summary-bar__actions">
-          <button class="btn btn--text btn--small" id="btn-expand-all">모두 펼치기</button>
-          <button class="btn btn--text btn--small" id="btn-collapse-all">모두 접기</button>
-        </div>
-      </div>
+      <!-- Content -->
+      <main class="content">
+        <!-- View: List -->
+        <section class="view is-active" data-view="list">
+          <h2 class="content__title">프로젝트 목록</h2>
+          <p class="content__subtitle">등록된 프로젝트를 확인하고 편집할 수 있어요.</p>
 
-      <div id="projects-list">
-        <div class="loading">불러오고 있어요…</div>
-      </div>
+          <div class="tip">
+            <span class="tip__icon">!</span>
+            <div>
+              <strong>편집 팁이에요</strong><br />
+              카드 헤더를 클릭해 펼치고 접을 수 있어요. 저장하고 게시를 누르면 저장 후 30~60초 안에 사이트에 반영돼요.
+            </div>
+          </div>
 
-      <div class="add-row">
-        <button id="btn-add">+ 프로젝트 추가하기</button>
-      </div>
-    </main>
+          <div class="summary-bar">
+            <span class="summary-bar__count">총 <strong id="proj-count">0</strong>개의 프로젝트</span>
+            <div class="summary-bar__actions">
+              <button class="btn btn--text btn--small" id="btn-expand-all">모두 펼치기</button>
+              <button class="btn btn--text btn--small" id="btn-collapse-all">모두 접기</button>
+            </div>
+          </div>
+
+          <div id="projects-list">
+            <div class="loading">불러오고 있어요…</div>
+          </div>
+        </section>
+
+        <!-- View: Add new -->
+        <section class="view" data-view="add">
+          <h2 class="content__title">신규 프로젝트 등록</h2>
+          <p class="content__subtitle">신규 프로젝트를 목록에 추가합니다. 목록 추가하고 저장하고 게시를 눌러주세요</p>
+
+          <div class="form-card" id="add-form-host">
+            <!-- 폼 필드는 JS로 렌더링 -->
+          </div>
+
+          <div class="form-card__footer" style="background:transparent;border:0;padding:16px 0 0;">
+            <button class="btn btn--ghost" id="btn-add-reset" type="button">초기화</button>
+            <button class="btn btn--primary" id="btn-add-submit" type="button">+ 목록에 추가하기</button>
+          </div>
+        </section>
+      </main>
+    </div>
 
     <div class="login" id="login">
       <form class="login__card" id="login-form">
@@ -471,8 +595,23 @@
       var STATE = { projects: [] };
       var SAVED_SNAPSHOT = '';
       var SESSION_KEY = 'rc_admin_pw';
+      var DRAFT = blankProject();
+
+      // 모든 아이콘은 인라인 SVG로 렌더링 (mask-image 의존 X — file://에서도 정상)
+      var ICONS = {
+        up: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.9 15.375a1.5 1.5 0 01.396-1.017l6.75-6.75a1.5 1.5 0 012.121 0l6.75 6.75a1.5 1.5 0 11-2.122 2.121L12 10.535l-5.795 5.795A1.5 1.5 0 013.9 15.375z"/></svg>',
+        down: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.9 8.625A1.5 1.5 0 016.195 7.665L12 13.47l5.79-5.805a1.5 1.5 0 112.122 2.122l-6.75 6.75a1.5 1.5 0 01-2.121 0l-6.75-6.75a1.5 1.5 0 01-.391-.962z"/></svg>',
+        copy: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.1 8.3H17.5v2.4h1.6c.7 0 1.2.5 1.2 1.2v7.2c0 .7-.5 1.2-1.2 1.2h-7.2c-.7 0-1.2-.5-1.2-1.2v-1.4H8.3v1.4c0 2 1.6 3.6 3.6 3.6h7.2c2 0 3.6-1.6 3.6-3.6v-7.2c0-2-1.6-3.6-3.6-3.6z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M4.9 3.7c-.7 0-1.2.5-1.2 1.2v7.2c0 .7.5 1.2 1.2 1.2h7.2c.7 0 1.2-.5 1.2-1.2V4.9c0-.7-.5-1.2-1.2-1.2H4.9zm7.2 12H4.9c-2 0-3.6-1.6-3.6-3.6V4.9c0-2 1.6-3.6 3.6-3.6h7.2c2 0 3.6 1.6 3.6 3.6v7.2c0 2-1.6 3.6-3.6 3.6z"/></svg>',
+        x: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.815 12l5.651-5.651a1.5 1.5 0 10-2.122-2.121L11.7 9.879 6.05 4.227a1.5 1.5 0 10-2.122 2.122L9.578 12l-5.651 5.651a1.5 1.5 0 102.121 2.121l5.652-5.651 5.651 5.651a1.5 1.5 0 102.121-2.121L13.815 12z"/></svg>',
+        plus: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14"/></svg>',
+        list: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',
+        refresh: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M3 12a9 9 0 0115.5-6.3M21 4v5h-5M21 12a9 9 0 01-15.5 6.3M3 20v-5h5"/></svg>',
+        extUp: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M7 17L17 7M9 7h8v8"/></svg>',
+        upload: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>',
+      };
 
       function $(s, r) { return (r || document).querySelector(s); }
+      function $all(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
       function el(tag, attrs, children) {
         var n = document.createElement(tag);
         if (attrs) Object.keys(attrs).forEach(function (k) {
@@ -510,10 +649,20 @@
         while (existing.indexOf(id) !== -1) { i += 1; id = s + '-' + i; }
         return id;
       }
+      function blankProject() {
+        return {
+          id: '', name: '', thumbnail: '',
+          title: '', description: '', details: '', size: '',
+          gallery: ['', '', ''],
+          _idEdited: false,
+        };
+      }
 
       function updateStatus() {
         var status = $('#save-status');
-        if (status.dataset.state === 'saving' || status.dataset.state === 'saved' || status.dataset.state === 'error') return;
+        if (!status) return;
+        var s = status.dataset.state;
+        if (s === 'saving' || s === 'saved' || s === 'error') return;
         var dirty = isDirty();
         status.dataset.state = dirty ? 'dirty' : 'idle';
         status.textContent = dirty ? '저장 안 됨' : '동기화됨';
@@ -542,16 +691,29 @@
           });
       }
 
+      // ---------- View switching ----------
+      function switchView(name) {
+        $all('.sidebar__item').forEach(function (b) {
+          b.classList.toggle('is-active', b.dataset.view === name);
+        });
+        $all('.view').forEach(function (v) {
+          v.classList.toggle('is-active', v.dataset.view === name);
+        });
+        if (name === 'add') renderAddForm();
+      }
+
+      // ---------- List view ----------
       function renderList() {
         var host = $('#projects-list');
         host.innerHTML = '';
         STATE.projects = STATE.projects || [];
         $('#proj-count').textContent = STATE.projects.length;
+        $('#sidebar-count').textContent = STATE.projects.length;
 
         if (STATE.projects.length === 0) {
           host.appendChild(el('div', { class: 'empty' }, [
-            el('p', { class: 'empty__title', text: '아직 프로젝트가 없어요' }),
-            el('p', { text: '아래 + 프로젝트 추가하기 버튼으로 시작해 보세요.' }),
+            el('p', { class: 'empty__title', text: '아직 등록된 프로젝트가 없어요' }),
+            el('p', { text: '좌측 메뉴 · 신규 등록 에서 프로젝트를 추가해 보세요.' }),
           ]));
           updateStatus();
           return;
@@ -570,51 +732,34 @@
         thumb.addEventListener('error', function () { thumb.src = placeholderSvg(); });
 
         var nameEl = el('p', { class: 'proj__name', text: p.name || '제목 없음' });
-        var idEl = el('span', { class: 'proj__id', text: p.id || '(id 없음)' });
-        var headText = el('div', { class: 'proj__head-text' }, [nameEl, idEl]);
+        var headText = el('div', { class: 'proj__head-text' }, [nameEl]);
         headText.addEventListener('click', function () { card.classList.toggle('is-open'); });
 
         var actions = el('div', { class: 'proj__actions' });
-        var btnUp = iconBtn('↑', function () { move(index, -1); }, false, '위로');
+        var btnUp = iconBtn('up', function () { move(index, -1); }, false, '위로');
         if (index === 0) btnUp.disabled = true;
-        var btnDown = iconBtn('↓', function () { move(index, 1); }, false, '아래로');
+        var btnDown = iconBtn('down', function () { move(index, 1); }, false, '아래로');
         if (index === STATE.projects.length - 1) btnDown.disabled = true;
         actions.appendChild(btnUp);
         actions.appendChild(btnDown);
-        actions.appendChild(iconBtn('⎘', function () { duplicate(index); }, false, '복제', 'accent'));
-        actions.appendChild(iconBtn('▾', function () { card.classList.toggle('is-open'); }, false, '펼치기/접기'));
-        actions.appendChild(iconBtn('✕', function () { removeProj(index); }, true, '삭제'));
+        actions.appendChild(iconBtn('copy', function () { duplicate(index); }, false, '복제', 'accent'));
+        actions.appendChild(iconBtn('x', function () { removeProj(index); }, true, '삭제'));
 
         var head = el('div', { class: 'proj__head' }, [thumb, headText, actions]);
         var body = el('div', { class: 'proj__body' });
 
-        body.appendChild(textInput('카드 이름', p.name || '', '목록과 브레드크럼에 보이는 이름이에요', function (v) {
+        body.appendChild(textInput('프로젝트 이름', p.name || '', '', function (v) {
           p.name = v;
           nameEl.textContent = v || '제목 없음';
           if (!p._idEdited) {
             var others = STATE.projects.filter(function (x) { return x !== p; }).map(function (x) { return x.id; });
             p.id = uniqueId(v, others);
-            idEl.textContent = p.id;
-            var idInput = body.querySelector('[data-field="id"]');
-            if (idInput) idInput.value = p.id;
           }
           markDirty();
         }));
 
-        var idField = textInput('ID', p.id || '', 'URL에 사용돼요. 영문/숫자/하이픈만 가능해요', function (v) {
-          var clean = slugify(v);
-          p.id = clean;
-          p._idEdited = true;
-          idEl.textContent = clean;
-          markDirty();
-        }, 'mono');
-        idField.querySelector('input').setAttribute('data-field', 'id');
-        body.appendChild(idField);
-
         body.appendChild(imageInputField('썸네일', '목록 카드에 보이는 이미지예요', p.thumbnail || '', function (v) {
-          p.thumbnail = v;
-          thumb.src = v || placeholderSvg();
-          markDirty();
+          p.thumbnail = v; thumb.src = v || placeholderSvg(); markDirty();
         }));
 
         body.appendChild(textInput('상세 페이지 타이틀', p.title || '', '디테일 페이지에서 가장 큰 제목이에요', function (v) {
@@ -629,27 +774,109 @@
         body.appendChild(textareaInput('Size', p.size || '', '“Size” 토글 안 내용이에요', function (v) {
           p.size = v; markDirty();
         }));
-
-        body.appendChild(renderGallery(p));
+        body.appendChild(renderGallery(p, markDirty));
 
         card.appendChild(head);
         card.appendChild(body);
         return card;
       }
 
-      function renderGallery(p) {
+      // ---------- Add view (form) ----------
+      function renderAddForm() {
+        var host = $('#add-form-host');
+        host.innerHTML = '';
+
+        host.appendChild(textInput('프로젝트 이름', DRAFT.name || '', '', function (v) {
+          DRAFT.name = v;
+          // ID 자동 부여 (사용자가 직접 입력하는 UI는 없음)
+          var others = STATE.projects.map(function (x) { return x.id; });
+          DRAFT.id = uniqueId(v, others);
+          // 상세 페이지 타이틀 — 사용자가 직접 수정하지 않았다면 프로젝트 이름과 연동
+          if (!DRAFT._titleEdited) {
+            DRAFT.title = v;
+            var titleInput = host.querySelector('[data-field="title"]');
+            if (titleInput) titleInput.value = v;
+          }
+        }));
+
+        host.appendChild(imageInputField('썸네일', '', DRAFT.thumbnail || '', function (v) {
+          DRAFT.thumbnail = v;
+        }));
+        var titleField = textInput('상세 페이지 타이틀', DRAFT.title || '', '', function (v) {
+          DRAFT.title = v;
+          DRAFT._titleEdited = true;
+        });
+        titleField.querySelector('input').setAttribute('data-field', 'title');
+        host.appendChild(titleField);
+        host.appendChild(textareaInput('설명', DRAFT.description || '', '', function (v) {
+          DRAFT.description = v;
+        }));
+        host.appendChild(textareaInput('Product Details', DRAFT.details || '', '', function (v) {
+          DRAFT.details = v;
+        }));
+        host.appendChild(textareaInput('Size', DRAFT.size || '', '', function (v) {
+          DRAFT.size = v;
+        }));
+        host.appendChild(renderGallery(DRAFT, function () {}));
+      }
+
+      function submitDraft() {
+        if (!DRAFT.name || !DRAFT.name.trim()) {
+          toast('error', '프로젝트 이름은 꼭 입력해 주세요.');
+          return;
+        }
+        var others = STATE.projects.map(function (x) { return x.id; });
+        if (!DRAFT.id) DRAFT.id = uniqueId(DRAFT.name, others);
+        // ID 충돌 방지
+        if (others.indexOf(DRAFT.id) !== -1) DRAFT.id = uniqueId(DRAFT.id, others);
+        // 상세 페이지 타이틀이 비어있으면 프로젝트 이름으로 채움
+        if (!DRAFT.title || !DRAFT.title.trim()) DRAFT.title = DRAFT.name;
+
+        var newProject = JSON.parse(JSON.stringify(DRAFT));
+        delete newProject._idEdited;
+        delete newProject._titleEdited;
+        STATE.projects.push(newProject);
+
+        toast('success', '"' + DRAFT.name + '" 추가됐어요. 우측 상단 저장하고 게시로 반영해 주세요.');
+
+        DRAFT = blankProject();
+        renderList();
+        switchView('list');
+        markDirty();
+
+        // 마지막 카드 자동 펼침
+        setTimeout(function () {
+          var cards = $all('.proj');
+          if (cards.length) {
+            var last = cards[cards.length - 1];
+            last.classList.add('is-open');
+            last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 50);
+      }
+
+      function resetDraft() {
+        if (DRAFT.name || DRAFT.thumbnail || DRAFT.description) {
+          if (!confirm('입력한 내용이 모두 지워져요. 초기화할까요?')) return;
+        }
+        DRAFT = blankProject();
+        renderAddForm();
+      }
+
+      // ---------- Gallery (shared) ----------
+      function renderGallery(target, onChange) {
         var wrap = el('div', { class: 'field' });
         wrap.appendChild(el('div', { class: 'label' }, [
           '갤러리',
           el('span', { class: 'label__hint', text: '디테일 페이지에 들어갈 이미지예요 (3장 권장)' }),
         ]));
 
-        p.gallery = Array.isArray(p.gallery) ? p.gallery.slice() : [];
+        target.gallery = Array.isArray(target.gallery) ? target.gallery.slice() : [];
         var listEl = el('div', { class: 'gallery-list' });
 
         function refresh() {
           listEl.innerHTML = '';
-          p.gallery.forEach(function (url, idx) {
+          target.gallery.forEach(function (url, idx) {
             var preview = el('img', { class: 'img-input__preview', src: url || placeholderSvg(), alt: '' });
             preview.addEventListener('error', function () { preview.src = placeholderSvg(); });
             var input = el('input', {
@@ -657,21 +884,27 @@
               placeholder: 'https://… 또는 ./images/파일명.jpg',
             });
             input.addEventListener('input', function (e) {
-              p.gallery[idx] = e.target.value;
+              target.gallery[idx] = e.target.value;
               preview.src = e.target.value || placeholderSvg();
-              markDirty();
+              onChange();
             });
-            var removeBtn = iconBtn('✕', function () {
-              p.gallery.splice(idx, 1); refresh(); markDirty();
+            var uploadBtn = makeUploadButton(function (path) {
+              target.gallery[idx] = path;
+              input.value = path;
+              preview.src = path;
+              onChange();
+            });
+            var removeBtn = iconBtn('x', function () {
+              target.gallery.splice(idx, 1); refresh(); onChange();
             }, true, '이미지 제거');
-            var row = el('div', { class: 'img-input' }, [preview, input, removeBtn]);
+            var row = el('div', { class: 'img-input' }, [preview, input, uploadBtn, removeBtn]);
             listEl.appendChild(row);
           });
         }
 
         var addBtn = el('button', { class: 'gallery-add', type: 'button', text: '+ 이미지 추가하기' });
         addBtn.addEventListener('click', function () {
-          p.gallery.push(''); refresh(); markDirty();
+          target.gallery.push(''); refresh(); onChange();
         });
 
         wrap.appendChild(listEl);
@@ -680,6 +913,7 @@
         return wrap;
       }
 
+      // ---------- 입력 빌더 ----------
       function textInput(label, value, hint, onChange, modifier) {
         var input = el('input', {
           class: 'input' + (modifier === 'mono' ? ' input--mono' : ''),
@@ -713,18 +947,129 @@
           preview.src = e.target.value || placeholderSvg();
           onChange(e.target.value);
         });
+        var uploadBtn = makeUploadButton(function (path) {
+          input.value = path;
+          preview.src = path;
+          onChange(path);
+        });
         var labelEl = el('label', { class: 'label' }, [
           label,
           hint ? el('span', { class: 'label__hint', text: hint }) : null,
         ]);
-        var row = el('div', { class: 'img-input' }, [preview, input]);
+        var row = el('div', { class: 'img-input' }, [preview, input, uploadBtn]);
         return el('div', { class: 'field' }, [labelEl, row]);
       }
-      function iconBtn(text, onClick, danger, title, accent) {
+
+      // 업로드 버튼 (파일 선택 → 압축 → /api/upload-image)
+      function makeUploadButton(onUploaded) {
+        var btn = el('button', {
+          class: 'upload-btn', type: 'button',
+          html: ICONS.upload + '<span>업로드</span>',
+          title: '내 컴퓨터에서 이미지 업로드',
+        });
+        var fileInput = el('input', { type: 'file', accept: 'image/*', style: 'display:none' });
+        btn.addEventListener('click', function () { fileInput.click(); });
+        fileInput.addEventListener('change', function (e) {
+          var file = e.target.files && e.target.files[0];
+          if (!file) return;
+          handleImageUpload(file, btn, onUploaded);
+          fileInput.value = ''; // 같은 파일 재업로드 가능하도록
+        });
+        var wrap = el('span', { style: 'display:contents' }, [btn, fileInput]);
+        return wrap;
+      }
+
+      function handleImageUpload(file, btn, onUploaded) {
+        var pw = sessionStorage.getItem(SESSION_KEY);
+        if (!pw) { showLogin(); return; }
+
+        var label = btn.querySelector('span');
+        var originalLabel = label.textContent;
+        btn.disabled = true; label.textContent = '압축 중…';
+
+        compressImage(file, 2000, 0.85)
+          .then(function (blob) {
+            label.textContent = '업로드 중…';
+            return blobToBase64(blob);
+          })
+          .then(function (base64) {
+            return fetch('/api/upload-image', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                password: pw,
+                filename: file.name,
+                contentBase64: base64,
+              }),
+            });
+          })
+          .then(function (r) {
+            if (r.status === 401) {
+              sessionStorage.removeItem(SESSION_KEY);
+              showLogin('비밀번호가 일치하지 않아요.');
+              throw new Error('unauthorized');
+            }
+            if (!r.ok) return r.json().then(function (d) { throw new Error(d.error || ('HTTP ' + r.status)); });
+            return r.json();
+          })
+          .then(function (data) {
+            onUploaded(data.path);
+            toast('success', '업로드 완료. ' + data.path);
+          })
+          .catch(function (err) {
+            if (err.message !== 'unauthorized') {
+              toast('error', '업로드 실패: ' + err.message);
+            }
+          })
+          .then(function () {
+            btn.disabled = false; label.textContent = originalLabel;
+          });
+      }
+
+      // 클라이언트 사이드 이미지 압축 (긴 변 maxWidth, JPEG quality)
+      function compressImage(file, maxWidth, quality) {
+        return new Promise(function (resolve, reject) {
+          var reader = new FileReader();
+          reader.onload = function () {
+            var img = new Image();
+            img.onload = function () {
+              var ratio = Math.min(1, maxWidth / Math.max(img.width, img.height));
+              var w = Math.round(img.width * ratio);
+              var h = Math.round(img.height * ratio);
+              var canvas = document.createElement('canvas');
+              canvas.width = w; canvas.height = h;
+              var ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, w, h);
+              canvas.toBlob(function (blob) {
+                if (blob) resolve(blob);
+                else reject(new Error('압축 실패'));
+              }, 'image/jpeg', quality);
+            };
+            img.onerror = function () { reject(new Error('이미지 로드 실패')); };
+            img.src = reader.result;
+          };
+          reader.onerror = function () { reject(new Error('파일 읽기 실패')); };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      function blobToBase64(blob) {
+        return new Promise(function (resolve, reject) {
+          var reader = new FileReader();
+          reader.onload = function () {
+            var result = reader.result;
+            var base64 = result.substring(result.indexOf(',') + 1);
+            resolve(base64);
+          };
+          reader.onerror = function () { reject(new Error('Base64 변환 실패')); };
+          reader.readAsDataURL(blob);
+        });
+      }
+      function iconBtn(iconName, onClick, danger, title, accent) {
         var classes = 'icon-btn';
         if (danger) classes += ' icon-btn--danger';
         if (accent === 'accent') classes += ' icon-btn--accent';
-        var b = el('button', { class: classes, type: 'button', text: text, title: title || '' });
+        var b = el('button', { class: classes, type: 'button', title: title || '', html: ICONS[iconName] || '' });
         b.addEventListener('click', onClick);
         return b;
       }
@@ -734,19 +1079,18 @@
         );
       }
 
+      // ---------- 액션 ----------
       function move(index, delta) {
         var to = index + delta;
         if (to < 0 || to >= STATE.projects.length) return;
         var arr = STATE.projects;
         var tmp = arr[index]; arr[index] = arr[to]; arr[to] = tmp;
-        renderList();
-        markDirty();
+        renderList(); markDirty();
       }
       function removeProj(index) {
         if (!confirm('이 프로젝트를 삭제할까요?\n저장 전이라면 새로고침으로 되돌릴 수 있어요.')) return;
         STATE.projects.splice(index, 1);
-        renderList();
-        markDirty();
+        renderList(); markDirty();
       }
       function duplicate(index) {
         var src = STATE.projects[index];
@@ -756,37 +1100,14 @@
         copy.name = (src.name || '') + ' (복제)';
         copy._idEdited = true;
         STATE.projects.splice(index + 1, 0, copy);
-        renderList();
-        markDirty();
-      }
-      function addProj() {
-        var others = STATE.projects.map(function (x) { return x.id; });
-        var newId = uniqueId('project-' + (STATE.projects.length + 1), others);
-        STATE.projects.push({
-          id: newId,
-          name: '새 프로젝트',
-          thumbnail: '',
-          title: '',
-          description: '',
-          details: '',
-          size: '',
-          gallery: ['', '', ''],
-          _idEdited: false,
-        });
-        renderList();
-        var cards = document.querySelectorAll('.proj');
-        if (cards.length) {
-          var last = cards[cards.length - 1];
-          last.classList.add('is-open');
-          last.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-        markDirty();
+        renderList(); markDirty();
       }
       function expandAll(open) {
-        document.querySelectorAll('.proj').forEach(function (c) { c.classList.toggle('is-open', open); });
+        $all('.proj').forEach(function (c) { c.classList.toggle('is-open', open); });
       }
       function markDirty() { updateStatus(); }
 
+      // ---------- 저장 ----------
       function save() {
         var pw = sessionStorage.getItem(SESSION_KEY);
         if (!pw) { showLogin(); return; }
@@ -843,6 +1164,7 @@
           .then(function () { $('#btn-save').disabled = false; });
       }
 
+      // ---------- 로그인 ----------
       function showLogin(errorMsg) {
         var login = $('#login');
         login.classList.add('is-show');
@@ -877,20 +1199,56 @@
       });
 
       var isMac = /Mac|iPhone|iPad/.test(navigator.platform);
-      $('#btn-save-kbd').textContent = isMac ? '⌘S' : 'Ctrl+S';
 
+      // ---------- 이벤트 바인딩 ----------
       $('#btn-save').addEventListener('click', save);
-      $('#btn-add').addEventListener('click', addProj);
       $('#btn-reload').addEventListener('click', function () {
         if (isDirty() && !confirm('저장하지 않은 변경사항이 사라져요. 다시 불러올까요?')) return;
         init();
       });
       $('#btn-expand-all').addEventListener('click', function () { expandAll(true); });
       $('#btn-collapse-all').addEventListener('click', function () { expandAll(false); });
+      $('#btn-add-submit').addEventListener('click', submitDraft);
+      $('#btn-add-reset').addEventListener('click', resetDraft);
+
+      $all('.sidebar__item').forEach(function (b) {
+        b.addEventListener('click', function () { switchView(b.dataset.view); });
+      });
+
+      // 로컬 file:// 테스트 시 fetch가 막히면 사용할 샘플 프로젝트
+      var SAMPLE_FALLBACK = {
+        projects: [
+          {
+            id: 'sample-1',
+            name: '샘플 프로젝트 (테스트용)',
+            thumbnail: 'https://framerusercontent.com/images/mWGKWCXw1em9l6sTY9wdoJWJM.jpg?width=1200',
+            title: '샘플 프로젝트',
+            description: '로컬에서 admin UI를 미리 보기 위한 샘플 데이터예요. Vercel에 배포하면 실제 projects-data.json 을 불러옵니다.',
+            details: '여기에 시공 자재, 협력사, 진행 기간 등을 적어요.',
+            size: '예: 전용 132m². 시공 4주.',
+            gallery: [
+              'https://framerusercontent.com/images/Te8MC7HECQmCjXUKDj9Xx6MiBg.png?width=1600',
+              'https://framerusercontent.com/images/7ZwkPLQSg8aybrFZSIETA0sh0.jpg?width=1600',
+              'https://framerusercontent.com/images/jFjYYpjxlnqR2q938s1Rggthg.jpg?width=1600',
+            ],
+          },
+          {
+            id: 'sample-2',
+            name: '두 번째 샘플',
+            thumbnail: 'https://framerusercontent.com/images/jFjYYpjxlnqR2q938s1Rggthg.jpg?width=1200',
+            title: '두 번째 샘플',
+            description: '카드 두 개 이상이 있을 때 어떻게 보이는지 확인용이에요.',
+            details: '',
+            size: '',
+            gallery: [],
+          },
+        ],
+      };
 
       function init() {
         var host = $('#projects-list');
         host.innerHTML = '<div class="loading">불러오고 있어요…</div>';
+        var isLocalFile = location.protocol === 'file:';
         loadFromServer()
           .then(function (data) {
             STATE = { projects: (data.projects || []).map(function (p) {
@@ -900,16 +1258,18 @@
             renderList();
           })
           .catch(function (err) {
-            console.error(err);
-            host.innerHTML = '';
-            host.appendChild(el('div', { class: 'empty' }, [
-              el('p', { class: 'empty__title', text: '데이터를 불러오지 못했어요' }),
-              el('p', { text: 'GitHub에 파일이 없거나 배포가 진행 중일 수 있어요.' }),
-            ]));
-            STATE = { projects: [] };
+            console.warn('projects-data.json 로드 실패 → 샘플 데이터로 대체:', err);
+            // file:// 또는 다른 이유로 fetch 실패 시 샘플 데이터 표시
+            STATE = { projects: SAMPLE_FALLBACK.projects.map(function (p) {
+              return Object.assign({}, p, { _idEdited: true });
+            }) };
             SAVED_SNAPSHOT = snapshot();
-            $('#proj-count').textContent = 0;
-            updateStatus();
+            renderList();
+            if (isLocalFile) {
+              toast('', '로컬 미리보기 모드 — 실제 데이터는 배포 후 표시돼요.');
+            } else {
+              toast('error', '데이터를 불러오지 못해 샘플로 대체했어요.');
+            }
           });
       }
       init();

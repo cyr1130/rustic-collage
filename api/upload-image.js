@@ -31,10 +31,11 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Missing filename or content' });
   }
 
-  const owner = process.env.GITHUB_REPO_OWNER;
-  const repo = process.env.GITHUB_REPO_NAME;
-  const branch = process.env.GITHUB_BRANCH || 'main';
-  const token = process.env.GITHUB_TOKEN;
+  // 환경변수 trim — Vercel 입력 시 공백/줄바꿈 섞이는 사고 방지
+  const owner = (process.env.GITHUB_REPO_OWNER || '').trim();
+  const repo = (process.env.GITHUB_REPO_NAME || '').trim();
+  const branch = (process.env.GITHUB_BRANCH || 'main').trim();
+  const token = (process.env.GITHUB_TOKEN || '').trim();
 
   if (!owner || !repo || !token) {
     return res.status(500).json({
@@ -42,11 +43,21 @@ module.exports = async function handler(req, res) {
     });
   }
 
+  // GitHub owner/repo 패턴 검증 (Octokit이 OpenAPI 스펙으로 같은 검사를 함)
+  const NAME_RE = /^[\w.\-]+$/;
+  if (!NAME_RE.test(owner)) {
+    return res.status(500).json({ error: `Invalid GITHUB_REPO_OWNER: "${owner}" — 영문/숫자/점/하이픈/언더스코어만 허용됩니다.` });
+  }
+  if (!NAME_RE.test(repo)) {
+    return res.status(500).json({ error: `Invalid GITHUB_REPO_NAME: "${repo}" — 영문/숫자/점/하이픈/언더스코어만 허용됩니다.` });
+  }
+
   // 파일명 sanitize: 영숫자, 점, 하이픈, 언더스코어만 허용. 길이 제한.
-  const baseName = String(filename)
+  let baseName = String(filename)
     .replace(/[^\w.\-]+/g, '_')
     .replace(/_+/g, '_')
     .slice(-80);
+  if (!baseName || baseName === '_') baseName = 'upload.png';
   const timestamp = Date.now();
   const path = `images/projects/${timestamp}-${baseName}`;
 
@@ -69,8 +80,20 @@ module.exports = async function handler(req, res) {
       commit: result.data.commit && result.data.commit.sha,
     });
   } catch (err) {
-    console.error('Image upload failed:', err);
-    return res.status(500).json({ error: err.message || 'Upload failed' });
+    console.error('Image upload failed:', {
+      message: err.message,
+      status: err.status,
+      response: err.response && err.response.data,
+      owner, repo, branch, path,
+    });
+    return res.status(500).json({
+      error: err.message || 'Upload failed',
+      status: err.status || null,
+      detail: err.response && err.response.data && err.response.data.message,
+      hint: err.message && err.message.includes('expected pattern')
+        ? 'Vercel 환경변수 GITHUB_REPO_OWNER / GITHUB_REPO_NAME / GITHUB_TOKEN 에 공백·따옴표·줄바꿈이 섞여있는지 확인해 주세요. Vercel → Settings → Environment Variables에서 값을 다시 확인 후 Redeploy.'
+        : undefined,
+    });
   }
 };
 

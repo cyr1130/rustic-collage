@@ -84,8 +84,29 @@ module.exports = async function handler(req, res) {
       commit: result.data.commit && result.data.commit.sha,
     });
   } catch (err) {
-    console.error('GitHub commit failed:', err);
-    return res.status(500).json({ error: err.message || 'Failed to commit to GitHub' });
+    console.error('GitHub commit failed:', {
+      message: err.message,
+      status: err.status,
+      response: err.response && err.response.data,
+      errors: err.errors,
+      stack: err.stack,
+      owner, repo, branch,
+      tokenPrefix: token ? token.slice(0, 10) + '...' : '(none)',
+      tokenLength: token ? token.length : 0,
+    });
+    return res.status(500).json({
+      error: err.message || 'Failed to commit to GitHub',
+      status: err.status || null,
+      detail: err.response && err.response.data && err.response.data.message,
+      errors: err.errors || null,
+      diag: {
+        owner: owner,
+        repo: repo,
+        branch: branch,
+        tokenPrefix: token ? token.slice(0, 10) + '...' : '(none)',
+        tokenLength: token ? token.length : 0,
+      },
+    });
   }
 };
 

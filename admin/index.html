@@ -266,12 +266,13 @@
         border: 1px solid #ffffff;
         padding: 16px 18px;
         margin-bottom: 12px;
-        transition: border-color 200ms ease, box-shadow 200ms ease;
+        cursor: pointer;
+        transition: border-color 200ms ease, box-shadow 200ms ease, background 200ms ease;
       }
-      .proj:hover { 
+      .proj:hover {
         border: 1px solid var(--gray-300);
-        border-color: var(--gray-300); }
-      .proj.is-open { border-color: var(--gray-300); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        background: #f3f5f7;
+      }
       .proj__head { display: flex; align-items: center; gap: 14px; }
       .proj__thumb {
         width: 56px; height: 56px;
@@ -307,12 +308,102 @@
       .icon-btn--danger:hover:not(:disabled) { background: var(--red-bg); color: var(--red-fg); }
       .icon-btn--accent:hover:not(:disabled) { background: var(--blue-100); color: var(--blue-600); }
 
-      .proj__body {
-        margin-top: 16px; padding-top: 16px;
-        border-top: 1px solid var(--gray-200);
-        display: none;
+      /* ---------- Search bar ---------- */
+      .search-bar {
+        position: relative;
+        flex: 1; max-width: 320px;
       }
-      .proj.is-open .proj__body { display: block; }
+      .search-bar input {
+        width: 100%; height: 36px;
+        padding: 0 14px 0 36px;
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-pill);
+        background: #fff;
+        font: inherit; font-size: 13px;
+        color: var(--gray-900);
+        transition: border-color 160ms ease, box-shadow 160ms ease;
+      }
+      .search-bar input::placeholder { color: var(--gray-400); }
+      .search-bar input:focus {
+        outline: none;
+        border-color: var(--blue-500);
+        box-shadow: 0 0 0 3px var(--blue-100);
+      }
+      .search-bar svg {
+        position: absolute; left: 12px; top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray-400);
+        pointer-events: none;
+      }
+
+      /* ---------- Detail / Edit view ---------- */
+      .detail-header {
+        display: flex; align-items: center; gap: 12px;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--gray-200);
+      }
+      .detail-header__title {
+        flex: 1; min-width: 0;
+        margin: 0;
+        font-size: 22px; font-weight: 700;
+        letter-spacing: -0.03em;
+        color: var(--gray-900);
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      .detail-header__actions { display: flex; gap: 8px; flex-shrink: 0; }
+      .btn--danger {
+        background: #fff;
+        color: var(--red-fg);
+        border: 1px solid #FECACA;
+      }
+      .btn--danger:hover:not(:disabled) {
+        background: #FEF2F2;
+        border-color: #FCA5A5;
+      }
+
+      /* 보기 모드(read-only) 표시 */
+      .view-row {
+        padding: 16px 0;
+        border-bottom: 1px solid var(--gray-100);
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 24px;
+        align-items: flex-start;
+      }
+      .view-row:last-child { border-bottom: 0; }
+      .view-row__label {
+        font-size: 13px; font-weight: 600;
+        color: var(--gray-600);
+        padding-top: 4px;
+      }
+      .view-row__value {
+        font-size: 14px; line-height: 1.7;
+        color: var(--gray-900);
+        white-space: pre-wrap; word-break: break-word;
+      }
+      .view-row__value--muted { color: var(--gray-400); font-style: italic; }
+      .view-row__image {
+        width: 120px; height: 120px;
+        border-radius: var(--radius-sm);
+        object-fit: cover;
+        background: var(--gray-100);
+      }
+      .view-row__gallery {
+        display: flex; flex-wrap: wrap; gap: 10px;
+      }
+      .view-row__gallery img {
+        width: 120px; height: 120px;
+        border-radius: var(--radius-sm);
+        object-fit: cover;
+        background: var(--gray-100);
+      }
+
+      @media (max-width: 720px) {
+        .view-row { grid-template-columns: 1fr; gap: 6px; }
+        .detail-header { flex-direction: column; align-items: stretch; }
+        .detail-header__actions { justify-content: flex-end; }
+      }
 
       /* ---------- Form card (Add new) ---------- */
       .form-card {
@@ -557,21 +648,29 @@
             <span class="tip__icon">!</span>
             <div>
               <strong>편집 팁이에요</strong><br />
-              카드 헤더를 클릭해 펼치고 접을 수 있어요. 저장하고 게시를 누르면 저장 후 30~60초 안에 사이트에 반영돼요.
+              카드를 클릭하면 상세 페이지로 이동해요. 저장하고 게시를 누르면 저장 후 30~60초 안에 사이트에 반영돼요.
             </div>
           </div>
 
           <div class="summary-bar">
             <span class="summary-bar__count">총 <strong id="proj-count">0</strong>개의 프로젝트</span>
-            <div class="summary-bar__actions">
-              <button class="btn btn--text btn--small" id="btn-expand-all">모두 펼치기</button>
-              <button class="btn btn--text btn--small" id="btn-collapse-all">모두 접기</button>
+            <div class="search-bar">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-3.5-3.5" />
+              </svg>
+              <input type="search" id="search-input" placeholder="프로젝트 이름으로 검색" autocomplete="off" />
             </div>
           </div>
 
           <div id="projects-list">
             <div class="loading">불러오고 있어요…</div>
           </div>
+        </section>
+
+        <!-- View: Detail / Edit -->
+        <section class="view" data-view="detail">
+          <div id="detail-host"></div>
         </section>
 
         <!-- View: Add new -->
@@ -613,6 +712,9 @@
       var SAVED_SNAPSHOT = '';
       var SESSION_KEY = 'rc_admin_pw';
       var DRAFT = blankProject();
+      var EDITING_INDEX = null;     // 상세/편집 페이지에서 보고 있는 프로젝트 인덱스
+      var EDIT_MODE = 'view';       // 'view' | 'edit'
+      var SEARCH_QUERY = '';
 
       // 모든 아이콘은 인라인 SVG로 렌더링 (mask-image 의존 X — file://에서도 정상)
       var ICONS = {
@@ -717,6 +819,16 @@
           v.classList.toggle('is-active', v.dataset.view === name);
         });
         if (name === 'add') renderAddForm();
+        if (name === 'detail') renderDetail();
+        // detail 뷰는 사이드바에 항목이 없어서 list/add 모두 비활성 — 자연스럽게 처리됨
+      }
+
+      function openProject(index) {
+        EDITING_INDEX = index;
+        EDIT_MODE = 'view';
+        switchView('detail');
+        // 스크롤 최상단으로
+        try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); }
       }
 
       // ---------- List view ----------
@@ -736,8 +848,33 @@
           return;
         }
 
-        STATE.projects.forEach(function (p, idx) {
-          host.appendChild(renderProj(p, idx));
+        // 검색 필터링 (이름 우선)
+        var q = (SEARCH_QUERY || '').trim().toLowerCase();
+        var filtered = STATE.projects.map(function (p, idx) {
+          return { p: p, idx: idx };
+        });
+        if (q) {
+          filtered = filtered.filter(function (x) {
+            var hay = [
+              x.p.name || '',
+              x.p.title || '',
+              x.p.id || '',
+            ].join(' ').toLowerCase();
+            return hay.indexOf(q) !== -1;
+          });
+        }
+
+        if (filtered.length === 0) {
+          host.appendChild(el('div', { class: 'empty' }, [
+            el('p', { class: 'empty__title', text: '검색 결과가 없어요' }),
+            el('p', { text: '"' + SEARCH_QUERY + '" 와 일치하는 프로젝트가 없어요.' }),
+          ]));
+          updateStatus();
+          return;
+        }
+
+        filtered.forEach(function (entry) {
+          host.appendChild(renderProj(entry.p, entry.idx));
         });
         updateStatus();
       }
@@ -745,12 +882,11 @@
       function renderProj(p, index) {
         var card = el('div', { class: 'proj' });
 
-        var thumb = el('img', { class: 'proj__thumb', src: p.thumbnail || placeholderSvg(), alt: '' });
+        var thumb = el('img', { class: 'proj__thumb', src: toPreviewUrl(p.thumbnail), alt: '' });
         thumb.addEventListener('error', function () { thumb.src = placeholderSvg(); });
 
         var nameEl = el('p', { class: 'proj__name', text: p.name || '제목 없음' });
         var headText = el('div', { class: 'proj__head-text' }, [nameEl]);
-        headText.addEventListener('click', function () { card.classList.toggle('is-open'); });
 
         var actions = el('div', { class: 'proj__actions' });
         var btnUp = iconBtn('up', function () { move(index, -1); }, false, '위로');
@@ -763,39 +899,147 @@
         actions.appendChild(iconBtn('x', function () { removeProj(index); }, true, '삭제'));
 
         var head = el('div', { class: 'proj__head' }, [thumb, headText, actions]);
-        var body = el('div', { class: 'proj__body' });
 
-        body.appendChild(textInput('프로젝트 이름', p.name || '', '', function (v) {
+        // 카드 클릭 시 상세 페이지로 이동 (액션 버튼 클릭은 제외)
+        card.addEventListener('click', function (e) {
+          if (e.target.closest('.proj__actions')) return; // 액션 버튼은 통과
+          openProject(index);
+        });
+
+        card.appendChild(head);
+        return card;
+      }
+
+      // ---------- Detail / Edit view ----------
+      function renderDetail() {
+        var p = STATE.projects[EDITING_INDEX];
+        var host = $('#detail-host');
+        host.innerHTML = '';
+        if (!p) {
+          host.appendChild(el('div', { class: 'empty' }, [
+            el('p', { class: 'empty__title', text: '프로젝트를 찾을 수 없어요' }),
+            el('p', { text: '목록으로 돌아가 다시 선택해 주세요.' }),
+          ]));
+          return;
+        }
+
+        // 헤더
+        var header = el('div', { class: 'detail-header' });
+        var backBtn = el('button', { class: 'btn btn--ghost', type: 'button', html: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span>목록</span>' });
+        backBtn.addEventListener('click', function () {
+          EDITING_INDEX = null;
+          renderList();          // 편집 내용이 카드에도 반영되도록 재렌더
+          switchView('list');
+        });
+        var titleEl = el('h2', { class: 'detail-header__title', text: p.name || '제목 없음' });
+        var actions = el('div', { class: 'detail-header__actions' });
+
+        if (EDIT_MODE === 'view') {
+          var editBtn = el('button', { class: 'btn btn--primary', type: 'button', text: '수정' });
+          editBtn.addEventListener('click', function () { EDIT_MODE = 'edit'; renderDetail(); });
+          actions.appendChild(editBtn);
+        } else {
+          var doneBtn = el('button', { class: 'btn btn--primary', type: 'button', text: '편집 완료' });
+          doneBtn.addEventListener('click', function () { EDIT_MODE = 'view'; renderDetail(); });
+          actions.appendChild(doneBtn);
+        }
+        var deleteBtn = el('button', { class: 'btn btn--danger', type: 'button', text: '삭제' });
+        deleteBtn.addEventListener('click', function () {
+          if (!confirm('"' + (p.name || '제목 없음') + '" 프로젝트를 정말 삭제할까요?')) return;
+          STATE.projects.splice(EDITING_INDEX, 1);
+          EDITING_INDEX = null;
+          markDirty();
+          renderList();
+          switchView('list');
+          toast('success', '삭제했어요. 저장하고 게시로 사이트에 반영해 주세요.');
+        });
+        actions.appendChild(deleteBtn);
+
+        header.appendChild(backBtn);
+        header.appendChild(titleEl);
+        header.appendChild(actions);
+        host.appendChild(header);
+
+        // 본문
+        var content = el('div', { class: EDIT_MODE === 'edit' ? 'form-card' : '' });
+        if (EDIT_MODE === 'edit') {
+          renderProjectEditFields(content, p, function () {
+            titleEl.textContent = p.name || '제목 없음'; // 이름 변경 시 헤더도 갱신
+          });
+        } else {
+          renderProjectViewFields(content, p);
+        }
+        host.appendChild(content);
+      }
+
+      // 편집 모드 — 입력 필드들
+      function renderProjectEditFields(host, p, onNameChange) {
+        host.appendChild(textInput('프로젝트 이름', p.name || '', '', function (v) {
           p.name = v;
-          nameEl.textContent = v || '제목 없음';
           if (!p._idEdited) {
             var others = STATE.projects.filter(function (x) { return x !== p; }).map(function (x) { return x.id; });
             p.id = uniqueId(v, others);
           }
+          if (onNameChange) onNameChange();
           markDirty();
         }));
-
-        body.appendChild(imageInputField('썸네일', '목록 카드에 보이는 이미지예요', p.thumbnail || '', function (v) {
-          p.thumbnail = v; thumb.src = v || placeholderSvg(); markDirty();
+        host.appendChild(imageInputField('썸네일', '', p.thumbnail || '', function (v) {
+          p.thumbnail = v; markDirty();
         }));
-
-        body.appendChild(textInput('상세 페이지 타이틀', p.title || '', '디테일 페이지에서 가장 큰 제목이에요', function (v) {
+        host.appendChild(textInput('상세 페이지 타이틀', p.title || '', '', function (v) {
           p.title = v; markDirty();
         }));
-        body.appendChild(textareaInput('설명', p.description || '', '디테일 페이지 본문에 표시돼요', function (v) {
+        host.appendChild(textareaInput('설명', p.description || '', '', function (v) {
           p.description = v; markDirty();
         }));
-        body.appendChild(textareaInput('Product Details', p.details || '', '“Product Details” 토글 안 내용이에요', function (v) {
+        host.appendChild(textareaInput('Product Details', p.details || '', '', function (v) {
           p.details = v; markDirty();
         }));
-        body.appendChild(textareaInput('Size', p.size || '', '“Size” 토글 안 내용이에요', function (v) {
+        host.appendChild(textareaInput('Size', p.size || '', '', function (v) {
           p.size = v; markDirty();
         }));
-        body.appendChild(renderGallery(p, markDirty));
+        host.appendChild(renderGallery(p, markDirty));
+      }
 
-        card.appendChild(head);
-        card.appendChild(body);
-        return card;
+      // 보기 모드 — 읽기 전용 표시
+      function renderProjectViewFields(host, p) {
+        function row(label, value, opts) {
+          opts = opts || {};
+          var labelEl = el('div', { class: 'view-row__label', text: label });
+          var valueEl;
+          if (opts.image && value) {
+            valueEl = el('img', { class: 'view-row__image', src: toPreviewUrl(value), alt: '' });
+            valueEl.addEventListener('error', function () { valueEl.src = placeholderSvg(); });
+          } else {
+            valueEl = el('div', { class: 'view-row__value' + (value ? '' : ' view-row__value--muted') });
+            valueEl.textContent = value || '비어있음';
+          }
+          return el('div', { class: 'view-row' }, [labelEl, valueEl]);
+        }
+
+        host.appendChild(row('프로젝트 이름', p.name));
+        host.appendChild(row('썸네일', p.thumbnail, { image: true }));
+        host.appendChild(row('상세 페이지 타이틀', p.title));
+        host.appendChild(row('설명', p.description));
+        host.appendChild(row('Product Details', p.details));
+        host.appendChild(row('Size', p.size));
+
+        // 갤러리 행
+        var gRow = el('div', { class: 'view-row' });
+        gRow.appendChild(el('div', { class: 'view-row__label', text: '갤러리' }));
+        var gallery = (p.gallery || []).filter(Boolean);
+        if (gallery.length === 0) {
+          gRow.appendChild(el('div', { class: 'view-row__value view-row__value--muted', text: '비어있음' }));
+        } else {
+          var gGrid = el('div', { class: 'view-row__gallery' });
+          gallery.forEach(function (url) {
+            var img = el('img', { src: toPreviewUrl(url), alt: '' });
+            img.addEventListener('error', function () { img.src = placeholderSvg(); });
+            gGrid.appendChild(img);
+          });
+          gRow.appendChild(gGrid);
+        }
+        host.appendChild(gRow);
       }
 
       // ---------- Add view (form) ----------
@@ -857,18 +1101,13 @@
         toast('success', '"' + DRAFT.name + '" 추가됐어요. 우측 상단 저장하고 게시로 반영해 주세요.');
 
         DRAFT = blankProject();
+        var newIndex = STATE.projects.length - 1;
         renderList();
-        switchView('list');
         markDirty();
 
-        // 마지막 카드 자동 펼침
+        // 새로 추가된 프로젝트의 상세 페이지로 바로 진입
         setTimeout(function () {
-          var cards = $all('.proj');
-          if (cards.length) {
-            var last = cards[cards.length - 1];
-            last.classList.add('is-open');
-            last.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
+          openProject(newIndex);
         }, 50);
       }
 
@@ -894,7 +1133,7 @@
         function refresh() {
           listEl.innerHTML = '';
           target.gallery.forEach(function (url, idx) {
-            var preview = el('img', { class: 'img-input__preview', src: url || placeholderSvg(), alt: '' });
+            var preview = el('img', { class: 'img-input__preview', src: toPreviewUrl(url), alt: '' });
             preview.addEventListener('error', function () { preview.src = placeholderSvg(); });
             var input = el('input', {
               class: 'input', type: 'text', value: url || '',
@@ -902,13 +1141,13 @@
             });
             input.addEventListener('input', function (e) {
               target.gallery[idx] = e.target.value;
-              preview.src = e.target.value || placeholderSvg();
+              preview.src = toPreviewUrl(e.target.value);
               onChange();
             });
             var uploadBtn = makeUploadButton(function (path) {
               target.gallery[idx] = path;
               input.value = path;
-              preview.src = path;
+              preview.src = toPreviewUrl(path);
               onChange();
             });
             var removeBtn = iconBtn('x', function () {
@@ -918,7 +1157,7 @@
             attachImagePasteAndDrop(row, input, preview, uploadBtn, function (path) {
               target.gallery[idx] = path;
               input.value = path;
-              preview.src = path;
+              preview.src = toPreviewUrl(path);
               onChange();
             });
             listEl.appendChild(row);
@@ -964,15 +1203,15 @@
           class: 'input', type: 'text', value: value || '',
           placeholder: 'https://… 또는 붙여넣기/드래그',
         });
-        var preview = el('img', { class: 'img-input__preview', src: value || placeholderSvg(), alt: '' });
+        var preview = el('img', { class: 'img-input__preview', src: toPreviewUrl(value), alt: '' });
         preview.addEventListener('error', function () { preview.src = placeholderSvg(); });
         input.addEventListener('input', function (e) {
-          preview.src = e.target.value || placeholderSvg();
+          preview.src = toPreviewUrl(e.target.value);
           onChange(e.target.value);
         });
         var uploadBtn = makeUploadButton(function (path) {
           input.value = path;
-          preview.src = path;
+          preview.src = toPreviewUrl(path);
           onChange(path);
         });
         var labelEl = el('label', { class: 'label' }, [
@@ -982,7 +1221,7 @@
         var row = el('div', { class: 'img-input' }, [preview, input, uploadBtn]);
         attachImagePasteAndDrop(row, input, preview, uploadBtn, function (path) {
           input.value = path;
-          preview.src = path;
+          preview.src = toPreviewUrl(path);
           onChange(path);
         });
         return el('div', { class: 'field' }, [labelEl, row]);
@@ -1184,6 +1423,13 @@
           '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56"><rect fill="#F2F4F6" width="56" height="56"/><text x="28" y="32" text-anchor="middle" font-family="system-ui" font-size="9" fill="#B0B8C1">no image</text></svg>'
         );
       }
+      // 어드민은 /admin/ 하위 경로라 ./images/... 가 /admin/images/... 로 잘못 풀림.
+      // 미리보기에 한해 루트 절대 경로(/images/...)로 변환.
+      function toPreviewUrl(p) {
+        if (!p) return placeholderSvg();
+        if (p.indexOf('./') === 0) return p.slice(1); // "./images/..." → "/images/..."
+        return p;
+      }
 
       // ---------- 액션 ----------
       function move(index, delta) {
@@ -1207,9 +1453,6 @@
         copy._idEdited = true;
         STATE.projects.splice(index + 1, 0, copy);
         renderList(); markDirty();
-      }
-      function expandAll(open) {
-        $all('.proj').forEach(function (c) { c.classList.toggle('is-open', open); });
       }
       function markDirty() { updateStatus(); }
 
@@ -1319,13 +1562,25 @@
         if (isDirty() && !confirm('저장하지 않은 변경사항이 사라져요. 다시 불러올까요?')) return;
         init();
       });
-      $('#btn-expand-all').addEventListener('click', function () { expandAll(true); });
-      $('#btn-collapse-all').addEventListener('click', function () { expandAll(false); });
       $('#btn-add-submit').addEventListener('click', submitDraft);
       $('#btn-add-reset').addEventListener('click', resetDraft);
 
+      // 검색 입력 — 디바운스 가볍게 적용
+      var searchTimer = null;
+      $('#search-input').addEventListener('input', function (e) {
+        clearTimeout(searchTimer);
+        var v = e.target.value;
+        searchTimer = setTimeout(function () {
+          SEARCH_QUERY = v;
+          renderList();
+        }, 120);
+      });
+
       $all('.sidebar__item').forEach(function (b) {
-        b.addEventListener('click', function () { switchView(b.dataset.view); });
+        b.addEventListener('click', function () {
+          // 사이드바로 이동할 때 검색 초기화 안 함 (사용자 의도 유지)
+          switchView(b.dataset.view);
+        });
       });
 
       // fetch 실패 시 사용할 빈 폴백

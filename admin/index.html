@@ -1910,7 +1910,7 @@
       // 히어로 슬라이드 필드 — 큰 미리보기 + 업로드 버튼 + 호버 시 paste/drop
       function makeHeroSlideField(index, value, onChange) {
         var wrap = el('div', { class: 'hero-slide' });
-        wrap.appendChild(el('div', { class: 'hero-slide__label', text: '슬라이드 ' + (index + 1) }));
+        wrap.appendChild(el('div', { class: 'hero-slide__label', text: '이미지 ' + (index + 1) }));
 
         var preview = el('div', { class: 'hero-slide__preview', tabindex: '0', title: '클릭/포커스 후 붙여넣기 가능' });
         var img = el('img', { src: toPreviewUrl(value), alt: '' });

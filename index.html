@@ -178,110 +178,69 @@
         <div class="container">
           <div class="projects__head">
             <h2 class="projects__title">Projects</h2>
-            <a class="pill-btn" href="#">
+            <a class="pill-btn" href="projects.html">
               <span class="pill-btn__label">View All Projects</span>
               <span class="pill-btn__arrow" aria-hidden="true">→</span>
             </a>
           </div>
 
-          <div class="projects__grid">
-            <a class="product-card" href="#">
-              <figure class="product-card__media">
-                <img
-                  src="https://framerusercontent.com/images/VkhdD2wnqxORukD9IFpcgFbB2nM.jpg?width=1200"
-                  alt="Rustic Collage 프로젝트 이미지 1"
-                  loading="lazy"
-                />
-                <div class="product-card__overlay">
-                  <h3 class="product-card__overlay-title">Rustic Collage</h3>
-                  <p class="product-card__overlay-desc">Residential · Seoul</p>
-                  <p class="product-card__overlay-desc">Glow daily with essentials for healthy, radiant skin.</p>
-                </div>
-              </figure>
-            </a>
-
-            <a class="product-card" href="#">
-              <figure class="product-card__media">
-                <img
-                  src="https://framerusercontent.com/images/jFjYYpjxlnqR2q938s1Rggthg.jpg?width=1200"
-                  alt="Rustic Collage 프로젝트 이미지 2"
-                  loading="lazy"
-                />
-                <div class="product-card__overlay">
-                  <h3 class="product-card__overlay-title">Rustic Collage</h3>
-                  <p class="product-card__overlay-desc">Commercial · Busan</p>
-                  <p class="product-card__overlay-desc">Modern, timeless pieces to style every space.</p>
-                </div>
-              </figure>
-            </a>
-
-            <a class="product-card" href="#">
-              <figure class="product-card__media">
-                <img
-                  src="https://framerusercontent.com/images/1OlzGqyn2LV8WpROJrzeT1q1o.jpg?width=1200"
-                  alt="Rustic Collage 프로젝트 이미지 3"
-                  loading="lazy"
-                />
-                <div class="product-card__overlay">
-                  <h3 class="product-card__overlay-title">Rustic Collage</h3>
-                  <p class="product-card__overlay-desc">Hospitality · Jeju</p>
-                  <p class="product-card__overlay-desc">Smart, innovative gadgets for your everyday life.</p>
-                </div>
-              </figure>
-            </a>
-
-            <a class="product-card" href="#">
-              <figure class="product-card__media">
-                <img
-                  src="https://framerusercontent.com/images/64RMtxFatWBCO8MEJPFEBopFWLA.jpg?width=1200"
-                  alt="Rustic Collage 프로젝트 이미지 4"
-                  loading="lazy"
-                />
-                <div class="product-card__overlay">
-                  <h3 class="product-card__overlay-title">Rustic Collage</h3>
-                  <p class="product-card__overlay-desc">Showroom · Seoul</p>
-                  <p class="product-card__overlay-desc">Effortless, stylish staples for any wardrobe.</p>
-                </div>
-              </figure>
-            </a>
-
-            <a class="product-card" href="#">
-              <figure class="product-card__media">
-                <img
-                  src="https://framerusercontent.com/images/Dpo8uPfpHHGjKSTKkSkzC1hLqJI.jpg?width=1200"
-                  alt="Rustic Collage 프로젝트 이미지 5"
-                  loading="lazy"
-                />
-                <div class="product-card__overlay">
-                  <h3 class="product-card__overlay-title">Rustic Collage</h3>
-                  <p class="product-card__overlay-desc">Atelier · Daegu</p>
-                  <p class="product-card__overlay-desc">Layered textures with timeless presence.</p>
-                </div>
-              </figure>
-            </a>
-
-            <a class="product-card" href="#">
-              <figure class="product-card__media">
-                <img
-                  src="https://framerusercontent.com/images/NWSt0NBHa692nVWmcUbK8u2Po.jpg?width=1200"
-                  alt="Rustic Collage 프로젝트 이미지 6"
-                  loading="lazy"
-                />
-                <div class="product-card__overlay">
-                  <h3 class="product-card__overlay-title">Rustic Collage</h3>
-                  <p class="product-card__overlay-desc">Workshop · Incheon</p>
-                  <p class="product-card__overlay-desc">Materials crafted with quiet intention.</p>
-                </div>
-              </figure>
-            </a>
+          <div class="projects__grid" id="home-projects-grid">
+            <!-- projects-data.json 에서 최신순으로 자동 렌더링됨 -->
           </div>
 
           <!-- 모바일 전용 풀폭 CTA -->
-          <a class="pill-btn pill-btn--full projects__cta-mobile" href="#">
+          <a class="pill-btn pill-btn--full projects__cta-mobile" href="projects.html">
             <span class="pill-btn__label">View All Projects</span>
             <span class="pill-btn__arrow" aria-hidden="true">→</span>
           </a>
         </div>
+
+        <script>
+          (function () {
+            var grid = document.getElementById('home-projects-grid');
+            if (!grid) return;
+            var MAX_CARDS = 6;
+            fetch('./projects-data.json?t=' + Date.now())
+              .then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.json();
+              })
+              .then(function (data) {
+                var list = (data.projects || []).slice().reverse().slice(0, MAX_CARDS);
+                if (!list.length) {
+                  grid.innerHTML = '<p style="color:#888;font-size:14px;">아직 등록된 프로젝트가 없습니다.</p>';
+                  return;
+                }
+                grid.innerHTML = list.map(function (p, i) {
+                  var name = esc(p.name || '');
+                  var title = esc(p.title || p.name || '');
+                  var desc = esc(p.description || '');
+                  var thumb = esc(p.thumbnail || '');
+                  return (
+                    '<a class="product-card" href="./project-detail.html?id=' + encodeURIComponent(p.id) + '">' +
+                      '<figure class="product-card__media">' +
+                        '<img src="' + thumb + '" alt="' + name + ' 프로젝트 이미지" loading="' + (i < 3 ? 'eager' : 'lazy') + '" />' +
+                        '<div class="product-card__overlay">' +
+                          '<h3 class="product-card__overlay-title">' + name + '</h3>' +
+                          (title && title !== name ? '<p class="product-card__overlay-desc">' + title + '</p>' : '') +
+                          (desc ? '<p class="product-card__overlay-desc">' + desc + '</p>' : '') +
+                        '</div>' +
+                      '</figure>' +
+                    '</a>'
+                  );
+                }).join('');
+              })
+              .catch(function (err) {
+                grid.innerHTML = '<p style="color:#888;font-size:14px;">프로젝트 목록을 불러오지 못했습니다.</p>';
+                console.error(err);
+              });
+            function esc(s) {
+              return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+                return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+              });
+            }
+          })();
+        </script>
       </section>
 
       <!-- ======================== CONTACT ======================== -->

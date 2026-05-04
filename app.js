@@ -5,6 +5,35 @@
 (function () {
   'use strict';
 
+  // ---------- Liquid Glass — SVG 굴절 필터 주입 ----------
+  // backdrop-filter: url(#rc-liquid-glass) 로 nav가 참조함
+  (function injectLiquidGlassFilter() {
+    if (document.getElementById('rc-liquid-glass-svg')) return;
+    var SVG_NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('id', 'rc-liquid-glass-svg');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;pointer-events:none';
+    svg.innerHTML =
+      '<filter id="rc-liquid-glass" x="0%" y="0%" width="100%" height="100%">' +
+        // 1) 더 큰 패턴의 굴절 노이즈 (자글자글함 ↓)
+        '<feTurbulence type="fractalNoise" baseFrequency="0.006 0.006" numOctaves="1" seed="92" result="turb"/>' +
+        // 2) 노이즈를 더 강하게 부드럽게 — 미세한 노이즈 흔적 제거
+        '<feGaussianBlur in="turb" stdDeviation="4" result="softTurb"/>' +
+        // 3) 굴절 강도도 살짝 줄여 자연스럽게
+        '<feDisplacementMap in="SourceGraphic" in2="softTurb" scale="30" xChannelSelector="R" yChannelSelector="G" result="displaced"/>' +
+        // 4) 굴절된 결과에 frosted glass 블러
+        '<feGaussianBlur in="displaced" stdDeviation="6" result="frosted"/>' +
+        // 5) 채도 부스트 (saturate ~ 130%)
+        '<feColorMatrix in="frosted" type="matrix" values="' +
+          '1.3 0 0 0 0 ' +
+          '0 1.3 0 0 0 ' +
+          '0 0 1.3 0 0 ' +
+          '0 0 0 1 0"/>' +
+      '</filter>';
+    (document.body || document.documentElement).appendChild(svg);
+  })();
+
   // ---------- Nav: 스크롤 시 블러/스타일 전환 ----------
   var nav = document.getElementById('nav');
   var lastY = -1;
@@ -21,6 +50,128 @@
 
   document.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  // ---------- Adaptive Nav Tone — nav 뒤 배경의 밝기를 샘플링해서 글자색 자동 전환 ----------
+  // 옵션 C(캔버스 픽셀 샘플링): 무거우면 이 블록만 제거하면 원래대로 돌아감.
+  (function adaptiveNavTone() {
+    if (!nav) return;
+    var pending = false;
+    var lastTone = null; // 'light' | 'dark'
+
+    function schedule() {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(function () {
+        pending = false;
+        update();
+      });
+    }
+
+    function update() {
+      var rect = nav.getBoundingClientRect();
+      // nav 바닥에서 살짝 아래 지점을 샘플
+      var sampleY = Math.max(0, Math.min(window.innerHeight - 1, rect.bottom + 4));
+      var samples = 7;
+      var lums = [];
+      // 샘플 동안 nav가 elementsFromPoint에 안 잡히도록 잠깐 포인터 무시
+      var prevPE = nav.style.pointerEvents;
+      nav.style.pointerEvents = 'none';
+      for (var i = 0; i < samples; i++) {
+        var x = rect.left + (rect.width * (i + 0.5) / samples);
+        var lum = sampleAt(x, sampleY);
+        if (lum != null) lums.push(lum);
+      }
+      nav.style.pointerEvents = prevPE;
+
+      var tone;
+      if (lums.length) {
+        var avg = lums.reduce(function (a, b) { return a + b; }, 0) / lums.length;
+        tone = avg > 0.55 ? 'light' : 'dark';
+      } else {
+        // 샘플 실패(전부 cross-origin 등) — body 클래스로 폴백
+        tone = document.body.classList.contains('subpage--light') ? 'light' : 'dark';
+      }
+      if (tone === lastTone) return;
+      lastTone = tone;
+      if (tone === 'light') {
+        nav.classList.add('nav--on-light');
+        nav.classList.remove('nav--on-dark');
+      } else {
+        nav.classList.add('nav--on-dark');
+        nav.classList.remove('nav--on-light');
+      }
+    }
+
+    function sampleAt(x, y) {
+      var stack = (typeof document.elementsFromPoint === 'function')
+        ? document.elementsFromPoint(x, y)
+        : [document.elementFromPoint(x, y)];
+      for (var i = 0; i < stack.length; i++) {
+        var el = stack[i];
+        if (!el || nav.contains(el)) continue;
+
+        // 이미지 위라면 캔버스로 픽셀 샘플 시도
+        if (el.tagName === 'IMG') {
+          var lum = sampleImage(el, x, y);
+          if (lum != null) return lum;
+          // 실패(cross-origin 오염 등) → 부모 체인의 background-color로 진행
+        }
+        // 부모 체인 — 첫 불투명 background-color 사용
+        var node = el;
+        while (node && node !== document.documentElement) {
+          var cs = getComputedStyle(node);
+          var l = parseRgbLuminance(cs.backgroundColor);
+          if (l != null) return l;
+          node = node.parentElement;
+        }
+      }
+      return null;
+    }
+
+    function sampleImage(img, x, y) {
+      if (!img.complete || !img.naturalWidth) return null;
+      try {
+        var r = img.getBoundingClientRect();
+        var px = (x - r.left) / r.width;
+        var py = (y - r.top) / r.height;
+        if (px < 0 || px > 1 || py < 0 || py > 1) return null;
+        var sx = Math.max(0, Math.min(img.naturalWidth - 1, Math.floor(px * img.naturalWidth)));
+        var sy = Math.max(0, Math.min(img.naturalHeight - 1, Math.floor(py * img.naturalHeight)));
+        var c = document.createElement('canvas');
+        c.width = 1; c.height = 1;
+        var ctx = c.getContext('2d');
+        ctx.drawImage(img, sx, sy, 1, 1, 0, 0, 1, 1);
+        var p = ctx.getImageData(0, 0, 1, 1).data;
+        if (p[3] === 0) return null;
+        return relativeLuminance(p[0], p[1], p[2]);
+      } catch (e) {
+        return null; // tainted canvas (CORS)
+      }
+    }
+
+    function parseRgbLuminance(str) {
+      if (!str) return null;
+      var m = str.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+))?\s*\)/);
+      if (!m) return null;
+      var a = m[4] != null ? parseFloat(m[4]) : 1;
+      if (a < 0.05) return null; // 사실상 투명
+      return relativeLuminance(+m[1], +m[2], +m[3]);
+    }
+
+    function relativeLuminance(r, g, b) {
+      function lin(c) {
+        c = c / 255;
+        return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+      }
+      return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+    }
+
+    document.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    // 초기 + 이미지 로딩 후 한 번 더
+    setTimeout(update, 80);
+    window.addEventListener('load', function () { setTimeout(update, 120); });
+  })();
 
   // ---------- Mobile drawer: 햄버거 토글 ----------
   var toggle = document.querySelector('.nav__toggle');

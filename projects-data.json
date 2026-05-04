@@ -1,18 +1,3 @@
 {
-  "projects": [
-    {
-      "id": "project",
-      "name": "테스트",
-      "thumbnail": "./images/projects/1777898179036-0111.jpeg",
-      "title": "테스트",
-      "description": "테스트ㅇㅇ",
-      "details": "테스트",
-      "size": "테스트",
-      "gallery": [
-        "./images/projects/1777898191314-0111.jpeg",
-        "",
-        ""
-      ]
-    }
-  ]
+  "projects": []
 }

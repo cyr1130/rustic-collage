@@ -1582,15 +1582,20 @@
           '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56"><rect fill="#F2F4F6" width="56" height="56"/><text x="28" y="32" text-anchor="middle" font-family="system-ui" font-size="9" fill="#B0B8C1">no image</text></svg>'
         );
       }
-      // 어드민은 /admin/ 하위 경로라 ./images/... 가 /admin/images/... 로 잘못 풀림.
-      // 미리보기에 한해 루트 절대 경로(/images/...)로 변환.
-      // 또한 방금 업로드된 이미지는 Vercel 리빌드 전까지 /images/... 가 404나기 때문에,
-      // 업로드 직후 받은 GitHub raw URL을 IMG_OVERRIDES 캐시에 저장해서 그쪽으로 보여줌.
-      var IMG_OVERRIDES = Object.create(null); // path → 즉시 표시 가능한 URL
+      // 어드민 미리보기는 항상 GitHub raw URL로 가져옴 — Vercel 리빌드 상태와 무관하게 안정적.
+      // 정적 사이트(/index.html, /projects.html 등)는 그대로 ./images/... 상대경로 사용.
+      var GH_OWNER = 'cyr1130';
+      var GH_REPO = 'rustic-collage';
+      var GH_BRANCH = 'main';
+      var IMG_OVERRIDES = Object.create(null); // 업로드 직후 즉시 캐시
       function toPreviewUrl(p) {
         if (!p) return placeholderSvg();
         if (IMG_OVERRIDES[p]) return IMG_OVERRIDES[p];
-        if (p.indexOf('./') === 0) return p.slice(1); // "./images/..." → "/images/..."
+        // ./images/... 경로 → GitHub raw URL (리빌드 전후 항상 가져올 수 있음)
+        if (p.indexOf('./images/') === 0) {
+          return 'https://raw.githubusercontent.com/' + GH_OWNER + '/' + GH_REPO + '/' + GH_BRANCH + '/' + p.slice(2);
+        }
+        if (p.indexOf('./') === 0) return p.slice(1);
         return p;
       }
 

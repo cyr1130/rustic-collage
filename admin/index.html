@@ -517,7 +517,6 @@
       /* ---------- Detail / Edit view ---------- */
       .detail-header {
         display: flex; align-items: center; gap: 12px;
-        margin-bottom: 24px;
         padding-bottom: 20px;
       }
       .detail-header__title {
@@ -1605,7 +1604,7 @@
           renderList();          // 편집 내용이 카드에도 반영되도록 재렌더
           switchView('list');
         });
-        var titleEl = el('h2', { class: 'detail-header__title', text: p.name || '제목 없음' });
+        // 제목 텍스트는 표시하지 않음 (브레드크럼에 이미 노출됨)
         var actions = el('div', { class: 'detail-header__actions' });
 
         if (EDIT_MODE === 'view') {
@@ -1635,7 +1634,8 @@
         actions.appendChild(deleteBtn);
 
         header.appendChild(backBtn);
-        header.appendChild(titleEl);
+        // 좌측 백버튼과 우측 액션 사이를 메우는 스페이서
+        header.appendChild(el('div', { style: 'flex: 1' }));
         header.appendChild(actions);
         host.appendChild(header);
 
@@ -1643,7 +1643,9 @@
         var content = el('div', { class: EDIT_MODE === 'edit' ? 'form-card' : '' });
         if (EDIT_MODE === 'edit') {
           renderProjectEditFields(content, p, function () {
-            titleEl.textContent = p.name || '제목 없음'; // 이름 변경 시 헤더도 갱신
+            // 이름 변경 시 브레드크럼만 갱신 (제목 텍스트는 더 이상 없음)
+            var crumbCurrent = host.querySelector('.crumb__current');
+            if (crumbCurrent) crumbCurrent.textContent = p.name || '제목 없음';
           });
         } else {
           renderProjectViewFields(content, p);

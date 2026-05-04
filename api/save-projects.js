@@ -33,17 +33,24 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid projects data' });
   }
 
-  // GitHub 설정
-  const owner = process.env.GITHUB_REPO_OWNER;
-  const repo = process.env.GITHUB_REPO_NAME;
-  const branch = process.env.GITHUB_BRANCH || 'main';
+  // GitHub 설정 — 환경변수 trim
+  const owner = (process.env.GITHUB_REPO_OWNER || '').trim();
+  const repo = (process.env.GITHUB_REPO_NAME || '').trim();
+  const branch = (process.env.GITHUB_BRANCH || 'main').trim();
   const path = 'projects-data.json';
-  const token = process.env.GITHUB_TOKEN;
+  const token = (process.env.GITHUB_TOKEN || '').trim();
 
   if (!owner || !repo || !token) {
     return res.status(500).json({
       error: 'Server misconfigured: GITHUB_REPO_OWNER / GITHUB_REPO_NAME / GITHUB_TOKEN required',
     });
+  }
+  const NAME_RE = /^[\w.\-]+$/;
+  if (!NAME_RE.test(owner)) {
+    return res.status(500).json({ error: `Invalid GITHUB_REPO_OWNER: "${owner}"` });
+  }
+  if (!NAME_RE.test(repo)) {
+    return res.status(500).json({ error: `Invalid GITHUB_REPO_NAME: "${repo}"` });
   }
 
   const octokit = new Octokit({ auth: token });

@@ -991,9 +991,9 @@
       // 이미지 입력 행에 붙여넣기/드래그앤드롭/썸네일 클릭 업로드 부착
       function attachImagePasteAndDrop(row, input, preview, uploadBtn, onUploaded) {
         var actualBtn = uploadBtn.querySelector('button');
-        function applyUpload(file) {
-          if (!file) return;
-          handleImageUpload(file, actualBtn, onUploaded);
+        function applyUpload(blobOrFile, customName) {
+          if (!blobOrFile) return;
+          handleImageUpload(blobOrFile, actualBtn, onUploaded, customName);
         }
 
         // 붙여넣기 (input 또는 썸네일에 포커스 시)
@@ -1005,10 +1005,13 @@
             if (item.type && item.type.indexOf('image') === 0) {
               e.preventDefault();
               var blob = item.getAsFile();
-              if (!blob) return;
-              var ext = (blob.type.split('/')[1] || 'png').replace('jpeg', 'jpg');
-              var pasted = new File([blob], 'pasted-' + Date.now() + '.' + ext, { type: blob.type });
-              applyUpload(pasted);
+              if (!blob) {
+                toast('error', '클립보드에서 이미지를 읽을 수 없어요.');
+                return;
+              }
+              var mime = (blob.type || 'image/png');
+              var ext = (mime.split('/')[1] || 'png').replace('jpeg', 'jpg').split(';')[0];
+              applyUpload(blob, 'pasted-' + Date.now() + '.' + ext);
               return;
             }
           }
@@ -1064,7 +1067,7 @@
         return wrap;
       }
 
-      function handleImageUpload(file, btn, onUploaded) {
+      function handleImageUpload(file, btn, onUploaded, customName) {
         var pw = sessionStorage.getItem(SESSION_KEY);
         if (!pw) { showLogin(); return; }
 
@@ -1072,23 +1075,30 @@
         var originalLabel = label.textContent;
         btn.disabled = true; label.textContent = '압축 중…';
 
+        // 파일명 결정: 명시적 customName > file.name > 기본 timestamp
+        var safeName = customName || (file && file.name) || ('upload-' + Date.now() + '.png');
+
+        var stage = 'compress';
         compressImage(file, 2000, 0.85)
           .then(function (blob) {
+            stage = 'base64';
             label.textContent = '업로드 중…';
             return blobToBase64(blob);
           })
           .then(function (base64) {
+            stage = 'fetch';
             return fetch('/api/upload-image', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 password: pw,
-                filename: file.name,
+                filename: safeName,
                 contentBase64: base64,
               }),
             });
           })
           .then(function (r) {
+            stage = 'response';
             if (r.status === 401) {
               sessionStorage.removeItem(SESSION_KEY);
               showLogin('비밀번호가 일치하지 않아요.');
@@ -1102,8 +1112,9 @@
             toast('success', '업로드 완료. ' + data.path);
           })
           .catch(function (err) {
+            console.error('[upload] stage=' + stage + ' file=', file, 'err=', err);
             if (err.message !== 'unauthorized') {
-              toast('error', '업로드 실패: ' + err.message);
+              toast('error', '업로드 실패 (' + stage + '): ' + err.message);
             }
           })
           .then(function () {

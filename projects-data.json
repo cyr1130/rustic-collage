@@ -1,3 +1,18 @@
 {
-  "projects": []
+  "projects": [
+    {
+      "id": "project",
+      "name": "테스트",
+      "thumbnail": "",
+      "title": "테스트",
+      "description": "",
+      "details": "",
+      "size": "",
+      "gallery": [
+        "",
+        "",
+        ""
+      ]
+    }
+  ]
 }

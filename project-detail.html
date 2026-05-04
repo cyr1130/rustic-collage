@@ -113,10 +113,11 @@
           if (bcCurrent) bcCurrent.textContent = p.name || '';
           document.title = (p.name || 'Project') + ' — Rustic Collage';
 
-          var gallery = (p.gallery || []).slice(0, 3);
+          // 빈 값 제거 + 갯수 무제한 (어드민에서 추가하는 만큼 모두 표시)
+          var gallery = (p.gallery || []).filter(function (s) { return !!s && String(s).trim(); });
           var imgs = gallery.map(function (src, i) {
             return (
-              '<figure class="proj-detail__img proj-detail__img--' + (i + 1) + '">' +
+              '<figure class="proj-detail__img">' +
                 '<img src="' + esc(src) + '" alt="' + esc(p.name) + ' 이미지 ' + (i + 1) + '" loading="lazy" />' +
               '</figure>'
             );
@@ -136,12 +137,11 @@
               '</details>' +
             '</div>';
 
-          // 이미지 1 → 정보 → 이미지 2 → 이미지 3 순서로 출력 (그리드 areas가 데스크톱/모바일 자동 배치)
+          // DOM 순서: 첫 이미지 → 정보 → 나머지 이미지들 (모바일에서도 자연스럽게 흐름)
           var parts = [];
           if (imgs[0]) parts.push(imgs[0]);
           parts.push(info);
-          if (imgs[1]) parts.push(imgs[1]);
-          if (imgs[2]) parts.push(imgs[2]);
+          for (var i = 1; i < imgs.length; i++) parts.push(imgs[i]);
           detailGrid.innerHTML = parts.join('');
         }
 
@@ -172,7 +172,10 @@
           });
         }
         function escMultiline(s) {
-          return esc(s).replace(/\n/g, '<br>');
+          // 사용자가 직접 입력한 <br>, <br/>, <br /> 도 줄바꿈으로 인식 (대소문자 무관)
+          var withBreaks = String(s == null ? '' : s).replace(/<br\s*\/?>/gi, '\n');
+          // 그 외 HTML 태그는 모두 이스케이프 (XSS 방지)
+          return esc(withBreaks).replace(/\n/g, '<br>');
         }
       })();
     </script>

@@ -46,7 +46,29 @@
         --radius-pill: 999px;
 
         --sidebar-w: 240px;
+        --rail-w: 96px;
+        --submenu-w: 235px;
         --topbar-h: 64px;
+
+        /* ─── Typography (TDS Mobile) ─────────────────────────────── */
+        --ts-letter: -0.02em;          /* 본문 기본 자간 */
+        --ts-letter-tight: -0.03em;    /* 큰 타이틀 자간 */
+        /* Title1: 페이지 타이틀, 상세 헤더 */
+        --ts-title1-size: 36px;  --ts-title1-line: 48px; --ts-title1-weight: 700;
+        /* Title2: 강조 다이얼로그 타이틀 (login 등) */
+        --ts-title2-size: 24px;  --ts-title2-line: 32px; --ts-title2-weight: 700;
+        /* Title3: 빈 상태 타이틀, 큰 섹션 헤딩 */
+        --ts-title3-size: 20px;  --ts-title3-line: 24px; --ts-title3-weight: 700;
+        /* SubTitle2: 모달 타이틀, 카드 헤딩, 강조 본문 */
+        --ts-subtitle2-size: 18px; --ts-subtitle2-line: 22px; --ts-subtitle2-weight: 700;
+        /* Body1: 모달 본문, 보기 모드 값 */
+        --ts-body1-size: 16px; --ts-body1-line: 24px; --ts-body1-weight: 400;
+        /* Body2: 일반 본문/버튼/인풋 (regular/medium/bold 가능) */
+        --ts-body2-size: 14px; --ts-body2-line: 20px;
+        /* Caption1: 힌트, 작은 라벨 */
+        --ts-caption1-size: 13px; --ts-caption1-line: 18px;
+        /* Caption2: 더 작은 마이크로 카피 */
+        --ts-caption2-size: 11px; --ts-caption2-line: 14px;
       }
 
       * { box-sizing: border-box; }
@@ -55,9 +77,10 @@
         background: #ffffff;
         color: var(--gray-900);
         font-family: 'Pretendard Variable', 'Pretendard', system-ui, -apple-system, sans-serif;
-        font-size: 15px;
-        line-height: 1.55;
-        letter-spacing: -0.02em;
+        /* TDS Body2 (14/20) — 어드민 기본 본문 */
+        font-size: var(--ts-body2-size);
+        line-height: var(--ts-body2-line);
+        letter-spacing: var(--ts-letter);
         -webkit-font-smoothing: antialiased;
         word-break: keep-all;
       }
@@ -85,19 +108,25 @@
         display: flex; align-items: center; justify-content: space-between;
         gap: 16px;
       }
-      .topbar__left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+      .topbar__left { display: flex; align-items: center; gap: 2px; min-width: 0; }
       .topbar__title {
-        font-size: 17px; font-weight: 700;
+        /* TDS Title3 */
+        font-size: var(--ts-title3-size); line-height: var(--ts-title3-line); font-weight: var(--ts-title3-weight);
         margin: 0; color: var(--gray-900);
-        letter-spacing: -0.03em;
+        letter-spacing: var(--ts-letter-tight);
       }
 
       .save-status {
-        font-size: 12px; font-weight: 500;
-        display: inline-flex; align-items: center; gap: 6px;
+        /* TDS Caption1 Medium */
+        font-size: var(--ts-caption1-size);
+        line-height: var(--ts-caption1-line);
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center; gap: 6px;
         padding: 5px 12px; border-radius: var(--radius-pill);
         background: var(--gray-100); color: var(--gray-600);
         white-space: nowrap;
+        letter-spacing: var(--ts-letter);
         transition: background 200ms ease, color 200ms ease;
       }
       .save-status::before {
@@ -120,8 +149,9 @@
         height: 40px; padding: 0 18px;
         border-radius: var(--radius-sm); border: 0;
         background: var(--gray-100); color: var(--gray-800);
-        font-size: 14px; font-weight: 600;
-        letter-spacing: -0.02em;
+        /* TDS Body2 Medium */
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line); font-weight: 600;
+        letter-spacing: var(--ts-letter);
         transition: background 160ms ease, transform 160ms ease;
         display: inline-flex; align-items: center; gap: 6px;
       }
@@ -138,7 +168,7 @@
       .btn--text { background: transparent; color: var(--gray-700); }
       .btn--text:hover:not(:disabled) { background: var(--gray-100); }
       .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-      .btn--small { height: 34px; padding: 0 14px; font-size: 13px; }
+      .btn--small { height: 34px; padding: 0 14px; font-size: var(--ts-caption1-size); line-height: var(--ts-caption1-line); }
 
       .kbd {
         display: inline-flex; align-items: center;
@@ -147,23 +177,115 @@
         opacity: 0.55;
       }
 
-      /* ---------- Layout (sidebar + content) ---------- */
+      /* ---------- Layout (rail + submenu + content) ---------- */
       .layout {
         display: grid;
-        grid-template-columns: var(--sidebar-w) 1fr;
+        grid-template-columns: var(--rail-w) var(--submenu-w) 1fr;
         margin: 0;
         min-height: calc(100vh - var(--topbar-h));
       }
 
-      .sidebar {
+      /* 1뎁스 — 좌측 아이콘 레일 */
+      .rail {
+        position: sticky;
+        top: var(--topbar-h);
+        align-self: start;
+        height: calc(100vh - var(--topbar-h));
+        padding: 16px 8px;
+        border-right: 1px solid var(--gray-200);
+        background: var(--gray-100);
+        display: flex; flex-direction: column; gap: 4px;
+      }
+      .rail__item {
+        display: flex; flex-direction: column; align-items: center; gap: 6px;
+        padding: 12px 6px;
+        border-radius: var(--radius-sm);
+        background: transparent; border: 0;
+        color: var(--gray-600);
+        /* TDS Caption1 Medium */
+        font-size: var(--ts-caption1-size); line-height: var(--ts-caption1-line); font-weight: 500;
+        letter-spacing: var(--ts-letter);
+        cursor: pointer;
+        transition: background 160ms ease, color 160ms ease;
+      }
+      .rail__item svg { width: 22px; height: 22px; }
+      .rail__item:hover { background: rgba(0, 0, 0, 0.05); color: var(--gray-900); }
+      .rail__item.is-active {
+        background: #fff;
+        color: var(--gray-900);
+        font-weight: 700;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      }
+
+      /* 2뎁스 — 서브메뉴 */
+      .submenu {
         position: sticky;
         top: var(--topbar-h);
         align-self: start;
         height: calc(100vh - var(--topbar-h));
         padding: 24px 16px;
         border-right: 1px solid var(--gray-200);
-        background: var(--gray-100);
+        background: #fff;
+        overflow-y: auto;
       }
+      .submenu__group { display: none; }
+      .submenu__group.is-active { display: block; }
+      .submenu__title {
+        /* TDS Caption1 Bold + 대문자 */
+        font-size: var(--ts-caption1-size); line-height: var(--ts-caption1-line); font-weight: 700;
+        color: var(--gray-500);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin: 0 12px 12px;
+      }
+      .submenu__item {
+        display: flex; align-items: center; gap: 6px;
+        padding: 10px 12px;
+        border-radius: var(--radius-sm);
+        color: var(--gray-700);
+        /* TDS Body2 Medium */
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line); font-weight: 500;
+        letter-spacing: var(--ts-letter);
+        cursor: pointer;
+        background: transparent; border: 0;
+        width: 100%; text-align: left;
+        transition: background 160ms ease, color 160ms ease;
+      }
+      .submenu__item:hover { background: var(--gray-100); color: var(--gray-900); }
+      .submenu__item.is-active {
+        background: var(--blue-100); color: var(--blue-600);
+        font-weight: 700;
+      }
+      .submenu__item--disabled {
+        cursor: not-allowed;
+        color: var(--gray-400);
+      }
+      .submenu__item--disabled:hover {
+        background: transparent; color: var(--gray-400);
+      }
+      .submenu__item .badge {
+        margin-left: auto;
+        /* TDS Caption2 Medium */
+        font-size: var(--ts-caption2-size); line-height: var(--ts-caption2-line); font-weight: 600;
+        padding: 2px 8px;
+        background: var(--gray-100); color: var(--gray-700);
+        border-radius: var(--radius-pill);
+      }
+      .submenu__item.is-active .badge {
+        background: rgba(255, 255, 255, 0.7); color: var(--blue-600);
+      }
+      .submenu__item .submenu__badge-soon {
+        margin-left: auto;
+        /* TDS Caption2 Bold */
+        font-size: var(--ts-caption2-size); line-height: var(--ts-caption2-line); font-weight: 700;
+        padding: 2px 7px;
+        background: var(--gray-100); color: var(--gray-500);
+        border-radius: var(--radius-pill);
+        letter-spacing: 0.04em;
+      }
+
+      /* 레거시 sidebar (사용 안 함, 호환용) */
+      .sidebar { display: none; }
       .sidebar__group { margin-bottom: 20px; }
       .sidebar__group-title {
         font-size: 11px; font-weight: 700;
@@ -204,6 +326,22 @@
       .sidebar__item.is-active .badge {
         background: rgba(255, 255, 255, 0.6); color: var(--blue-600);
       }
+      /* 비활성(준비 중) 메뉴 */
+      .sidebar__item--disabled {
+        cursor: not-allowed;
+        color: var(--gray-400);
+      }
+      .sidebar__item--disabled:hover {
+        background: transparent; color: var(--gray-400);
+      }
+      .sidebar__badge-soon {
+        margin-left: auto;
+        font-size: 10px; font-weight: 600;
+        padding: 2px 7px;
+        background: var(--gray-100); color: var(--gray-500);
+        border-radius: var(--radius-pill);
+        letter-spacing: 0.04em;
+      }
 
       .content {
         padding: 32px 32px 120px;
@@ -211,14 +349,34 @@
         background: #ffffff;
       }
       .content__title {
-        font-size: 22px; font-weight: 700;
-        margin: 0 0 4px;
+        /* TDS Title1 */
+        font-size: var(--ts-title1-size); line-height: var(--ts-title1-line); font-weight: var(--ts-title1-weight);
+        margin: 0 0 24px;
         color: var(--gray-900);
-        letter-spacing: -0.03em;
+        letter-spacing: var(--ts-letter-tight);
       }
       .content__subtitle {
-        font-size: 14px; color: var(--gray-600);
-        margin: 0 0 24px;
+        /* TDS Body2 */
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line);
+        color: var(--gray-600);
+        margin: 0 0 28px;
+        letter-spacing: var(--ts-letter);
+      }
+      /* 페이지 상단 브레드크럼 — TDS Caption1 */
+      .crumb {
+        display: flex; align-items: center; gap: 4px;
+        margin: 0 0 6px;
+        font-size: var(--ts-caption1-size); line-height: var(--ts-caption1-line);
+        color: var(--gray-500);
+        letter-spacing: var(--ts-letter);
+      }
+      .crumb__sep {
+        width: 14px; height: 14px;
+        color: var(--gray-400);
+        flex-shrink: 0;
+      }
+      .crumb__current {
+        color: var(--gray-900); font-weight: 500;
       }
 
       /* ---------- View switcher ---------- */
@@ -231,10 +389,12 @@
         border: 1px solid var(--blue-100);
         border-radius: var(--radius);
         padding: 14px 18px;
-        margin: 0 0 20px;
+        margin: -8px 0 20px;
         display: flex; gap: 10px;
-        font-size: 14px; line-height: 1.5;
+        /* TDS Body2 */
+        font-size: var(--ts-body1-size); line-height: var(--ts-body1-line);
         color: var(--gray-800);
+        letter-spacing: var(--ts-letter);
       }
       .tip__icon {
         flex-shrink: 0; width: 18px; height: 18px;
@@ -246,7 +406,11 @@
         /* 첫 줄(strong, 16px font / 24px line) 중앙에 정렬: (24-18)/2 = 3px */
         margin-top: 3px;
       }
-      .tip strong { font-size: 16px; color: var(--gray-900); font-weight: 700;}
+      .tip strong {
+        /* TDS SubTitle2 Bold */
+        font-size: var(--ts-subtitle2-size); line-height: var(--ts-subtitle2-line); font-weight: 700;
+        color: var(--gray-900);
+      }
       .tip kbd {
         display: inline-block;
         font-size: 11px; padding: 1px 6px;
@@ -260,7 +424,9 @@
         gap: 12px; margin: 0 0 14px;
       }
       .summary-bar__count {
-        font-size: 14px; color: var(--gray-700); font-weight: 500;
+        /* TDS Body2 Medium */
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line); font-weight: 500;
+        color: var(--gray-700);
       }
       .summary-bar__count strong { color: var(--gray-900); font-weight: 700; }
       .summary-bar__actions { display: flex; gap: 4px; }
@@ -288,10 +454,12 @@
       }
       .proj__head-text { flex: 1; min-width: 0; cursor: pointer; }
       .proj__name {
-        font-size: 15px; font-weight: 700;
+        /* TDS SubTitle2 Bold (16/22/700) */
+        font-size: var(--ts-subtitle2-size); line-height: var(--ts-subtitle2-line); font-weight: 700;
         margin: 0 0 2px;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         color: var(--gray-900);
+        letter-spacing: var(--ts-letter);
       }
       .proj__id {
         font-size: 12px; color: var(--gray-500);
@@ -325,8 +493,11 @@
         border: 1px solid var(--gray-300);
         border-radius: var(--radius-pill);
         background: #fff;
-        font: inherit; font-size: 13px;
+        /* TDS Body2 */
+        font: inherit;
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line);
         color: var(--gray-900);
+        letter-spacing: var(--ts-letter);
         transition: border-color 160ms ease, box-shadow 160ms ease;
       }
       .search-bar input:hover { border-color: var(--gray-400); }
@@ -352,8 +523,9 @@
       .detail-header__title {
         flex: 1; min-width: 0;
         margin: 0;
-        font-size: 22px; font-weight: 700;
-        letter-spacing: -0.03em;
+        /* TDS Title1 */
+        font-size: var(--ts-title1-size); line-height: var(--ts-title1-line); font-weight: var(--ts-title1-weight);
+        letter-spacing: var(--ts-letter-tight);
         color: var(--gray-900);
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       }
@@ -378,14 +550,18 @@
       }
       .view-row:last-child { border-bottom: 0; }
       .view-row__label {
-        font-size: 13px; font-weight: 600;
+        /* TDS Body2 Medium */
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line); font-weight: 600;
         color: var(--gray-600);
         padding-top: 4px;
+        letter-spacing: var(--ts-letter);
       }
       .view-row__value {
-        font-size: 14px; line-height: 1.7;
+        /* TDS Body1 */
+        font-size: var(--ts-body1-size); line-height: var(--ts-body1-line);
         color: var(--gray-900);
         white-space: pre-wrap; word-break: break-word;
+        letter-spacing: var(--ts-letter);
       }
       .view-row__value--muted { color: var(--gray-400); font-style: italic; }
       .view-row__image {
@@ -422,6 +598,130 @@
         margin-top: 24px; padding-top: 24px;
         border-top: 1px solid var(--gray-200);
       }
+      /* 카드 상단 타이틀 — 박스로 영역 구분할 때 */
+      .form-card__heading {
+        margin: -4px 0 20px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--gray-200);
+        /* TDS SubTitle2 Bold */
+        font-size: var(--ts-subtitle2-size); line-height: var(--ts-subtitle3-line); font-weight: 700;
+        color: var(--gray-900);
+        letter-spacing: -0.02em;
+      }
+      /* 여러 카드 박스를 세로로 쌓는 컨테이너 */
+      .form-stack {
+        display: flex; flex-direction: column; gap: 28px;
+      }
+
+      /* 이메일 변경 — 현재 값 + 폼 + 이력 */
+      .email-current {
+        display: flex; align-items: center; gap: 12px;
+        padding: 14px 16px;
+        background: var(--gray-100);
+        border-radius: var(--radius-sm);
+        margin-bottom: 16px;
+      }
+      .email-current__label {
+        font-size: var(--ts-caption1-size); line-height: var(--ts-caption1-line);
+        color: var(--gray-600); font-weight: 600;
+        flex-shrink: 0;
+      }
+      .email-current__value {
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line);
+        color: var(--gray-900); font-weight: 600;
+        word-break: break-all;
+      }
+      .email-change-row {
+        display: flex; gap: 8px; align-items: stretch;
+      }
+      .email-change-row .input { flex: 1; }
+      .email-history {
+        display: flex; flex-direction: column;
+      }
+      .email-history__item {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--gray-100);
+      }
+      .email-history__item:last-child { border-bottom: 0; padding-bottom: 0; }
+      .email-history__item:first-child { padding-top: 0; }
+      .email-history__email {
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line);
+        color: var(--gray-800); font-weight: 500;
+        word-break: break-all;
+      }
+      .email-history__date {
+        font-size: var(--ts-caption1-size); line-height: var(--ts-caption1-line);
+        color: var(--gray-500);
+        flex-shrink: 0;
+      }
+
+      /* 히어로 슬라이드 전용 — 3개 카드 가로 그리드 */
+      .hero-slide-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      @media (max-width: 880px) {
+        .hero-slide-grid { grid-template-columns: 1fr; }
+      }
+      .hero-slide {
+        display: flex; flex-direction: column; gap: 10px;
+      }
+      .hero-slide__label {
+        /* TDS Body2 Bold */
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line); font-weight: 700;
+        color: var(--gray-800);
+        letter-spacing: var(--ts-letter);
+      }
+      .hero-slide__preview {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: var(--gray-100);
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius);
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        outline: none;
+        transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      }
+      .hero-slide__preview:hover { border-color: var(--gray-300); }
+      .hero-slide__preview:focus,
+      .hero-slide__preview.is-focused {
+        border-color: var(--blue-500);
+        box-shadow: 0 0 0 3px var(--blue-100);
+      }
+      .hero-slide__preview.is-dragover {
+        border-color: var(--blue-500);
+        background: rgba(49, 130, 246, 0.06);
+      }
+      .hero-slide__preview img {
+        width: 100%; height: 100%;
+        object-fit: cover; display: block;
+      }
+      .hero-slide__preview-hint {
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--gray-500); font-size: 13px; font-weight: 500;
+        pointer-events: none;
+        opacity: 0; transition: opacity 160ms ease;
+      }
+      .hero-slide__preview:focus .hero-slide__preview-hint,
+      .hero-slide__preview.is-focused .hero-slide__preview-hint {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.85);
+      }
+      .hero-slide__preview.is-dragover .hero-slide__preview-hint {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--blue-500); font-weight: 700;
+      }
+      .hero-slide__actions {
+        display: flex; gap: 8px;
+      }
+      .hero-slide__actions .upload-btn { width: 100%; justify-content: center; }
       /* 폼 섹션 구분선 (HOME / Detail Page) */
       .form-section {
         height: 0;
@@ -434,13 +734,22 @@
       .field:last-child { margin-bottom: 0; }
       .label {
         display: flex; align-items: baseline; justify-content: space-between;
-        font-size: 13px; font-weight: 600; color: var(--gray-800);
+        /* TDS Body2 Medium (label은 한 단계 굵게) */
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line); font-weight: 600;
+        color: var(--gray-800);
         margin-bottom: 8px; gap: 8px;
+        letter-spacing: var(--ts-letter);
       }
-      .label__hint { color: var(--gray-500); font-weight: 500; font-size: 12px; }
+      .label__hint {
+        /* TDS Caption1 */
+        color: var(--gray-500); font-weight: 500;
+        font-size: var(--ts-caption1-size); line-height: var(--ts-caption1-line);
+      }
       .input, .textarea {
         width: 100%; padding: 12px 14px;
-        font-family: inherit; font-size: 14px;
+        font-family: inherit;
+        /* TDS Body2 */
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line);
         color: var(--gray-900); background: #fff;
         border: 1px solid var(--gray-200);
         border-radius: var(--radius-sm);
@@ -511,11 +820,13 @@
       .upload-btn {
         flex-shrink: 0;
         display: inline-flex; align-items: center; gap: 5px;
-        padding: 0 12px; height: 36px;
+        padding: 0 12px; height: 48px;
         background: var(--blue-50); color: var(--blue-600);
         border: 1px solid var(--blue-100);
+        /* TDS Body2 Medium */
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line); font-weight: 600;
+        letter-spacing: var(--ts-letter);
         border-radius: var(--radius-sm);
-        font-size: 12px; font-weight: 600;
         cursor: pointer;
         transition: background 160ms ease, color 160ms ease;
       }
@@ -560,18 +871,20 @@
       }
       .modal__title {
         margin: 0 0 8px;
-        font-size: 16px; font-weight: 600;
+        /* TDS SubTitle2 Bold */
+        font-size: var(--ts-subtitle2-size); line-height: var(--ts-subtitle2-line); font-weight: 600;
         color: #191F28;
-        letter-spacing: -0.03em;
-        line-height: 22px;
+        letter-spacing: var(--ts-letter-tight);
         white-space: pre-line; word-break: keep-all;
       }
       /* 디스크립션이 없을 때 타이틀↔버튼 간격을 30px로 (SVG 매칭) */
       .modal__title--no-desc { margin-bottom: 30px; }
       .modal__desc {
         margin: 0 0 30px;
-        font-size: 16px; line-height: 22px;
+        /* TDS Body1 */
+        font-size: var(--ts-body1-size); line-height: var(--ts-body1-line); font-weight: var(--ts-body1-weight);
         color: #191F28;
+        letter-spacing: var(--ts-letter);
         white-space: pre-line; word-break: keep-all;
       }
       .modal__desc:empty { display: none; }
@@ -582,8 +895,10 @@
         flex: 1;
         height: 44px;
         border: 0; border-radius: 12px;
-        font: inherit; font-size: 15px; font-weight: 600;
-        letter-spacing: -0.02em;
+        font: inherit;
+        /* TDS Body1 Medium */
+        font-size: var(--ts-body1-size); line-height: var(--ts-body1-line); font-weight: 600;
+        letter-spacing: var(--ts-letter);
         cursor: pointer;
         transition: background 160ms ease, color 160ms ease;
       }
@@ -618,24 +933,49 @@
         padding: 32px;
         box-shadow: 0 12px 32px rgba(0,0,0,0.08);
       }
-      .login__title { margin: 0 0 8px; font-size: 20px; font-weight: 700; color: var(--gray-900); letter-spacing: -0.03em; }
-      .login__hint { margin: 0 0 24px; font-size: 14px; color: var(--gray-600); line-height: 1.6; }
-      .login__error { color: var(--red-fg); font-size: 13px; margin: 10px 0 0; font-weight: 500; }
-      .login .btn { width: 100%; height: 48px; font-size: 15px; }
+      .login__title {
+        margin: 0 0 8px;
+        /* TDS Title2 */
+        font-size: var(--ts-title1-size); line-height: var(--ts-title2-line); font-weight: var(--ts-title1-weight);
+        color: var(--gray-900); letter-spacing: var(--ts-letter-tight);
+      }
+      .login__hint {
+        margin: 0 0 24px;
+        /* TDS Body2 */
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line);
+        color: var(--gray-600); letter-spacing: var(--ts-letter);
+      }
+      .login__error {
+        color: var(--red-fg); margin: 10px 0 0; font-weight: 500;
+        /* TDS Caption1 */
+        font-size: var(--ts-caption1-size); line-height: var(--ts-caption1-line);
+      }
+      .login .btn {
+        width: 100%; height: 48px;
+        font-size: var(--ts-body1-size); line-height: var(--ts-body1-line);
+      }
 
       /* ---------- Empty / Loading ---------- */
       .empty {
         text-align: center; padding: 80px 20px;
-        color: var(--gray-500); font-size: 15px;
+        color: var(--gray-500);
+        /* TDS Body2 */
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line);
         background: #fff;
-        border: 1px solid var(--gray-200);
-        border-radius: var(--radius-lg);
+        letter-spacing: var(--ts-letter);
       }
-      .empty__title { color: var(--gray-800); font-weight: 700; font-size: 17px; margin: 0 0 6px; }
+      .empty__title {
+        color: var(--gray-800);
+        /* TDS SubTitle2 Bold */
+        font-size: var(--ts-subtitle2-size); line-height: var(--ts-subtitle2-line); font-weight: 700;
+        margin: 0 0 6px;
+      }
       .empty p { margin: 0; }
       .loading {
         display: flex; align-items: center; justify-content: center;
-        padding: 100px 20px; color: var(--gray-500); font-size: 14px; font-weight: 500;
+        padding: 100px 20px; color: var(--gray-500);
+        /* TDS Body2 Medium */
+        font-size: var(--ts-body2-size); line-height: var(--ts-body2-line); font-weight: 500;
         background: #fff;
         border: 1px solid var(--gray-200);
         border-radius: var(--radius-lg);
@@ -645,25 +985,24 @@
       @media (max-width: 880px) {
         body::before { display: none; }
         .layout { grid-template-columns: 1fr; }
-        .sidebar {
+        .rail { display: none; }
+        .submenu {
           position: static;
           height: auto;
-          padding: 12px;
+          padding: 16px 12px;
           border-right: 0;
           border-bottom: 1px solid var(--gray-200);
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
+          background: var(--gray-100);
         }
-        .sidebar__group { display: contents; }
-        .sidebar__group-title { display: none; }
-        .sidebar__group:first-child .sidebar__group-title { display: none; }
-        .sidebar__item { padding: 10px 14px; }
+        /* 모바일에선 모든 그룹 표시 (구분 위해 그룹 간 간격 추가) */
+        .submenu__group { display: block; margin-bottom: 16px; }
+        .submenu__group:last-child { margin-bottom: 0; }
+        .submenu__item { padding: 10px 14px; }
         .content { padding: 24px 18px 100px; }
         .topbar__inner { padding: 0 18px; }
-        .topbar__title { font-size: 15px; }
+        .topbar__title { font-size: var(--ts-subtitle2-size); line-height: var(--ts-subtitle2-line); }
         .save-status { display: none; }
-        .btn { height: 38px; padding: 0 14px; font-size: 13px; }
+        .btn { height: 38px; padding: 0 14px; font-size: var(--ts-caption1-size); line-height: var(--ts-caption1-line); }
         .kbd { display: none; }
       }
     </style>
@@ -672,7 +1011,7 @@
     <header class="topbar">
       <div class="topbar__inner">
         <div class="topbar__left">
-          <h1 class="topbar__title">프로젝트 관리</h1>
+          <h1 class="topbar__title">홈페이지 관리 센터</h1>
           <span class="save-status" id="save-status" data-state="idle">동기화됨</span>
         </div>
         <div class="topbar__actions">
@@ -692,18 +1031,71 @@
     </header>
 
     <div class="layout">
-      <!-- Sidebar -->
-      <aside class="sidebar">
-        <div class="sidebar__group">
-          <p class="sidebar__group-title">프로젝트</p>
-          <button class="sidebar__item is-active" data-view="list" type="button">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <!-- 1뎁스: 좌측 아이콘 레일 -->
+      <aside class="rail">
+        <button class="rail__item is-active" data-section="home" type="button">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="m20.669 7.612-7.19-5.23c-.853-.62-2.001-.62-2.852 0l-7.191 5.23c-.875.637-1.398 1.662-1.398 2.745v8.329c0 1.872 1.523 3.395 3.395 3.395h2.3c.802 0 1.455-.653 1.455-1.455v-3.463c0-.9.731-1.631 1.631-1.631h2.467c.9 0 1.631.731 1.631 1.631v3.463c0 .802.653 1.455 1.455 1.455h2.3c1.872 0 3.395-1.523 3.395-3.395v-8.329c0-1.083-.523-2.109-1.398-2.745z"/>
+          </svg>
+          <span>홈</span>
+        </button>
+        <button class="rail__item" data-section="collection" type="button">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g fill-rule="evenodd">
+              <path d="m7.664 12.092c.3 0 .575.168.712.435l1.319 2.569c.034.066.103.108.178.108h4.322c.076 0 .146-.044.18-.112l1.24-2.55c.134-.275.414-.45.72-.45h5.449l-2.148-7.992c-.236-.873-1.027-1.48-1.932-1.481h-11.408c-.905 0-1.696.608-1.932 1.481l-2.15 7.992z"/>
+              <path d="m15.813 15.792c-.304.617-.93 1.009-1.618 1.012h-4.322c-.675.002-1.294-.376-1.601-.978l-1.097-2.134h-5.175v5.648c0 1.127.912 2.04 2.039 2.041h15.92c1.127 0 2.04-.913 2.041-2.04v-5.649h-5.165s-1.022 2.1-1.022 2.1z"/>
+            </g>
+          </svg>
+          <span>컬렉션</span>
+        </button>
+        <button class="rail__item" data-section="project" type="button">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g fill-rule="evenodd">
+              <path d="M11.107 7.156a3.9 3.9 0 11-7.8 0 3.9 3.9 0 017.8 0"/>
+              <path fill-opacity=".6" d="M19.482 10.656h-5a1 1 0 01-1-1v-5a1 1 0 011-1h5a1 1 0 011 1v5a1 1 0 01-1 1"/>
+              <path fill-opacity=".3" d="M13.081 16.843a3.9 3.9 0 117.8 0 3.9 3.9 0 01-7.8 0"/>
+              <path fill-opacity=".6" d="M6.341 13.809l-3.087 5.347a1 1 0 00.865 1.5h6.175a1 1 0 00.866-1.5l-3.087-5.347a1 1 0 00-1.732 0"/>
+            </g>
+          </svg>
+          <span>프로젝트</span>
+        </button>
+      </aside>
+
+      <!-- 2뎁스: 서브메뉴 -->
+      <aside class="submenu">
+        <!-- 홈 -->
+        <div class="submenu__group is-active" data-section="home">
+          <p class="submenu__title">홈</p>
+          <button class="submenu__item is-active" data-view="home-hero" type="button">
+            <span>메인 섹션 변경</span>
+          </button>
+          <button class="submenu__item" data-view="home-email" type="button">
+            <span>메일 주소 수정</span>
+          </button>
+        </div>
+        <!-- 컬렉션 -->
+        <div class="submenu__group" data-section="collection">
+          <p class="submenu__title">컬렉션</p>
+          <button class="submenu__item" data-view="collection-home-image" type="button">
+            <span>홈 컬렉션 이미지 변경</span>
+          </button>
+          <button class="submenu__item submenu__item--disabled" data-view="collection-page" type="button" disabled>
+            <span>컬렉션 페이지 수정</span>
+            <span class="submenu__badge-soon">예정</span>
+          </button>
+        </div>
+        <!-- 프로젝트 -->
+        <div class="submenu__group" data-section="project">
+          <p class="submenu__title">프로젝트</p>
+          <button class="submenu__item" data-view="list" type="button">
             <span>프로젝트 목록</span>
             <span class="badge" id="sidebar-count">0</span>
           </button>
-          <button class="sidebar__item" data-view="add" type="button">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-            <span>신규 등록</span>
+          <button class="submenu__item" data-view="add" type="button">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" 
+            stroke="currentColor" stroke-width="2.2" stroke-linecap="round" 
+            aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+            <span>새 프로젝트 등록</span>
           </button>
         </div>
       </aside>
@@ -711,15 +1103,18 @@
       <!-- Content -->
       <main class="content">
         <!-- View: List -->
-        <section class="view is-active" data-view="list">
+        <section class="view" data-view="list">
+          <nav class="crumb" aria-label="Breadcrumb">
+            <span>프로젝트</span>
+            <svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="crumb__current">프로젝트 목록</span>
+          </nav>
           <h2 class="content__title">프로젝트 목록</h2>
-          <p class="content__subtitle">등록된 프로젝트를 확인하고 편집할 수 있어요.</p>
-
           <div class="tip">
             <span class="tip__icon">!</span>
             <div>
-              <strong>편집 팁이에요</strong><br />
-              카드를 클릭하면 상세 페이지로 이동해요. 저장하고 게시를 누르면 저장 후 30~60초 안에 사이트에 반영돼요.
+              <strong>프로젝트 수정 방법</strong><br />
+              프로젝트를 클릭하면 상세 페이지로 이동해요. 수정 버튼을 누르고 저장하면 홈페이지에 반영돼요.
             </div>
           </div>
 
@@ -746,6 +1141,11 @@
 
         <!-- View: Add new -->
         <section class="view" data-view="add">
+          <nav class="crumb" aria-label="Breadcrumb">
+            <span>프로젝트</span>
+            <svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="crumb__current">신규 등록</span>
+          </nav>
           <h2 class="content__title">신규 프로젝트 등록</h2>
           <p class="content__subtitle">신규 프로젝트를 목록에 추가합니다. 목록 추가하고 저장하고 게시를 눌러주세요</p>
 
@@ -758,13 +1158,73 @@
             <button class="btn btn--primary" id="btn-add-submit" type="button">+ 목록에 추가하기</button>
           </div>
         </section>
+
+        <!-- View: 홈 — 히어로 이미지 + 텍스트 변경 -->
+        <section class="view is-active" data-view="home-hero">
+          <nav class="crumb" aria-label="Breadcrumb">
+            <span>홈</span>
+            <svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="crumb__current">메인 섹션 변경</span>
+          </nav>
+          <h2 class="content__title">메인 섹션 변경</h2>
+          <div class="form-stack" id="home-hero-host">
+            <div class="loading">불러오고 있어요…</div>
+          </div>
+        </section>
+
+        <!-- View: 홈 — 메일 주소 수정 -->
+        <section class="view" data-view="home-email">
+          <nav class="crumb" aria-label="Breadcrumb">
+            <span>홈</span>
+            <svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="crumb__current">메일 주소 수정</span>
+          </nav>
+          <h2 class="content__title">메일 주소 수정</h2>
+          <div class="form-stack" id="home-email-host">
+            <div class="loading">불러오고 있어요…</div>
+          </div>
+        </section>
+
+        <!-- View: 컬렉션 — 홈 컬렉션 이미지 변경 -->
+        <section class="view" data-view="collection-home-image">
+          <nav class="crumb" aria-label="Breadcrumb">
+            <span>컬렉션</span>
+            <svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="crumb__current">홈 컬렉션 이미지 변경</span>
+          </nav>
+          <h2 class="content__title">홈 컬렉션 이미지 변경</h2>
+          
+          <div class="form-card">
+            <div class="empty">
+              <p class="empty__title">기능 준비 중이에요</p>
+              <p>다음 작업에서 4장 이미지 카드 업로드/순서 변경을 구현 예정입니다.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- View: 컬렉션 — 컬렉션 페이지 수정 (예정) -->
+        <section class="view" data-view="collection-page">
+          <nav class="crumb" aria-label="Breadcrumb">
+            <span>컬렉션</span>
+            <svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="crumb__current">컬렉션 페이지 수정</span>
+          </nav>
+          <h2 class="content__title">컬렉션 페이지 수정</h2>
+          <p class="content__subtitle">컬렉션 상세 페이지가 추후 제작되면 그 콘텐츠를 관리할 수 있게 됩니다.</p>
+          <div class="form-card">
+            <div class="empty">
+              <p class="empty__title">제작 예정</p>
+              <p>컬렉션 상세 페이지가 만들어진 후, 어드민에서 페이지 콘텐츠를 편집할 수 있도록 구현 예정입니다.</p>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
 
     <div class="login" id="login">
       <form class="login__card" id="login-form">
         <p class="login__title">관리자 로그인</p>
-        <p class="login__hint">Vercel에 등록한 <code>ADMIN_PASSWORD</code> 비밀번호를 입력해 주세요.</p>
+        <p class="login__hint">관리자가 등록한 관리 센터 패스워드를 입력해 주세요</p>
         <div class="field">
           <label class="label">비밀번호</label>
           <input type="password" class="input" id="login-password" autocomplete="current-password" required />
@@ -795,6 +1255,13 @@
       var EDITING_INDEX = null;     // 상세/편집 페이지에서 보고 있는 프로젝트 인덱스
       var EDIT_MODE = 'view';       // 'view' | 'edit'
       var SEARCH_QUERY = '';
+      // 사이트 전역 설정 (히어로, 이메일, 컬렉션 등)
+      var SITE_CONFIG = {
+        hero: { images: ['', '', ''], title: '', copyKo: '', copyEn: '' },
+        email: '',
+        emailHistory: [],
+      };
+      var SITE_CONFIG_SAVED_SNAPSHOT = '';
 
       // 모든 아이콘은 인라인 SVG로 렌더링 (mask-image 의존 X — file://에서도 정상)
       var ICONS = {
@@ -835,6 +1302,9 @@
         }));
       }
       function isDirty() { return snapshot() !== SAVED_SNAPSHOT; }
+      function siteConfigSnapshot() { return JSON.stringify(SITE_CONFIG); }
+      function isSiteConfigDirty() { return siteConfigSnapshot() !== SITE_CONFIG_SAVED_SNAPSHOT; }
+      function isAnyDirty() { return isDirty() || isSiteConfigDirty(); }
       function slugify(s) {
         return String(s || '').toLowerCase().trim()
           .replace(/[^\w\s-]/g, '')
@@ -867,7 +1337,7 @@
         if (!status) return;
         var s = status.dataset.state;
         if (s === 'saving' || s === 'saved' || s === 'error') return;
-        var dirty = isDirty();
+        var dirty = isAnyDirty();
         status.dataset.state = dirty ? 'dirty' : 'idle';
         status.textContent = dirty ? '저장 안 됨' : '동기화됨';
       }
@@ -961,18 +1431,60 @@
             return r.json();
           });
       }
+      function loadSiteConfig() {
+        return fetch('../site-config.json?t=' + Date.now(), { cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .catch(function () { return null; });
+      }
 
       // ---------- View switching ----------
+      // 뷰 → 1뎁스 섹션 매핑
+      function viewToSection(view) {
+        if (view === 'home-hero' || view === 'home-email') return 'home';
+        if (view === 'collection-home-image' || view === 'collection-page') return 'collection';
+        // list/add/detail 모두 프로젝트 섹션
+        return 'project';
+      }
+
       function switchView(name) {
-        $all('.sidebar__item').forEach(function (b) {
-          b.classList.toggle('is-active', b.dataset.view === name);
-        });
+        // 뷰 활성화
         $all('.view').forEach(function (v) {
           v.classList.toggle('is-active', v.dataset.view === name);
         });
+        // 서브메뉴 항목 활성화
+        $all('.submenu__item').forEach(function (b) {
+          b.classList.toggle('is-active', b.dataset.view === name);
+        });
+        // 1뎁스 (rail) + 서브메뉴 그룹 활성화
+        var section = viewToSection(name);
+        $all('.rail__item').forEach(function (b) {
+          b.classList.toggle('is-active', b.dataset.section === section);
+        });
+        $all('.submenu__group').forEach(function (g) {
+          g.classList.toggle('is-active', g.dataset.section === section);
+        });
         if (name === 'add') renderAddForm();
         if (name === 'detail') renderDetail();
-        // detail 뷰는 사이드바에 항목이 없어서 list/add 모두 비활성 — 자연스럽게 처리됨
+        if (name === 'home-hero') renderHomeHeroForm();
+        if (name === 'home-email') renderHomeEmailForm();
+      }
+
+      // 레일에서 섹션 클릭 — 해당 섹션의 첫 활성 메뉴로 이동
+      function switchSection(section) {
+        var firstItem = document.querySelector(
+          '.submenu__group[data-section="' + section + '"] .submenu__item:not([disabled])'
+        );
+        if (firstItem) {
+          switchView(firstItem.dataset.view);
+        } else {
+          // 모든 메뉴가 비활성이면 그룹만 표시
+          $all('.rail__item').forEach(function (b) {
+            b.classList.toggle('is-active', b.dataset.section === section);
+          });
+          $all('.submenu__group').forEach(function (g) {
+            g.classList.toggle('is-active', g.dataset.section === section);
+          });
+        }
       }
 
       function openProject(index) {
@@ -994,7 +1506,7 @@
         if (STATE.projects.length === 0) {
           host.appendChild(el('div', { class: 'empty' }, [
             el('p', { class: 'empty__title', text: '아직 등록된 프로젝트가 없어요' }),
-            el('p', { text: '좌측 메뉴 · 신규 등록 에서 프로젝트를 추가해 보세요.' }),
+            el('p', { text: '좌측 메뉴에서 새 프로젝트를 추가해 보세요.' }),
           ]));
           updateStatus();
           return;
@@ -1074,6 +1586,16 @@
           ]));
           return;
         }
+
+        // 브레드크럼: 프로젝트 › 프로젝트 목록 › [이름]
+        var sepSvg = '<svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>';
+        var crumb = el('nav', { class: 'crumb', 'aria-label': 'Breadcrumb', html:
+          '<span>프로젝트</span>' + sepSvg +
+          '<span>프로젝트 목록</span>' + sepSvg +
+          '<span class="crumb__current"></span>'
+        });
+        crumb.querySelector('.crumb__current').textContent = p.name || '제목 없음';
+        host.appendChild(crumb);
 
         // 헤더
         var header = el('div', { class: 'detail-header' });
@@ -1244,6 +1766,232 @@
       }
 
       // ---------- Add view (form) ----------
+      // ---------- Home: 메일 주소 변경 ----------
+      function renderHomeEmailForm() {
+        var host = $('#home-email-host');
+        if (!host) return;
+        host.innerHTML = '';
+
+        if (typeof SITE_CONFIG.email !== 'string') SITE_CONFIG.email = '';
+        if (!Array.isArray(SITE_CONFIG.emailHistory)) SITE_CONFIG.emailHistory = [];
+
+        // ── 박스 1: 현재 이메일 + 변경 폼 ──
+        var changeBox = el('div', { class: 'form-card' });
+        changeBox.appendChild(el('h3', { class: 'form-card__heading', text: '메일 주소 등록' }));
+
+        // 현재 이메일
+        var current = el('div', { class: 'email-current' });
+        current.appendChild(el('span', { class: 'email-current__label', text: '현재 주소' }));
+        current.appendChild(el('span', { class: 'email-current__value', text: SITE_CONFIG.email || '(미설정)' }));
+        changeBox.appendChild(current);
+
+        // 새 이메일 입력 + 변경 버튼
+        var newField = el('div', { class: 'field' });
+        newField.appendChild(el('label', { class: 'label', text: '새 이메일' }));
+        var inputRow = el('div', { class: 'email-change-row' });
+        var input = el('input', {
+          type: 'email',
+          class: 'input',
+          placeholder: 'name@example.com',
+          autocomplete: 'off',
+        });
+        var btn = el('button', { class: 'btn btn--primary', type: 'button', text: '변경' });
+        inputRow.appendChild(input);
+        inputRow.appendChild(btn);
+        newField.appendChild(inputRow);
+        changeBox.appendChild(newField);
+
+        function applyChange() {
+          var nv = (input.value || '').trim();
+          if (!nv) {
+            showAlert('이메일을 입력해 주세요', '');
+            input.focus();
+            return;
+          }
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nv)) {
+            showAlert('이메일 형식이 올바르지 않아요', '예: name@example.com');
+            input.focus();
+            return;
+          }
+          if (nv === SITE_CONFIG.email) {
+            showAlert('동일한 이메일이에요', '현재와 같아서 변경할 게 없습니다');
+            return;
+          }
+          // 기존 값을 이력 맨 앞에 추가 (있는 경우만)
+          if (SITE_CONFIG.email) {
+            SITE_CONFIG.emailHistory.unshift({
+              email: SITE_CONFIG.email,
+              changedAt: new Date().toISOString(),
+            });
+          }
+          SITE_CONFIG.email = nv;
+          markDirty();
+          renderHomeEmailForm();
+          showAlert('이메일이 변경됐어요\n저장하고 게시를 눌러 사이트에 반영해 주세요', '');
+        }
+        btn.addEventListener('click', applyChange);
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); applyChange(); }
+        });
+
+        host.appendChild(changeBox);
+
+        // ── 박스 2: 변경 이력 ──
+        var logBox = el('div', { class: 'form-card' });
+        logBox.appendChild(el('h3', { class: 'form-card__heading', text: '변경 이력' }));
+        if (SITE_CONFIG.emailHistory.length === 0) {
+          var empty = el('div', { class: 'empty', style: 'padding: 32px 16px;' });
+          empty.appendChild(el('p', { class: 'empty__title', text: '아직 변경 이력이 없어요' }));
+          empty.appendChild(el('p', { text: '이메일을 변경하면 이전 값이 여기에 기록됩니다.' }));
+          logBox.appendChild(empty);
+        } else {
+          var list = el('div', { class: 'email-history' });
+          SITE_CONFIG.emailHistory.forEach(function (h) {
+            var item = el('div', { class: 'email-history__item' });
+            item.appendChild(el('span', { class: 'email-history__email', text: h.email || '' }));
+            item.appendChild(el('span', { class: 'email-history__date', text: formatHistoryDate(h.changedAt) }));
+            list.appendChild(item);
+          });
+          logBox.appendChild(list);
+        }
+        host.appendChild(logBox);
+      }
+
+      function formatHistoryDate(iso) {
+        if (!iso) return '';
+        try {
+          var d = new Date(iso);
+          if (isNaN(d.getTime())) return iso;
+          var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+          return d.getFullYear() + '.' + pad(d.getMonth() + 1) + '.' + pad(d.getDate())
+            + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+        } catch (e) { return iso; }
+      }
+
+      // ---------- Home: Hero 편집 폼 ----------
+      function renderHomeHeroForm() {
+        var host = $('#home-hero-host');
+        if (!host) return;
+        host.innerHTML = '';
+
+        var hero = SITE_CONFIG.hero || (SITE_CONFIG.hero = { images: ['', '', ''], title: '', copyKo: '', copyEn: '' });
+        if (!Array.isArray(hero.images)) hero.images = ['', '', ''];
+        while (hero.images.length < 3) hero.images.push('');
+
+        // ── 박스 1: 슬라이드 이미지 (3개 가로 그리드) ──
+        var imgBox = el('div', { class: 'form-card' });
+        imgBox.appendChild(el('h3', { class: 'form-card__heading', text: '슬라이드 이미지' }));
+        var grid = el('div', { class: 'hero-slide-grid' });
+        [0, 1, 2].forEach(function (i) {
+          grid.appendChild(makeHeroSlideField(i, hero.images[i] || '', function (v) {
+            hero.images[i] = v; markDirty();
+          }));
+        });
+        imgBox.appendChild(grid);
+        host.appendChild(imgBox);
+
+        // ── 박스 2: 텍스트 ──
+        var textBox = el('div', { class: 'form-card' });
+        textBox.appendChild(el('h3', { class: 'form-card__heading', text: '슬라이드 텍스트' }));
+        textBox.appendChild(textInput('타이틀', hero.title || '', '', function (v) {
+          hero.title = v; markDirty();
+        }));
+        textBox.appendChild(textareaInput('한글 카피', hero.copyKo || '', '줄바꿈은 Enter 또는 <br> 사용 가능', function (v) {
+          hero.copyKo = v; markDirty();
+        }));
+        textBox.appendChild(textareaInput('영문 카피', hero.copyEn || '', '줄바꿈은 Enter 또는 <br> 사용 가능', function (v) {
+          hero.copyEn = v; markDirty();
+        }));
+        host.appendChild(textBox);
+      }
+
+      // 히어로 슬라이드 필드 — 큰 미리보기 + 업로드 버튼 + 호버 시 paste/drop
+      function makeHeroSlideField(index, value, onChange) {
+        var wrap = el('div', { class: 'hero-slide' });
+        wrap.appendChild(el('div', { class: 'hero-slide__label', text: '슬라이드 ' + (index + 1) }));
+
+        var preview = el('div', { class: 'hero-slide__preview', tabindex: '0', title: '클릭/포커스 후 붙여넣기 가능' });
+        var img = el('img', { src: toPreviewUrl(value), alt: '' });
+        img.addEventListener('error', function () { img.src = placeholderSvg(); });
+        var hint = el('div', { class: 'hero-slide__preview-hint', text: '여기에 붙여넣거나 드롭하세요' });
+        preview.appendChild(img);
+        preview.appendChild(hint);
+
+        // 호버 시 자동 포커스 → 마우스 위에 두고 Cmd+V 가능
+        preview.addEventListener('mouseenter', function () { preview.focus(); });
+
+        // 업로드 버튼 (파일 선택)
+        var uploadWrap = makeUploadButton(function (path) {
+          onChange(path);
+          img.src = toPreviewUrl(path);
+        });
+        var uploadBtn = uploadWrap.querySelector('button');
+
+        // 클릭으로 파일 선택 다이얼로그
+        preview.addEventListener('click', function () { uploadBtn.click(); });
+
+        // 붙여넣기
+        function onPaste(e) {
+          var items = e.clipboardData && e.clipboardData.items;
+          if (!items) return;
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (item.type && item.type.indexOf('image') === 0) {
+              e.preventDefault();
+              var blob = item.getAsFile();
+              if (!blob) {
+                showAlert('붙여넣기 실패', '클립보드에서 이미지를 읽을 수 없어요.');
+                return;
+              }
+              var mime = (blob.type || 'image/png');
+              var ext = (mime.split('/')[1] || 'png').replace('jpeg', 'jpg').split(';')[0];
+              handleImageUpload(blob, uploadBtn, function (path) {
+                onChange(path);
+                img.src = toPreviewUrl(path);
+              }, 'pasted-' + Date.now() + '.' + ext);
+              return;
+            }
+          }
+        }
+        preview.addEventListener('paste', onPaste);
+
+        // 드래그앤드롭
+        ['dragenter', 'dragover'].forEach(function (evt) {
+          preview.addEventListener(evt, function (e) {
+            if (e.dataTransfer && Array.from(e.dataTransfer.types || []).indexOf('Files') !== -1) {
+              e.preventDefault();
+              preview.classList.add('is-dragover');
+              hint.textContent = '여기에 드롭하세요';
+            }
+          });
+        });
+        ['dragleave', 'drop'].forEach(function (evt) {
+          preview.addEventListener(evt, function () {
+            preview.classList.remove('is-dragover');
+            hint.textContent = '여기에 붙여넣거나 드롭하세요';
+          });
+        });
+        preview.addEventListener('drop', function (e) {
+          var files = e.dataTransfer && e.dataTransfer.files;
+          if (!files || !files.length) return;
+          var f = files[0];
+          if (!f.type || f.type.indexOf('image') !== 0) {
+            showAlert('업로드 불가', '이미지 파일만 업로드할 수 있어요');
+            return;
+          }
+          e.preventDefault();
+          handleImageUpload(f, uploadBtn, function (path) {
+            onChange(path);
+            img.src = toPreviewUrl(path);
+          });
+        });
+
+        wrap.appendChild(preview);
+        var actions = el('div', { class: 'hero-slide__actions' }, [uploadWrap]);
+        wrap.appendChild(actions);
+        return wrap;
+      }
+
       function renderAddForm() {
         var host = $('#add-form-host');
         host.innerHTML = '';
@@ -1712,45 +2460,65 @@
       function markDirty() { updateStatus(); }
 
       // ---------- 저장 ----------
+      // 공통 응답 처리
+      function handleSaveResponse(r) {
+        if (r.status === 401) {
+          sessionStorage.removeItem(SESSION_KEY);
+          showLogin('비밀번호가 일치하지 않아요.');
+          throw new Error('unauthorized');
+        }
+        if (!r.ok) {
+          return r.text().then(function (text) {
+            var d;
+            try { d = JSON.parse(text); } catch { d = { error: text }; }
+            console.error('[save] server response:', { status: r.status, body: d });
+            throw new Error((d.error || ('HTTP ' + r.status)) + (d.diag ? '  | diag=' + JSON.stringify(d.diag) : ''));
+          });
+        }
+        return r.json();
+      }
+
+      function saveProjects(pw) {
+        var payload = STATE.projects.map(function (p) {
+          var clean = {};
+          Object.keys(p).forEach(function (k) { if (k.charAt(0) !== '_') clean[k] = p[k]; });
+          return clean;
+        });
+        return fetch('/api/save-projects', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pw, projects: payload }),
+        }).then(handleSaveResponse).then(function () {
+          SAVED_SNAPSHOT = snapshot();
+        });
+      }
+
+      function saveSiteConfig(pw) {
+        return fetch('/api/save-site-config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pw, config: SITE_CONFIG }),
+        }).then(handleSaveResponse).then(function () {
+          SITE_CONFIG_SAVED_SNAPSHOT = siteConfigSnapshot();
+        });
+      }
+
       function save() {
         var pw = sessionStorage.getItem(SESSION_KEY);
         if (!pw) { showLogin(); return; }
-        if (!isDirty()) {
+        if (!isAnyDirty()) {
           // 변경사항 없으면 조용히 무시
           return;
         }
         $('#btn-save').disabled = true;
         setStatus('saving', '저장하고 있어요…');
-        var payload = STATE.projects.map(function (p) {
-          var clean = {};
-          Object.keys(p).forEach(function (k) {
-            if (k.charAt(0) !== '_') clean[k] = p[k];
-          });
-          return clean;
-        });
-        fetch('/api/save-projects', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password: pw, projects: payload }),
-        })
-          .then(function (r) {
-            if (r.status === 401) {
-              sessionStorage.removeItem(SESSION_KEY);
-              showLogin('비밀번호가 일치하지 않아요.');
-              throw new Error('unauthorized');
-            }
-            if (!r.ok) {
-              return r.text().then(function (text) {
-                var d;
-                try { d = JSON.parse(text); } catch { d = { error: text }; }
-                console.error('[save] server response:', { status: r.status, body: d });
-                throw new Error((d.error || ('HTTP ' + r.status)) + (d.diag ? '  | diag=' + JSON.stringify(d.diag) : ''));
-              });
-            }
-            return r.json();
-          })
+
+        var tasks = [];
+        if (isDirty()) tasks.push(saveProjects(pw));
+        if (isSiteConfigDirty()) tasks.push(saveSiteConfig(pw));
+
+        Promise.all(tasks)
           .then(function () {
-            SAVED_SNAPSHOT = snapshot();
             setStatus('saved', '저장됐어요 ✓');
             showAlert('저장이 완료되었어요\n30~60초 안에 사이트에 반영됩니다', '');
             setTimeout(function () {
@@ -1802,7 +2570,7 @@
         }
       });
       window.addEventListener('beforeunload', function (e) {
-        if (isDirty()) {
+        if (isAnyDirty()) {
           e.preventDefault();
           e.returnValue = '저장하지 않은 변경사항이 있어요. 정말 나가시겠어요?';
           return e.returnValue;
@@ -1814,7 +2582,7 @@
       // ---------- 이벤트 바인딩 ----------
       $('#btn-save').addEventListener('click', save);
       $('#btn-reload').addEventListener('click', function () {
-        if (isDirty()) {
+        if (isAnyDirty()) {
           showConfirm('저장하지 않은 변경사항이 사라져요\n다시 불러올까요?', '', {
             confirmText: '다시 불러오기',
             cancelText: '취소',
@@ -1839,10 +2607,17 @@
         }, 120);
       });
 
-      $all('.sidebar__item').forEach(function (b) {
+      // 서브메뉴 항목 클릭 — 뷰 전환
+      $all('.submenu__item').forEach(function (b) {
+        if (b.disabled) return;
         b.addEventListener('click', function () {
-          // 사이드바로 이동할 때 검색 초기화 안 함 (사용자 의도 유지)
           switchView(b.dataset.view);
+        });
+      });
+      // 레일(1뎁스) 클릭 — 섹션 전환
+      $all('.rail__item').forEach(function (b) {
+        b.addEventListener('click', function () {
+          switchSection(b.dataset.section);
         });
       });
 
@@ -1853,6 +2628,29 @@
         var host = $('#projects-list');
         host.innerHTML = '<div class="loading">불러오고 있어요…</div>';
         var isLocalFile = location.protocol === 'file:';
+        // site-config 도 병행 로드
+        loadSiteConfig().then(function (cfg) {
+          if (cfg && typeof cfg === 'object') {
+            // 기본값과 병합 — 누락 필드 대비
+            SITE_CONFIG = Object.assign(
+              { hero: { images: ['', '', ''], title: '', copyKo: '', copyEn: '' }, email: '', emailHistory: [] },
+              cfg
+            );
+            SITE_CONFIG.hero = Object.assign(
+              { images: ['', '', ''], title: '', copyKo: '', copyEn: '' },
+              cfg.hero || {}
+            );
+            var imgs = SITE_CONFIG.hero.images || [];
+            SITE_CONFIG.hero.images = [imgs[0] || '', imgs[1] || '', imgs[2] || ''];
+            if (!Array.isArray(SITE_CONFIG.emailHistory)) SITE_CONFIG.emailHistory = [];
+            if (typeof SITE_CONFIG.email !== 'string') SITE_CONFIG.email = '';
+          }
+          SITE_CONFIG_SAVED_SNAPSHOT = siteConfigSnapshot();
+          // 첫 화면이 home-hero/home-email이면 site-config 로딩 후 즉시 폼 렌더링
+          var activeView = document.querySelector('.view.is-active');
+          if (activeView && activeView.dataset.view === 'home-hero') renderHomeHeroForm();
+          if (activeView && activeView.dataset.view === 'home-email') renderHomeEmailForm();
+        });
         loadFromServer()
           .then(function (data) {
             STATE = { projects: (data.projects || []).map(function (p) {

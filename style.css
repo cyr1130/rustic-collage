@@ -891,7 +891,7 @@ body.menu-open { overflow: hidden; }
 .proj-card:hover .proj-card__media img { transform: scale(1.03); }
 
 .proj-card__name {
-  margin: 14px 0 0;
+  margin: 8px 0 0;
   font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.03em;
@@ -927,16 +927,17 @@ body.menu-open { overflow: hidden; }
 }
 .proj-detail__grid {
   display: grid;
-  grid-template-columns: 1.55fr 1fr;
+  /* 좌측 = 정보(디테일), 우측 = 이미지. 이미지 영역은 기존보다 약 100px 좁아짐 */
+  grid-template-columns: 1fr 1.2fr;
   column-gap: clamp(40px, 5vw, 80px);
   row-gap: 16px;
   align-items: start;
 }
-/* 모든 이미지: 좌측 컬럼에 자동으로 세로 누적 (갯수 무관) */
+/* 모든 이미지: 우측 컬럼에 자동으로 세로 누적 (갯수 무관) */
 .proj-detail__img {
   margin: 0;
   overflow: hidden;
-  grid-column: 1;
+  grid-column: 2;
 }
 .proj-detail__img img {
   width: 100%;
@@ -945,9 +946,9 @@ body.menu-open { overflow: hidden; }
   background: #f3f3f3;
 }
 
-/* 정보 영역: 우측 컬럼 첫 행 — DOM 위치(첫 이미지 다음)와 무관하게 고정 */
+/* 정보 영역: 좌측 컬럼 첫 행 — DOM 위치(첫 이미지 다음)와 무관하게 고정 */
 .proj-detail__info {
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 1;
 }
 .proj-detail__title {
@@ -1025,6 +1026,7 @@ body.menu-open { overflow: hidden; }
   .proj-detail__info { grid-row: auto; }
   .proj-detail__title { font-size: 22px; }
 }
+
 
 /* -------------------- OTHER PROJECT (디테일 페이지 하단) -------------------- */
 .other-projects {

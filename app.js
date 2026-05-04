@@ -177,12 +177,15 @@
         })
         .then(function () {
           contactForm.reset();
-          showFeedback('success', '문의가 정상적으로 접수되었습니다. 빠른 시일 내에 회신드리겠습니다.');
+          // 성공 — 별도 피드백 메시지 없이 버튼 텍스트만 변경
+          if (submitEl) {
+            submitEl.disabled = true;
+            submitEl.textContent = 'COMPLETED';
+          }
         })
         .catch(function () {
           showFeedback('error', '전송에 실패했습니다. 잠시 후 다시 시도해주시거나, 직접 이메일로 연락 부탁드립니다.');
-        })
-        .then(function () {
+          // 에러 시에만 버튼 원상복구해서 재시도 가능
           if (submitEl) {
             submitEl.disabled = false;
             submitEl.textContent = defaultLabel;

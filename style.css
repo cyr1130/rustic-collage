@@ -721,7 +721,7 @@ body.menu-open { overflow: hidden; }
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  margin: 0 0 24px;
+  margin: -10px 0 18px;
   color: #1a1410;
 }
 
@@ -731,7 +731,7 @@ body.menu-open { overflow: hidden; }
   gap: 10px;
   font-size: 15px;
   letter-spacing: -0.03em;
-  margin: 0 0 32px;
+  margin: 0 0 4px;
   color: #1a1410;
 }
 .contact__call svg { flex-shrink: 0; }

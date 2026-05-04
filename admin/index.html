@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Project Admin — Rustic Collage</title>
+    <title>프로젝트 관리 — Rustic Collage</title>
     <meta name="robots" content="noindex, nofollow" />
 
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
@@ -13,285 +13,452 @@
     />
 
     <style>
+      /* ============================================================
+         Toss Design System — 영감받은 어드민 UI
+         ============================================================ */
       :root {
-        --bg: #f6f6f4;
-        --card: #ffffff;
-        --line: #e5e5e3;
-        --line-strong: #cfcfca;
-        --ink-900: #111111;
-        --ink-700: #444443;
-        --ink-500: #6b6b67;
-        --ink-400: #9a9a96;
-        --accent: #111111;
-        --danger: #c62828;
-        --success: #1a7a3d;
+        /* TDS Color Tokens */
+        --blue-50:  #F4F9FF;
+        --blue-100: #E8F3FF;
+        --blue-200: #C9DEFD;
+        --blue-500: #3182F6;
+        --blue-600: #1B64DA;
+
+        --gray-50:  #F9FAFB;
+        --gray-100: #F2F4F6;
+        --gray-200: #E5E8EB;
+        --gray-300: #D1D6DB;
+        --gray-400: #B0B8C1;
+        --gray-500: #8B95A1;
+        --gray-600: #6B7684;
+        --gray-700: #4E5968;
+        --gray-800: #333D4B;
+        --gray-900: #191F28;
+
+        --green-bg: #E6F9EE;
+        --green-fg: #00875A;
+        --red-bg:   #FFEAEA;
+        --red-fg:   #D14343;
+        --yellow-bg: #FFF6D9;
+        --yellow-fg: #8A6A00;
+
+        /* Layout */
+        --radius-xs: 6px;
+        --radius-sm: 8px;
+        --radius: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 20px;
+        --radius-pill: 999px;
+
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+        --shadow: 0 2px 8px rgba(0,0,0,0.04);
       }
+
       * { box-sizing: border-box; }
       html, body {
-        margin: 0;
-        padding: 0;
-        background: var(--bg);
-        color: var(--ink-900);
+        margin: 0; padding: 0;
+        background: var(--gray-100);
+        color: var(--gray-900);
         font-family: 'Pretendard Variable', 'Pretendard', system-ui, -apple-system, sans-serif;
-        font-size: 14px;
-        letter-spacing: -0.03em;
+        font-size: 15px;
+        line-height: 1.55;
+        letter-spacing: -0.02em;
         -webkit-font-smoothing: antialiased;
         word-break: keep-all;
       }
       a { color: inherit; text-decoration: none; }
       button { font: inherit; cursor: pointer; }
+      code {
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+        font-size: 0.88em; background: var(--gray-100);
+        padding: 2px 6px; border-radius: 4px; color: var(--gray-800);
+      }
 
-      /* Top bar */
+      /* ---------- Top bar ---------- */
       .topbar {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background: rgba(246, 246, 244, 0.92);
-        backdrop-filter: saturate(180%) blur(14px);
-        -webkit-backdrop-filter: saturate(180%) blur(14px);
-        border-bottom: 1px solid var(--line);
+        position: sticky; top: 0; z-index: 20;
+        background: rgba(242, 244, 246, 0.85);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+        border-bottom: 1px solid var(--gray-200);
       }
       .topbar__inner {
-        max-width: 960px;
-        margin: 0 auto;
-        padding: 14px 24px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        max-width: 1080px; margin: 0 auto;
+        padding: 16px 24px;
+        display: flex; align-items: center; justify-content: space-between;
         gap: 16px;
       }
+      .topbar__left { display: flex; align-items: center; gap: 12px; min-width: 0; }
       .topbar__title {
-        font-size: 14px;
-        font-weight: 500;
-        margin: 0;
+        font-size: 17px; font-weight: 700;
+        margin: 0; color: var(--gray-900);
+        letter-spacing: -0.03em;
       }
-      .topbar__title small { color: var(--ink-500); font-weight: 400; margin-left: 8px; }
+
+      .save-status {
+        font-size: 12px; font-weight: 500;
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 5px 12px; border-radius: var(--radius-pill);
+        background: var(--gray-100);
+        color: var(--gray-600);
+        white-space: nowrap;
+        transition: background 200ms ease, color 200ms ease;
+      }
+      .save-status::before {
+        content: ''; width: 6px; height: 6px; border-radius: 50%;
+        background: var(--gray-400);
+      }
+      .save-status[data-state="dirty"] {
+        background: var(--yellow-bg); color: var(--yellow-fg);
+      }
+      .save-status[data-state="dirty"]::before { background: #D4A017; }
+      .save-status[data-state="saving"] {
+        background: var(--blue-100); color: var(--blue-600);
+      }
+      .save-status[data-state="saving"]::before {
+        background: var(--blue-500);
+        animation: pulse 1s infinite;
+      }
+      .save-status[data-state="saved"] {
+        background: var(--green-bg); color: var(--green-fg);
+      }
+      .save-status[data-state="saved"]::before { background: var(--green-fg); }
+      .save-status[data-state="error"] {
+        background: var(--red-bg); color: var(--red-fg);
+      }
+      .save-status[data-state="error"]::before { background: var(--red-fg); }
+      @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
       .topbar__actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
+      /* ---------- Buttons (TDS) ---------- */
       .btn {
-        height: 36px;
-        padding: 0 16px;
-        border-radius: 999px;
-        border: 1px solid transparent;
-        background: transparent;
-        color: var(--ink-900);
-        font-size: 13px;
-        font-weight: 500;
-        letter-spacing: -0.03em;
-        transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+        height: 40px; padding: 0 18px;
+        border-radius: var(--radius-sm); border: 0;
+        background: var(--gray-100); color: var(--gray-800);
+        font-size: 14px; font-weight: 600;
+        letter-spacing: -0.02em;
+        transition: background 160ms ease, transform 160ms ease;
+        display: inline-flex; align-items: center; gap: 6px;
       }
-      .btn--primary { background: var(--ink-900); color: #fff; }
-      .btn--primary:hover:not(:disabled) { background: #2a2a2a; }
-      .btn--ghost { border-color: var(--line-strong); }
-      .btn--ghost:hover { background: #fff; }
-      .btn--danger { color: var(--danger); border-color: var(--line-strong); }
-      .btn--danger:hover { background: #fff5f5; border-color: var(--danger); }
-      .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+      .btn:active:not(:disabled) { transform: scale(0.98); }
+      .btn--primary {
+        background: var(--blue-500); color: #fff;
+      }
+      .btn--primary:hover:not(:disabled) { background: var(--blue-600); }
+      .btn--ghost {
+        background: var(--gray-100); color: var(--gray-700);
+      }
+      .btn--ghost:hover:not(:disabled) { background: var(--gray-200); }
+      .btn--text {
+        background: transparent; color: var(--gray-700);
+      }
+      .btn--text:hover:not(:disabled) { background: var(--gray-100); }
+      .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+      .btn--small { height: 34px; padding: 0 14px; font-size: 13px; }
 
-      /* Container */
+      .kbd {
+        display: inline-flex; align-items: center;
+        font-size: 10px; font-weight: 600;
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+        opacity: 0.55;
+      }
+
+      /* ---------- Container ---------- */
       .container {
-        max-width: 960px;
-        margin: 0 auto;
-        padding: 28px 24px 80px;
+        max-width: 1080px; margin: 0 auto;
+        padding: 32px 24px 120px;
       }
 
-      .help {
-        background: #fffceb;
-        border: 1px solid #f7e9b8;
-        border-radius: 12px;
-        padding: 12px 16px;
-        font-size: 13px;
-        line-height: 1.6;
-        color: var(--ink-700);
+      .tip {
+        background: var(--blue-50);
+        border: 1px solid var(--blue-100);
+        border-radius: var(--radius);
+        padding: 16px 20px;
         margin: 0 0 24px;
+        display: flex; gap: 12px;
+        font-size: 14px; line-height: 1.65;
+        color: var(--gray-800);
       }
-      .help b { color: var(--ink-900); font-weight: 500; }
+      .tip__icon {
+        flex-shrink: 0; width: 20px; height: 20px;
+        border-radius: 50%; background: var(--blue-500);
+        color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 12px; font-weight: 700;
+        margin-top: 1px;
+      }
+      .tip strong { color: var(--gray-900); font-weight: 700; }
+      .tip kbd {
+        display: inline-block;
+        font-size: 11px; padding: 1px 6px;
+        background: #fff; border: 1px solid var(--gray-300);
+        border-radius: 4px; font-family: ui-monospace, Menlo, Consolas, monospace;
+        color: var(--gray-800);
+      }
 
-      /* Project card */
+      .summary-bar {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 12px; margin: 0 0 14px;
+      }
+      .summary-bar__count {
+        font-size: 14px; color: var(--gray-700); font-weight: 500;
+      }
+      .summary-bar__count strong { color: var(--gray-900); font-weight: 700; }
+      .summary-bar__actions { display: flex; gap: 4px; }
+
+      /* ---------- Project card ---------- */
       .proj {
-        background: var(--card);
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        padding: 16px;
+        background: #fff;
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-lg);
+        padding: 16px 18px;
         margin-bottom: 12px;
+        transition: border-color 200ms ease, box-shadow 200ms ease;
+      }
+      .proj:hover { border-color: var(--gray-300); }
+      .proj.is-open {
+        border-color: var(--gray-300);
+        box-shadow: var(--shadow);
       }
       .proj__head {
-        display: flex;
-        align-items: center;
-        gap: 12px;
+        display: flex; align-items: center; gap: 14px;
       }
       .proj__thumb {
-        width: 60px;
-        height: 60px;
-        border-radius: 8px;
-        background: var(--bg);
-        object-fit: cover;
-        flex-shrink: 0;
+        width: 56px; height: 56px;
+        border-radius: var(--radius-sm);
+        background: var(--gray-100);
+        object-fit: cover; flex-shrink: 0;
       }
-      .proj__head-text { flex: 1; min-width: 0; }
+      .proj__head-text {
+        flex: 1; min-width: 0;
+        cursor: pointer;
+      }
       .proj__name {
-        font-size: 14px;
-        font-weight: 500;
+        font-size: 15px; font-weight: 700;
         margin: 0 0 2px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        color: var(--gray-900);
       }
       .proj__id {
-        font-size: 12px;
-        color: var(--ink-400);
+        font-size: 12px; color: var(--gray-500);
         font-family: ui-monospace, Menlo, Consolas, monospace;
       }
-      .proj__actions { display: flex; gap: 4px; }
+      .proj__actions { display: flex; gap: 4px; flex-shrink: 0; }
+
       .icon-btn {
-        width: 32px;
-        height: 32px;
-        padding: 0;
-        background: transparent;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        color: var(--ink-700);
-        font-size: 13px;
+        width: 34px; height: 34px; padding: 0;
+        background: transparent; border: 0;
+        border-radius: var(--radius-sm); color: var(--gray-600);
+        font-size: 14px;
+        display: inline-flex; align-items: center; justify-content: center;
+        transition: background 160ms ease, color 160ms ease;
       }
-      .icon-btn:hover { background: var(--bg); }
-      .icon-btn--danger:hover { background: #fff5f5; color: var(--danger); border-color: var(--danger); }
+      .icon-btn:hover:not(:disabled) { background: var(--gray-100); color: var(--gray-900); }
+      .icon-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+      .icon-btn--danger:hover:not(:disabled) { background: var(--red-bg); color: var(--red-fg); }
+      .icon-btn--accent:hover:not(:disabled) { background: var(--blue-100); color: var(--blue-600); }
 
       .proj__body {
-        margin-top: 14px;
-        padding-top: 14px;
-        border-top: 1px solid var(--line);
+        margin-top: 16px; padding-top: 16px;
+        border-top: 1px solid var(--gray-200);
         display: none;
       }
       .proj.is-open .proj__body { display: block; }
 
-      .field { margin-bottom: 14px; }
+      /* ---------- Field ---------- */
+      .field { margin-bottom: 16px; }
       .field:last-child { margin-bottom: 0; }
       .label {
-        display: block;
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--ink-500);
-        margin-bottom: 6px;
+        display: flex; align-items: baseline; justify-content: space-between;
+        font-size: 13px; font-weight: 600; color: var(--gray-800);
+        margin-bottom: 8px; gap: 8px;
       }
-      .label .hint { color: var(--ink-400); font-weight: 400; margin-left: 6px; }
+      .label__hint { color: var(--gray-500); font-weight: 500; font-size: 12px; }
       .input, .textarea {
-        width: 100%;
-        padding: 9px 12px;
-        font-family: inherit;
-        font-size: 13px;
-        color: var(--ink-900);
-        background: #fff;
-        border: 1px solid var(--line-strong);
-        border-radius: 8px;
-        letter-spacing: -0.03em;
+        width: 100%; padding: 12px 14px;
+        font-family: inherit; font-size: 14px;
+        color: var(--gray-900); background: #fff;
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-sm);
+        letter-spacing: -0.02em;
+        transition: border-color 160ms ease, background 160ms ease;
       }
+      .input::placeholder, .textarea::placeholder { color: var(--gray-400); }
+      .input:hover, .textarea:hover { border-color: var(--gray-300); }
       .input:focus, .textarea:focus {
         outline: none;
-        border-color: var(--ink-900);
-        box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.06);
+        border-color: var(--blue-500);
+        background: var(--blue-50);
       }
-      .input--mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; }
-      .textarea { resize: vertical; min-height: 64px; }
-      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-      @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+      .input--mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+      .textarea { resize: vertical; min-height: 76px; line-height: 1.55; }
 
+      /* ---------- Image input ---------- */
+      .img-input {
+        display: flex; gap: 10px; align-items: center;
+      }
+      .img-input__preview {
+        width: 56px; height: 56px;
+        border-radius: var(--radius-sm); background: var(--gray-100);
+        object-fit: cover; display: block; flex-shrink: 0;
+      }
+      .img-input .input { flex: 1; }
+
+      .gallery-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+      .gallery-add {
+        background: var(--gray-50);
+        border: 1px dashed var(--gray-300);
+        color: var(--gray-600);
+        padding: 12px;
+        width: 100%;
+        border-radius: var(--radius-sm);
+        font-size: 13px; font-weight: 500;
+        cursor: pointer;
+        transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+      }
+      .gallery-add:hover {
+        background: var(--blue-50);
+        color: var(--blue-600);
+        border-color: var(--blue-200);
+      }
+
+      /* ---------- Add project ---------- */
       .add-row {
-        display: flex;
-        justify-content: center;
-        padding: 8px 0 0;
+        display: flex; justify-content: center;
+        padding: 12px 0 0;
       }
       .add-row button {
-        background: transparent;
-        border: 1px dashed var(--line-strong);
-        color: var(--ink-500);
-        padding: 12px 24px;
-        border-radius: 10px;
-        font-size: 13px;
+        background: var(--gray-50);
+        border: 1px dashed var(--gray-300);
+        color: var(--gray-700);
+        padding: 16px 32px;
+        border-radius: var(--radius-lg);
+        font-size: 14px; font-weight: 600;
         cursor: pointer;
+        transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
       }
-      .add-row button:hover { color: var(--ink-900); border-color: var(--ink-900); }
+      .add-row button:hover {
+        background: var(--blue-50);
+        color: var(--blue-600);
+        border-color: var(--blue-200);
+      }
 
-      /* Toast */
+      /* ---------- Toast ---------- */
       .toast {
-        position: fixed;
-        right: 24px;
-        bottom: 24px;
-        background: var(--ink-900);
-        color: #fff;
-        padding: 12px 18px;
-        border-radius: 999px;
-        font-size: 13px;
-        opacity: 0;
-        transform: translateY(8px);
-        transition: opacity 200ms, transform 200ms;
+        position: fixed; right: 24px; bottom: 24px;
+        background: var(--gray-900); color: #fff;
+        padding: 14px 20px; border-radius: var(--radius);
+        font-size: 14px; font-weight: 500;
+        opacity: 0; transform: translateY(8px);
+        transition: opacity 220ms, transform 220ms;
         z-index: 100;
         max-width: calc(100vw - 48px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.18);
       }
       .toast.is-show { opacity: 1; transform: translateY(0); }
-      .toast--success { background: var(--success); }
-      .toast--error { background: var(--danger); }
+      .toast--success { background: var(--green-fg); }
+      .toast--error { background: var(--red-fg); }
 
-      /* Login overlay */
+      /* ---------- Login overlay ---------- */
       .login {
         position: fixed; inset: 0;
-        background: rgba(246, 246, 244, 0.94);
+        background: rgba(242, 244, 246, 0.96);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 50;
-        padding: 24px;
+        display: none; align-items: center; justify-content: center;
+        z-index: 50; padding: 24px;
       }
       .login.is-show { display: flex; }
       .login__card {
-        width: 100%;
-        max-width: 360px;
+        width: 100%; max-width: 400px;
         background: #fff;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        padding: 28px;
+        border-radius: var(--radius-xl);
+        padding: 32px;
+        box-shadow: 0 12px 32px rgba(0,0,0,0.08);
       }
-      .login__title { margin: 0 0 6px; font-size: 16px; font-weight: 500; }
-      .login__hint { margin: 0 0 18px; font-size: 13px; color: var(--ink-500); line-height: 1.5; }
-      .login__error { color: var(--danger); font-size: 12px; margin: 8px 0 0; }
+      .login__title { margin: 0 0 8px; font-size: 20px; font-weight: 700; color: var(--gray-900); letter-spacing: -0.03em; }
+      .login__hint { margin: 0 0 24px; font-size: 14px; color: var(--gray-600); line-height: 1.6; }
+      .login__error { color: var(--red-fg); font-size: 13px; margin: 10px 0 0; font-weight: 500; }
+      .login .btn { width: 100%; height: 48px; font-size: 15px; }
+
+      /* ---------- Empty / Loading ---------- */
+      .empty {
+        text-align: center; padding: 80px 20px;
+        color: var(--gray-500); font-size: 15px;
+      }
+      .empty__title { color: var(--gray-800); font-weight: 700; font-size: 17px; margin: 0 0 6px; }
+      .empty p { margin: 0; }
+      .loading {
+        display: flex; align-items: center; justify-content: center;
+        padding: 100px 20px; color: var(--gray-500); font-size: 14px; font-weight: 500;
+      }
+
+      @media (max-width: 600px) {
+        .topbar__inner { padding: 14px 18px; }
+        .container { padding: 24px 18px 100px; }
+        .topbar__title { font-size: 15px; }
+        .save-status { display: none; }
+        .btn { height: 38px; padding: 0 14px; font-size: 13px; }
+        .kbd { display: none; }
+      }
     </style>
   </head>
   <body>
     <header class="topbar">
       <div class="topbar__inner">
-        <h1 class="topbar__title">Project Admin <small>projects-data.json</small></h1>
+        <div class="topbar__left">
+          <h1 class="topbar__title">프로젝트 관리</h1>
+          <span class="save-status" id="save-status" data-state="idle">동기화됨</span>
+        </div>
         <div class="topbar__actions">
-          <button class="btn btn--ghost" id="btn-reload" title="서버에서 다시 불러오기">Reload</button>
-          <a class="btn btn--ghost" href="../projects.html" target="_blank" rel="noopener">Preview ↗</a>
-          <button class="btn btn--primary" id="btn-save">Save & Publish</button>
+          <button class="btn btn--ghost" id="btn-reload" title="서버에서 다시 불러오기">새로고침</button>
+          <a class="btn btn--ghost" href="../projects.html" target="_blank" rel="noopener">사이트 보기 ↗</a>
+          <button class="btn btn--primary" id="btn-save" title="저장 (⌘+S / Ctrl+S)">
+            <span id="btn-save-label">저장하고 게시</span>
+            <span class="kbd" id="btn-save-kbd">⌘S</span>
+          </button>
         </div>
       </div>
     </header>
 
     <main class="container">
-      <div class="help">
-        <b>Save & Publish</b>를 누르면 GitHub에 자동 커밋되고 Vercel이 사이트를 다시 빌드합니다 (보통 30~60초).
-        이미지는 외부 URL을 직접 입력하거나, GitHub 저장소의 <code>/images/</code> 폴더에 업로드 후 <code>./images/파일명.jpg</code> 경로를 입력하세요.
+      <div class="tip">
+        <span class="tip__icon">!</span>
+        <div>
+          <strong>편집 팁이에요</strong><br />
+          카드 헤더를 클릭해서 펼치고 접을 수 있어요. <kbd>⌘</kbd>+<kbd>S</kbd> (또는 <kbd>Ctrl</kbd>+<kbd>S</kbd>) 로 빠르게 저장할 수 있고요.
+          이미지는 외부 URL이나 GitHub 저장소의 <code>/images/</code> 경로 (<code>./images/파일명.jpg</code>)를 입력해 주세요.
+          저장하고 게시한 뒤엔 30~60초 안에 사이트에 반영돼요.
+        </div>
       </div>
 
-      <div id="projects-list"></div>
+      <div class="summary-bar">
+        <span class="summary-bar__count">총 <strong id="proj-count">0</strong>개의 프로젝트</span>
+        <div class="summary-bar__actions">
+          <button class="btn btn--text btn--small" id="btn-expand-all">모두 펼치기</button>
+          <button class="btn btn--text btn--small" id="btn-collapse-all">모두 접기</button>
+        </div>
+      </div>
+
+      <div id="projects-list">
+        <div class="loading">불러오고 있어요…</div>
+      </div>
 
       <div class="add-row">
-        <button id="btn-add">+ Add Project</button>
+        <button id="btn-add">+ 프로젝트 추가하기</button>
       </div>
     </main>
 
-    <!-- Login overlay -->
     <div class="login" id="login">
       <form class="login__card" id="login-form">
-        <p class="login__title">관리자 인증</p>
-        <p class="login__hint">Vercel 환경변수 <code>ADMIN_PASSWORD</code>에 설정한 비밀번호를 입력하세요.</p>
+        <p class="login__title">관리자 로그인</p>
+        <p class="login__hint">Vercel에 등록한 <code>ADMIN_PASSWORD</code> 비밀번호를 입력해 주세요.</p>
         <div class="field">
           <label class="label">비밀번호</label>
           <input type="password" class="input" id="login-password" autocomplete="current-password" required />
         </div>
-        <button type="submit" class="btn btn--primary" style="width:100%;">로그인</button>
+        <button type="submit" class="btn btn--primary">로그인</button>
         <p class="login__error" id="login-error" hidden></p>
       </form>
     </div>
@@ -302,10 +469,10 @@
       'use strict';
 
       var STATE = { projects: [] };
+      var SAVED_SNAPSHOT = '';
       var SESSION_KEY = 'rc_admin_pw';
 
-      // -------- 유틸 --------
-      function $(s) { return document.querySelector(s); }
+      function $(s, r) { return (r || document).querySelector(s); }
       function el(tag, attrs, children) {
         var n = document.createElement(tag);
         if (attrs) Object.keys(attrs).forEach(function (k) {
@@ -322,18 +489,41 @@
         });
         return n;
       }
-      function getPath(o, p) { return p.split('.').reduce(function (a, k) { return a == null ? a : a[k]; }, o); }
-      function setPath(o, p, v) {
-        var keys = p.split('.');
-        var cur = o;
-        for (var i = 0; i < keys.length - 1; i++) {
-          if (cur[keys[i]] == null) cur[keys[i]] = {};
-          cur = cur[keys[i]];
-        }
-        cur[keys[keys.length - 1]] = v;
+      function snapshot() {
+        return JSON.stringify(STATE.projects.map(function (p) {
+          var clean = {};
+          Object.keys(p).forEach(function (k) { if (k.charAt(0) !== '_') clean[k] = p[k]; });
+          return clean;
+        }));
+      }
+      function isDirty() { return snapshot() !== SAVED_SNAPSHOT; }
+      function slugify(s) {
+        return String(s || '').toLowerCase().trim()
+          .replace(/[^\w\s-]/g, '')
+          .replace(/[\s_]+/g, '-')
+          .replace(/-+/g, '-')
+          .replace(/^-+|-+$/g, '');
+      }
+      function uniqueId(base, existing) {
+        var s = slugify(base) || 'project';
+        var id = s, i = 1;
+        while (existing.indexOf(id) !== -1) { i += 1; id = s + '-' + i; }
+        return id;
       }
 
-      // -------- Toast --------
+      function updateStatus() {
+        var status = $('#save-status');
+        if (status.dataset.state === 'saving' || status.dataset.state === 'saved' || status.dataset.state === 'error') return;
+        var dirty = isDirty();
+        status.dataset.state = dirty ? 'dirty' : 'idle';
+        status.textContent = dirty ? '저장 안 됨' : '동기화됨';
+      }
+      function setStatus(state, text) {
+        var status = $('#save-status');
+        status.dataset.state = state;
+        status.textContent = text;
+      }
+
       var toastTimer;
       function toast(kind, msg) {
         var t = $('#toast');
@@ -341,10 +531,9 @@
         t.textContent = msg;
         t.classList.add('is-show');
         clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () { t.classList.remove('is-show'); }, 3000);
+        toastTimer = setTimeout(function () { t.classList.remove('is-show'); }, 3200);
       }
 
-      // -------- 데이터 로드 --------
       function loadFromServer() {
         return fetch('../projects-data.json?t=' + Date.now(), { cache: 'no-store' })
           .then(function (r) {
@@ -353,117 +542,228 @@
           });
       }
 
-      // -------- 렌더 --------
       function renderList() {
         var host = $('#projects-list');
         host.innerHTML = '';
         STATE.projects = STATE.projects || [];
+        $('#proj-count').textContent = STATE.projects.length;
+
+        if (STATE.projects.length === 0) {
+          host.appendChild(el('div', { class: 'empty' }, [
+            el('p', { class: 'empty__title', text: '아직 프로젝트가 없어요' }),
+            el('p', { text: '아래 + 프로젝트 추가하기 버튼으로 시작해 보세요.' }),
+          ]));
+          updateStatus();
+          return;
+        }
+
         STATE.projects.forEach(function (p, idx) {
           host.appendChild(renderProj(p, idx));
         });
+        updateStatus();
       }
 
       function renderProj(p, index) {
         var card = el('div', { class: 'proj' });
 
-        var thumb = el('img', {
-          class: 'proj__thumb',
-          src: p.thumbnail || 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 60%22><rect fill=%22%23eee%22 width=%2260%22 height=%2260%22/></svg>',
-          alt: '',
-        });
+        var thumb = el('img', { class: 'proj__thumb', src: p.thumbnail || placeholderSvg(), alt: '' });
+        thumb.addEventListener('error', function () { thumb.src = placeholderSvg(); });
 
-        var headText = el('div', { class: 'proj__head-text' }, [
-          el('p', { class: 'proj__name', text: p.name || '(제목 없음)' }),
-          el('span', { class: 'proj__id', text: p.id || '(id 없음)' }),
-        ]);
+        var nameEl = el('p', { class: 'proj__name', text: p.name || '제목 없음' });
+        var idEl = el('span', { class: 'proj__id', text: p.id || '(id 없음)' });
+        var headText = el('div', { class: 'proj__head-text' }, [nameEl, idEl]);
+        headText.addEventListener('click', function () { card.classList.toggle('is-open'); });
 
         var actions = el('div', { class: 'proj__actions' });
-        actions.appendChild(iconBtn('▲', function () { move(index, -1); }));
-        actions.appendChild(iconBtn('▼', function () { move(index, 1); }));
-        actions.appendChild(iconBtn(card.classList.contains('is-open') ? '▴' : '▾', function () {
-          card.classList.toggle('is-open');
-        }));
-        actions.appendChild(iconBtn('✕', function () { removeProj(index); }, true));
+        var btnUp = iconBtn('↑', function () { move(index, -1); }, false, '위로');
+        if (index === 0) btnUp.disabled = true;
+        var btnDown = iconBtn('↓', function () { move(index, 1); }, false, '아래로');
+        if (index === STATE.projects.length - 1) btnDown.disabled = true;
+        actions.appendChild(btnUp);
+        actions.appendChild(btnDown);
+        actions.appendChild(iconBtn('⎘', function () { duplicate(index); }, false, '복제', 'accent'));
+        actions.appendChild(iconBtn('▾', function () { card.classList.toggle('is-open'); }, false, '펼치기/접기'));
+        actions.appendChild(iconBtn('✕', function () { removeProj(index); }, true, '삭제'));
 
         var head = el('div', { class: 'proj__head' }, [thumb, headText, actions]);
-        head.querySelector('.proj__head-text').addEventListener('click', function () {
-          card.classList.toggle('is-open');
-        });
-
         var body = el('div', { class: 'proj__body' });
-        body.appendChild(textInput('ID (slug, URL에 사용됨, 영문/숫자/하이픈)', p.id || '', function (v) {
-          p.id = v.trim().toLowerCase().replace(/\s+/g, '-');
-          headText.querySelector('.proj__id').textContent = p.id;
-        }, 'mono'));
-        body.appendChild(textInput('카드 이름 (목록에 표시)', p.name || '', function (v) {
-          p.name = v;
-          headText.querySelector('.proj__name').textContent = p.name || '(제목 없음)';
-        }));
-        body.appendChild(textInput('썸네일 URL', p.thumbnail || '', function (v) {
-          p.thumbnail = v;
-          thumb.src = v || thumb.src;
-        }));
-        body.appendChild(textInput('상세 페이지 타이틀', p.title || '', function (v) { p.title = v; }));
-        body.appendChild(textareaInput('설명 (description)', p.description || '', function (v) { p.description = v; }));
-        body.appendChild(textareaInput('Product Details', p.details || '', function (v) { p.details = v; }));
-        body.appendChild(textareaInput('Size', p.size || '', function (v) { p.size = v; }));
 
-        // Gallery
-        body.appendChild(el('p', { class: 'label', text: '갤러리 이미지 URL (3장)', html: '갤러리 이미지 URL <span class="hint">(3장)</span>' }));
-        var gal = p.gallery || ['', '', ''];
-        if (gal.length < 3) gal = gal.concat(['', '', '']).slice(0, 3);
-        p.gallery = gal;
-        for (var i = 0; i < 3; i++) (function (idx) {
-          body.appendChild(textInput((idx + 1) + '번 이미지', p.gallery[idx] || '', function (v) {
-            p.gallery[idx] = v;
-          }));
-        })(i);
+        body.appendChild(textInput('카드 이름', p.name || '', '목록과 브레드크럼에 보이는 이름이에요', function (v) {
+          p.name = v;
+          nameEl.textContent = v || '제목 없음';
+          if (!p._idEdited) {
+            var others = STATE.projects.filter(function (x) { return x !== p; }).map(function (x) { return x.id; });
+            p.id = uniqueId(v, others);
+            idEl.textContent = p.id;
+            var idInput = body.querySelector('[data-field="id"]');
+            if (idInput) idInput.value = p.id;
+          }
+          markDirty();
+        }));
+
+        var idField = textInput('ID', p.id || '', 'URL에 사용돼요. 영문/숫자/하이픈만 가능해요', function (v) {
+          var clean = slugify(v);
+          p.id = clean;
+          p._idEdited = true;
+          idEl.textContent = clean;
+          markDirty();
+        }, 'mono');
+        idField.querySelector('input').setAttribute('data-field', 'id');
+        body.appendChild(idField);
+
+        body.appendChild(imageInputField('썸네일', '목록 카드에 보이는 이미지예요', p.thumbnail || '', function (v) {
+          p.thumbnail = v;
+          thumb.src = v || placeholderSvg();
+          markDirty();
+        }));
+
+        body.appendChild(textInput('상세 페이지 타이틀', p.title || '', '디테일 페이지에서 가장 큰 제목이에요', function (v) {
+          p.title = v; markDirty();
+        }));
+        body.appendChild(textareaInput('설명', p.description || '', '디테일 페이지 본문에 표시돼요', function (v) {
+          p.description = v; markDirty();
+        }));
+        body.appendChild(textareaInput('Product Details', p.details || '', '“Product Details” 토글 안 내용이에요', function (v) {
+          p.details = v; markDirty();
+        }));
+        body.appendChild(textareaInput('Size', p.size || '', '“Size” 토글 안 내용이에요', function (v) {
+          p.size = v; markDirty();
+        }));
+
+        body.appendChild(renderGallery(p));
 
         card.appendChild(head);
         card.appendChild(body);
         return card;
       }
 
-      function textInput(label, value, onChange, modifier) {
-        var input = el('input', { class: 'input' + (modifier === 'mono' ? ' input--mono' : ''), type: 'text', value: value || '' });
-        input.addEventListener('input', function (e) { onChange(e.target.value); });
-        return el('div', { class: 'field' }, [
-          el('label', { class: 'label', text: label }),
-          input,
-        ]);
+      function renderGallery(p) {
+        var wrap = el('div', { class: 'field' });
+        wrap.appendChild(el('div', { class: 'label' }, [
+          '갤러리',
+          el('span', { class: 'label__hint', text: '디테일 페이지에 들어갈 이미지예요 (3장 권장)' }),
+        ]));
+
+        p.gallery = Array.isArray(p.gallery) ? p.gallery.slice() : [];
+        var listEl = el('div', { class: 'gallery-list' });
+
+        function refresh() {
+          listEl.innerHTML = '';
+          p.gallery.forEach(function (url, idx) {
+            var preview = el('img', { class: 'img-input__preview', src: url || placeholderSvg(), alt: '' });
+            preview.addEventListener('error', function () { preview.src = placeholderSvg(); });
+            var input = el('input', {
+              class: 'input', type: 'text', value: url || '',
+              placeholder: 'https://… 또는 ./images/파일명.jpg',
+            });
+            input.addEventListener('input', function (e) {
+              p.gallery[idx] = e.target.value;
+              preview.src = e.target.value || placeholderSvg();
+              markDirty();
+            });
+            var removeBtn = iconBtn('✕', function () {
+              p.gallery.splice(idx, 1); refresh(); markDirty();
+            }, true, '이미지 제거');
+            var row = el('div', { class: 'img-input' }, [preview, input, removeBtn]);
+            listEl.appendChild(row);
+          });
+        }
+
+        var addBtn = el('button', { class: 'gallery-add', type: 'button', text: '+ 이미지 추가하기' });
+        addBtn.addEventListener('click', function () {
+          p.gallery.push(''); refresh(); markDirty();
+        });
+
+        wrap.appendChild(listEl);
+        wrap.appendChild(addBtn);
+        refresh();
+        return wrap;
       }
-      function textareaInput(label, value, onChange) {
+
+      function textInput(label, value, hint, onChange, modifier) {
+        var input = el('input', {
+          class: 'input' + (modifier === 'mono' ? ' input--mono' : ''),
+          type: 'text', value: value || '',
+        });
+        input.addEventListener('input', function (e) { onChange(e.target.value); });
+        var labelEl = el('label', { class: 'label' }, [
+          label,
+          hint ? el('span', { class: 'label__hint', text: hint }) : null,
+        ]);
+        return el('div', { class: 'field' }, [labelEl, input]);
+      }
+      function textareaInput(label, value, hint, onChange) {
         var t = el('textarea', { class: 'textarea', rows: '3' });
         t.value = value || '';
         t.addEventListener('input', function (e) { onChange(e.target.value); });
-        return el('div', { class: 'field' }, [
-          el('label', { class: 'label', text: label }),
-          t,
+        var labelEl = el('label', { class: 'label' }, [
+          label,
+          hint ? el('span', { class: 'label__hint', text: hint }) : null,
         ]);
+        return el('div', { class: 'field' }, [labelEl, t]);
       }
-      function iconBtn(text, onClick, danger) {
-        var b = el('button', { class: 'icon-btn' + (danger ? ' icon-btn--danger' : ''), type: 'button', text: text });
+      function imageInputField(label, hint, value, onChange) {
+        var input = el('input', {
+          class: 'input', type: 'text', value: value || '',
+          placeholder: 'https://… 또는 ./images/파일명.jpg',
+        });
+        var preview = el('img', { class: 'img-input__preview', src: value || placeholderSvg(), alt: '' });
+        preview.addEventListener('error', function () { preview.src = placeholderSvg(); });
+        input.addEventListener('input', function (e) {
+          preview.src = e.target.value || placeholderSvg();
+          onChange(e.target.value);
+        });
+        var labelEl = el('label', { class: 'label' }, [
+          label,
+          hint ? el('span', { class: 'label__hint', text: hint }) : null,
+        ]);
+        var row = el('div', { class: 'img-input' }, [preview, input]);
+        return el('div', { class: 'field' }, [labelEl, row]);
+      }
+      function iconBtn(text, onClick, danger, title, accent) {
+        var classes = 'icon-btn';
+        if (danger) classes += ' icon-btn--danger';
+        if (accent === 'accent') classes += ' icon-btn--accent';
+        var b = el('button', { class: classes, type: 'button', text: text, title: title || '' });
         b.addEventListener('click', onClick);
         return b;
       }
+      function placeholderSvg() {
+        return 'data:image/svg+xml;utf8,' + encodeURIComponent(
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56"><rect fill="#F2F4F6" width="56" height="56"/><text x="28" y="32" text-anchor="middle" font-family="system-ui" font-size="9" fill="#B0B8C1">no image</text></svg>'
+        );
+      }
 
-      // -------- 액션 --------
       function move(index, delta) {
         var to = index + delta;
         if (to < 0 || to >= STATE.projects.length) return;
         var arr = STATE.projects;
         var tmp = arr[index]; arr[index] = arr[to]; arr[to] = tmp;
         renderList();
+        markDirty();
       }
       function removeProj(index) {
-        if (!confirm('이 프로젝트를 삭제할까요?')) return;
+        if (!confirm('이 프로젝트를 삭제할까요?\n저장 전이라면 새로고침으로 되돌릴 수 있어요.')) return;
         STATE.projects.splice(index, 1);
         renderList();
+        markDirty();
+      }
+      function duplicate(index) {
+        var src = STATE.projects[index];
+        var copy = JSON.parse(JSON.stringify(src));
+        var others = STATE.projects.map(function (x) { return x.id; });
+        copy.id = uniqueId(src.id + '-copy', others);
+        copy.name = (src.name || '') + ' (복제)';
+        copy._idEdited = true;
+        STATE.projects.splice(index + 1, 0, copy);
+        renderList();
+        markDirty();
       }
       function addProj() {
-        var nextNum = STATE.projects.length + 1;
+        var others = STATE.projects.map(function (x) { return x.id; });
+        var newId = uniqueId('project-' + (STATE.projects.length + 1), others);
         STATE.projects.push({
-          id: 'project-' + nextNum,
+          id: newId,
           name: '새 프로젝트',
           thumbnail: '',
           title: '',
@@ -471,58 +771,84 @@
           details: '',
           size: '',
           gallery: ['', '', ''],
+          _idEdited: false,
         });
         renderList();
-        // 마지막 카드를 자동으로 펼침
         var cards = document.querySelectorAll('.proj');
-        if (cards.length) cards[cards.length - 1].classList.add('is-open');
+        if (cards.length) {
+          var last = cards[cards.length - 1];
+          last.classList.add('is-open');
+          last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        markDirty();
       }
+      function expandAll(open) {
+        document.querySelectorAll('.proj').forEach(function (c) { c.classList.toggle('is-open', open); });
+      }
+      function markDirty() { updateStatus(); }
 
-      // -------- 저장 --------
       function save() {
         var pw = sessionStorage.getItem(SESSION_KEY);
-        if (!pw) {
-          showLogin();
+        if (!pw) { showLogin(); return; }
+        if (!isDirty()) {
+          toast('', '바뀐 내용이 없어요.');
           return;
         }
         $('#btn-save').disabled = true;
-        toast('', '저장 중…');
+        setStatus('saving', '저장하고 있어요…');
+        var payload = STATE.projects.map(function (p) {
+          var clean = {};
+          Object.keys(p).forEach(function (k) {
+            if (k.charAt(0) !== '_') clean[k] = p[k];
+          });
+          return clean;
+        });
         fetch('/api/save-projects', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password: pw, projects: STATE.projects }),
+          body: JSON.stringify({ password: pw, projects: payload }),
         })
           .then(function (r) {
             if (r.status === 401) {
               sessionStorage.removeItem(SESSION_KEY);
-              showLogin('비밀번호가 일치하지 않습니다.');
+              showLogin('비밀번호가 일치하지 않아요.');
               throw new Error('unauthorized');
             }
             if (!r.ok) return r.json().then(function (d) { throw new Error(d.error || ('HTTP ' + r.status)); });
             return r.json();
           })
           .then(function () {
-            toast('success', '저장 완료. Vercel 빌드가 곧 시작됩니다 (30~60초).');
+            SAVED_SNAPSHOT = snapshot();
+            setStatus('saved', '저장됐어요 ✓');
+            toast('success', 'GitHub에 커밋했어요. 30~60초 안에 사이트에 반영돼요.');
+            setTimeout(function () {
+              var status = $('#save-status');
+              if (status.dataset.state === 'saved') {
+                status.dataset.state = 'idle'; updateStatus();
+              }
+            }, 2500);
           })
           .catch(function (err) {
             if (err.message !== 'unauthorized') {
-              toast('error', '저장 실패: ' + err.message);
+              setStatus('error', '저장 실패');
+              toast('error', '저장하지 못했어요: ' + err.message);
+              setTimeout(function () {
+                var status = $('#save-status');
+                if (status.dataset.state === 'error') {
+                  status.dataset.state = 'idle'; updateStatus();
+                }
+              }, 3500);
             }
           })
           .then(function () { $('#btn-save').disabled = false; });
       }
 
-      // -------- 로그인 --------
       function showLogin(errorMsg) {
         var login = $('#login');
         login.classList.add('is-show');
         var err = $('#login-error');
-        if (errorMsg) {
-          err.textContent = errorMsg;
-          err.hidden = false;
-        } else {
-          err.hidden = true;
-        }
+        if (errorMsg) { err.textContent = errorMsg; err.hidden = false; }
+        else { err.hidden = true; }
         setTimeout(function () { $('#login-password').focus(); }, 50);
       }
       function hideLogin() { $('#login').classList.remove('is-show'); }
@@ -536,26 +862,54 @@
         save();
       });
 
-      // -------- Init --------
+      document.addEventListener('keydown', function (e) {
+        if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+          e.preventDefault();
+          save();
+        }
+      });
+      window.addEventListener('beforeunload', function (e) {
+        if (isDirty()) {
+          e.preventDefault();
+          e.returnValue = '저장하지 않은 변경사항이 있어요. 정말 나가시겠어요?';
+          return e.returnValue;
+        }
+      });
+
+      var isMac = /Mac|iPhone|iPad/.test(navigator.platform);
+      $('#btn-save-kbd').textContent = isMac ? '⌘S' : 'Ctrl+S';
+
       $('#btn-save').addEventListener('click', save);
       $('#btn-add').addEventListener('click', addProj);
       $('#btn-reload').addEventListener('click', function () {
-        if (!confirm('저장하지 않은 변경사항이 사라집니다. 다시 불러올까요?')) return;
+        if (isDirty() && !confirm('저장하지 않은 변경사항이 사라져요. 다시 불러올까요?')) return;
         init();
       });
+      $('#btn-expand-all').addEventListener('click', function () { expandAll(true); });
+      $('#btn-collapse-all').addEventListener('click', function () { expandAll(false); });
 
       function init() {
+        var host = $('#projects-list');
+        host.innerHTML = '<div class="loading">불러오고 있어요…</div>';
         loadFromServer()
           .then(function (data) {
-            STATE = { projects: data.projects || [] };
+            STATE = { projects: (data.projects || []).map(function (p) {
+              return Object.assign({}, p, { _idEdited: !!p.id });
+            }) };
+            SAVED_SNAPSHOT = snapshot();
             renderList();
-            toast('success', '프로젝트 ' + STATE.projects.length + '개 불러옴');
           })
           .catch(function (err) {
-            toast('error', 'projects-data.json 을 불러오지 못했습니다.');
             console.error(err);
+            host.innerHTML = '';
+            host.appendChild(el('div', { class: 'empty' }, [
+              el('p', { class: 'empty__title', text: '데이터를 불러오지 못했어요' }),
+              el('p', { text: 'GitHub에 파일이 없거나 배포가 진행 중일 수 있어요.' }),
+            ]));
             STATE = { projects: [] };
-            renderList();
+            SAVED_SNAPSHOT = snapshot();
+            $('#proj-count').textContent = 0;
+            updateStatus();
           });
       }
       init();

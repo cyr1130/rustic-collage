@@ -213,17 +213,17 @@
                 }
                 grid.innerHTML = list.map(function (p, i) {
                   var name = esc(p.name || '');
-                  var title = esc(p.title || p.name || '');
-                  var desc = esc(p.description || '');
+                  // HOME 영역 전용 필드 사용 (없으면 fallback)
+                  var thumbTitle = esc(p.thumbnailTitle || p.name || '');
+                  var thumbDesc = esc(p.thumbnailDesc || '');
                   var thumb = esc(p.thumbnail || '');
                   return (
                     '<a class="product-card" href="./project-detail.html?id=' + encodeURIComponent(p.id) + '">' +
                       '<figure class="product-card__media">' +
                         '<img src="' + thumb + '" alt="' + name + ' 프로젝트 이미지" loading="' + (i < 3 ? 'eager' : 'lazy') + '" />' +
                         '<div class="product-card__overlay">' +
-                          '<h3 class="product-card__overlay-title">' + name + '</h3>' +
-                          (title && title !== name ? '<p class="product-card__overlay-desc">' + title + '</p>' : '') +
-                          (desc ? '<p class="product-card__overlay-desc">' + desc + '</p>' : '') +
+                          '<h3 class="product-card__overlay-title">' + thumbTitle + '</h3>' +
+                          (thumbDesc ? '<p class="product-card__overlay-desc">' + thumbDesc + '</p>' : '') +
                         '</div>' +
                       '</figure>' +
                     '</a>'

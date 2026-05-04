@@ -361,7 +361,7 @@ body.menu-open { overflow: hidden; }
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 24px 32px;
-  margin-bottom: clamp(36px, 7vh, 24px);
+  margin-bottom: clamp(3px, 7vh, 24px);
 }
 
 .collection__title {
@@ -475,7 +475,7 @@ body.menu-open { overflow: hidden; }
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 24px 32px;
-  margin-bottom: clamp(36px, 7vh, 36px);
+  margin-bottom: clamp(3px, 7vh, 24px);
 }
 
 .projects__title {

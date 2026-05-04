@@ -147,13 +147,9 @@
 
         function renderOther(list, currentId) {
           if (!otherGrid) return;
-          var others = list.filter(function (p) { return p.id !== currentId; });
-          // 셔플 후 2개 선택
-          for (var i = others.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var tmp = others[i]; others[i] = others[j]; others[j] = tmp;
-          }
-          var picks = others.slice(0, 2);
+          // 현재 프로젝트 제외 + 최근 등록순(역순)으로 정렬 후 상위 4개
+          var others = list.filter(function (p) { return p.id !== currentId; }).reverse();
+          var picks = others.slice(0, 4);
           otherGrid.innerHTML = picks.map(function (p) {
             return (
               '<a class="proj-card" href="./project-detail.html?id=' + encodeURIComponent(p.id) + '">' +

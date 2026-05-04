@@ -367,7 +367,7 @@ body.menu-open { overflow: hidden; }
 .collection__title {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(28px, 5.2vw, 15px);
+  font-size: clamp(28px, 5.2vw, 36px);
   line-height: 1.05;
   letter-spacing: -0.03em;
   margin: 0;

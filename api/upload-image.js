@@ -84,15 +84,24 @@ module.exports = async function handler(req, res) {
       message: err.message,
       status: err.status,
       response: err.response && err.response.data,
+      errors: err.errors,
+      stack: err.stack,
       owner, repo, branch, path,
+      tokenPrefix: token ? token.slice(0, 10) + '...' : '(none)',
+      tokenLength: token ? token.length : 0,
     });
     return res.status(500).json({
       error: err.message || 'Upload failed',
       status: err.status || null,
       detail: err.response && err.response.data && err.response.data.message,
-      hint: err.message && err.message.includes('expected pattern')
-        ? 'Vercel 환경변수 GITHUB_REPO_OWNER / GITHUB_REPO_NAME / GITHUB_TOKEN 에 공백·따옴표·줄바꿈이 섞여있는지 확인해 주세요. Vercel → Settings → Environment Variables에서 값을 다시 확인 후 Redeploy.'
-        : undefined,
+      errors: err.errors || null,
+      diag: {
+        owner: owner,
+        repo: repo,
+        branch: branch,
+        tokenPrefix: token ? token.slice(0, 10) + '...' : '(none)',
+        tokenLength: token ? token.length : 0,
+      },
     });
   }
 };

@@ -424,6 +424,20 @@
         margin-top: 24px; padding-top: 24px;
         border-top: 1px solid var(--gray-200);
       }
+      /* 폼 섹션 헤더 (HOME / Detail Page 구분) */
+      .form-section {
+        margin: 28px 0 12px;
+        padding: 10px 12px;
+        background: var(--gray-100);
+        border-radius: var(--radius-sm);
+        font-size: 12px; font-weight: 700;
+        color: var(--gray-700);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        display: inline-block;
+      }
+      .form-section:first-child { margin-top: 0; }
+      .form-section + .field { margin-top: 0; }
 
       /* ---------- Field ---------- */
       .field { margin-bottom: 16px; }
@@ -846,10 +860,15 @@
       }
       function blankProject() {
         return {
-          id: '', name: '', thumbnail: '',
+          id: '', name: '',
+          // HOME / 썸네일 영역
+          thumbnail: '', thumbnailTitle: '', thumbnailDesc: '',
+          // Detail Page 영역
           title: '', description: '', details: '', size: '',
           gallery: ['', '', ''],
           _idEdited: false,
+          _thumbTitleEdited: false,
+          _titleEdited: false,
         };
       }
 
@@ -1120,30 +1139,62 @@
         host.appendChild(content);
       }
 
-      // 편집 모드 — 입력 필드들
+      // 편집 모드 — 입력 필드들 (마스터 프로젝트 이름 → HOME 섹션 → Detail Page 섹션)
       function renderProjectEditFields(host, p, onNameChange) {
+        // 마스터 프로젝트 이름 (모든 다운스트림 이름 필드의 기본값)
         host.appendChild(textInput('프로젝트 이름', p.name || '', '', function (v) {
           p.name = v;
           if (!p._idEdited) {
             var others = STATE.projects.filter(function (x) { return x !== p; }).map(function (x) { return x.id; });
             p.id = uniqueId(v, others);
           }
+          // 다운스트림 자동 동기화 (사용자가 직접 수정하지 않은 경우)
+          if (!p._thumbTitleEdited) {
+            p.thumbnailTitle = v;
+            var thumbInput = host.querySelector('[data-field="thumbnailTitle"]');
+            if (thumbInput) thumbInput.value = v;
+          }
+          if (!p._titleEdited) {
+            p.title = v;
+            var titleInput = host.querySelector('[data-field="title"]');
+            if (titleInput) titleInput.value = v;
+          }
           if (onNameChange) onNameChange();
           markDirty();
         }));
-        host.appendChild(imageInputField('썸네일', '', p.thumbnail || '', function (v) {
+
+        // ── HOME 섹션 ──
+        host.appendChild(el('div', { class: 'form-section', text: 'HOME' }));
+        host.appendChild(imageInputField('썸네일 이미지', '', p.thumbnail || '', function (v) {
           p.thumbnail = v; markDirty();
         }));
-        host.appendChild(textInput('상세 페이지 타이틀', p.title || '', '', function (v) {
-          p.title = v; markDirty();
+        var thumbField = textInput('썸네일 타이틀', p.thumbnailTitle || p.name || '', '', function (v) {
+          p.thumbnailTitle = v;
+          p._thumbTitleEdited = true;
+          markDirty();
+        });
+        thumbField.querySelector('input').setAttribute('data-field', 'thumbnailTitle');
+        host.appendChild(thumbField);
+        host.appendChild(textareaInput('썸네일 설명', p.thumbnailDesc || '', '', function (v) {
+          p.thumbnailDesc = v; markDirty();
         }));
-        host.appendChild(textareaInput('설명', p.description || '', '', function (v) {
+
+        // ── Detail Page 섹션 ──
+        host.appendChild(el('div', { class: 'form-section', text: 'Detail Page' }));
+        var titleField = textInput('프로젝트 이름', p.title || p.name || '', '', function (v) {
+          p.title = v;
+          p._titleEdited = true;
+          markDirty();
+        });
+        titleField.querySelector('input').setAttribute('data-field', 'title');
+        host.appendChild(titleField);
+        host.appendChild(textareaInput('제품 설명', p.description || '', '', function (v) {
           p.description = v; markDirty();
         }));
-        host.appendChild(textareaInput('Product Details', p.details || '', '', function (v) {
+        host.appendChild(textareaInput('프로덕트 디테일', p.details || '', '', function (v) {
           p.details = v; markDirty();
         }));
-        host.appendChild(textareaInput('Size', p.size || '', '', function (v) {
+        host.appendChild(textareaInput('사이즈', p.size || '', '', function (v) {
           p.size = v; markDirty();
         }));
         host.appendChild(renderGallery(p, markDirty));
@@ -1151,6 +1202,10 @@
 
       // 보기 모드 — 읽기 전용 표시
       function renderProjectViewFields(host, p) {
+        // 사용자가 입력한 <br> 태그도 줄바꿈으로 표시 (textContent + white-space: pre-wrap 조합)
+        function normalizeBreaks(s) {
+          return String(s == null ? '' : s).replace(/<br\s*\/?>/gi, '\n');
+        }
         function row(label, value, opts) {
           opts = opts || {};
           var labelEl = el('div', { class: 'view-row__label', text: label });
@@ -1160,21 +1215,29 @@
             valueEl.addEventListener('error', function () { valueEl.src = placeholderSvg(); });
           } else {
             valueEl = el('div', { class: 'view-row__value' + (value ? '' : ' view-row__value--muted') });
-            valueEl.textContent = value || '비어있음';
+            valueEl.textContent = value ? normalizeBreaks(value) : '비어있음';
           }
           return el('div', { class: 'view-row' }, [labelEl, valueEl]);
         }
 
         host.appendChild(row('프로젝트 이름', p.name));
-        host.appendChild(row('썸네일', p.thumbnail, { image: true }));
-        host.appendChild(row('상세 페이지 타이틀', p.title));
-        host.appendChild(row('설명', p.description));
-        host.appendChild(row('Product Details', p.details));
-        host.appendChild(row('Size', p.size));
 
-        // 갤러리 행
+        // ── HOME 섹션 ──
+        host.appendChild(el('div', { class: 'form-section', text: 'HOME' }));
+        host.appendChild(row('썸네일 이미지', p.thumbnail, { image: true }));
+        host.appendChild(row('썸네일 타이틀', p.thumbnailTitle || p.name));
+        host.appendChild(row('썸네일 설명', p.thumbnailDesc));
+
+        // ── Detail Page 섹션 ──
+        host.appendChild(el('div', { class: 'form-section', text: 'Detail Page' }));
+        host.appendChild(row('프로젝트 이름', p.title || p.name));
+        host.appendChild(row('제품 설명', p.description));
+        host.appendChild(row('프로덕트 디테일', p.details));
+        host.appendChild(row('사이즈', p.size));
+
+        // 이미지 갤러리 행
         var gRow = el('div', { class: 'view-row' });
-        gRow.appendChild(el('div', { class: 'view-row__label', text: '갤러리' }));
+        gRow.appendChild(el('div', { class: 'view-row__label', text: '이미지' }));
         var gallery = (p.gallery || []).filter(Boolean);
         if (gallery.length === 0) {
           gRow.appendChild(el('div', { class: 'view-row__value view-row__value--muted', text: '비어있음' }));
@@ -1197,10 +1260,15 @@
 
         host.appendChild(textInput('프로젝트 이름', DRAFT.name || '', '', function (v) {
           DRAFT.name = v;
-          // ID 자동 부여 (사용자가 직접 입력하는 UI는 없음)
+          // ID 자동 부여
           var others = STATE.projects.map(function (x) { return x.id; });
           DRAFT.id = uniqueId(v, others);
-          // 상세 페이지 타이틀 — 사용자가 직접 수정하지 않았다면 프로젝트 이름과 연동
+          // 다운스트림 자동 동기화
+          if (!DRAFT._thumbTitleEdited) {
+            DRAFT.thumbnailTitle = v;
+            var thumbInput = host.querySelector('[data-field="thumbnailTitle"]');
+            if (thumbInput) thumbInput.value = v;
+          }
           if (!DRAFT._titleEdited) {
             DRAFT.title = v;
             var titleInput = host.querySelector('[data-field="title"]');
@@ -1208,22 +1276,36 @@
           }
         }));
 
-        host.appendChild(imageInputField('썸네일', '', DRAFT.thumbnail || '', function (v) {
+        // ── HOME 섹션 ──
+        host.appendChild(el('div', { class: 'form-section', text: 'HOME' }));
+        host.appendChild(imageInputField('썸네일 이미지', '', DRAFT.thumbnail || '', function (v) {
           DRAFT.thumbnail = v;
         }));
-        var titleField = textInput('상세 페이지 타이틀', DRAFT.title || '', '', function (v) {
+        var thumbField = textInput('썸네일 타이틀', DRAFT.thumbnailTitle || '', '', function (v) {
+          DRAFT.thumbnailTitle = v;
+          DRAFT._thumbTitleEdited = true;
+        });
+        thumbField.querySelector('input').setAttribute('data-field', 'thumbnailTitle');
+        host.appendChild(thumbField);
+        host.appendChild(textareaInput('썸네일 설명', DRAFT.thumbnailDesc || '', '', function (v) {
+          DRAFT.thumbnailDesc = v;
+        }));
+
+        // ── Detail Page 섹션 ──
+        host.appendChild(el('div', { class: 'form-section', text: 'Detail Page' }));
+        var titleField = textInput('프로젝트 이름', DRAFT.title || '', '', function (v) {
           DRAFT.title = v;
           DRAFT._titleEdited = true;
         });
         titleField.querySelector('input').setAttribute('data-field', 'title');
         host.appendChild(titleField);
-        host.appendChild(textareaInput('설명', DRAFT.description || '', '', function (v) {
+        host.appendChild(textareaInput('제품 설명', DRAFT.description || '', '', function (v) {
           DRAFT.description = v;
         }));
-        host.appendChild(textareaInput('Product Details', DRAFT.details || '', '', function (v) {
+        host.appendChild(textareaInput('프로덕트 디테일', DRAFT.details || '', '', function (v) {
           DRAFT.details = v;
         }));
-        host.appendChild(textareaInput('Size', DRAFT.size || '', '', function (v) {
+        host.appendChild(textareaInput('사이즈', DRAFT.size || '', '', function (v) {
           DRAFT.size = v;
         }));
         host.appendChild(renderGallery(DRAFT, function () {}));
@@ -1238,12 +1320,14 @@
         if (!DRAFT.id) DRAFT.id = uniqueId(DRAFT.name, others);
         // ID 충돌 방지
         if (others.indexOf(DRAFT.id) !== -1) DRAFT.id = uniqueId(DRAFT.id, others);
-        // 상세 페이지 타이틀이 비어있으면 프로젝트 이름으로 채움
+        // 비어있는 다운스트림 이름 필드는 프로젝트 이름으로 채움
+        if (!DRAFT.thumbnailTitle || !DRAFT.thumbnailTitle.trim()) DRAFT.thumbnailTitle = DRAFT.name;
         if (!DRAFT.title || !DRAFT.title.trim()) DRAFT.title = DRAFT.name;
 
         var newProject = JSON.parse(JSON.stringify(DRAFT));
         delete newProject._idEdited;
         delete newProject._titleEdited;
+        delete newProject._thumbTitleEdited;
         STATE.projects.push(newProject);
 
         var addedName = DRAFT.name;
@@ -1279,8 +1363,8 @@
       function renderGallery(target, onChange) {
         var wrap = el('div', { class: 'field' });
         wrap.appendChild(el('div', { class: 'label' }, [
-          '갤러리',
-          el('span', { class: 'label__hint', text: '3장 권장 · 썸네일 클릭/붙여넣기/드래그도 가능' }),
+          '이미지',
+          el('span', { class: 'label__hint', text: '원하는 만큼 추가 가능 · 썸네일 클릭/붙여넣기/드래그도 가능' }),
         ]));
 
         target.gallery = Array.isArray(target.gallery) ? target.gallery.slice() : [];

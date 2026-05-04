@@ -3,27 +3,13 @@
     {
       "id": "project",
       "name": "테스트",
-      "thumbnail": "",
+      "thumbnail": "./images/projects/1777898179036-0111.jpeg",
       "title": "테스트",
-      "description": "",
-      "details": "",
-      "size": "",
+      "description": "테스트",
+      "details": "테스트",
+      "size": "테스트",
       "gallery": [
-        "",
-        "",
-        ""
-      ]
-    },
-    {
-      "id": "project-2",
-      "name": "테스트 프로젝트",
-      "thumbnail": "./images/projects/1777897332373-pasted-1777897331763.png",
-      "title": "테스트",
-      "description": "",
-      "details": "",
-      "size": "",
-      "gallery": [
-        "",
+        "./images/projects/1777898191314-0111.jpeg",
         "",
         ""
       ]

@@ -5,7 +5,7 @@
       "name": "테스트 프로젝트01",
       "thumbnail": "./images/projects/1777903723602-pasted-1777903721215.png",
       "title": "테스트 프로젝트01",
-      "description": "테스트01 입니다 /br 테스트입니다",
+      "description": "테스트01 입니다 <br> 테스트입니다",
       "details": "테스트 디테일",
       "size": "테스트 사이즈",
       "gallery": [

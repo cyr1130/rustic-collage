@@ -210,4 +210,22 @@
       }
     });
   }
+
+  // ---------- 풋터 이메일 — site-config.json 에서 동적 갱신 (모든 페이지 공통) ----------
+  // index.html은 별도 스크립트로 hero/contact 영역까지 갱신하므로 그쪽이 우선,
+  // 하위 페이지(about/collection/projects/project-detail/contact)는 풋터만 가지고 있어 여기서 갱신.
+  (function syncFooterEmail() {
+    var footerEmail = document.getElementById('footer-email');
+    if (!footerEmail) return;
+    // 정적/하위 페이지 위치 기준으로 site-config 경로 결정
+    fetch('./site-config.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (cfg) {
+        if (!cfg || !cfg.email) return;
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cfg.email)) return;
+        footerEmail.href = 'mailto:' + cfg.email;
+        footerEmail.textContent = cfg.email;
+      })
+      .catch(function () { /* 무시 */ });
+  })();
 })();

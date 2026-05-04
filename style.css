@@ -950,6 +950,10 @@ body.menu-open { overflow: hidden; }
 .proj-detail__info {
   grid-column: 1;
   grid-row: 1;
+  /* 우측 이미지가 스크롤될 동안 좌측 정보는 nav 바로 아래에서 sticky로 머무름 */
+  position: sticky;
+  top: 90px;
+  align-self: start;
 }
 .proj-detail__title {
   font-family: var(--font-display);
@@ -1012,7 +1016,7 @@ body.menu-open { overflow: hidden; }
 }
 .proj-detail__expand-body p { margin: 0; }
 
-/* 모바일/태블릿: 단일 컬럼 → DOM 순서대로 (img1 → info → img2 → img3 → ...) */
+/* 모바일/태블릿: 단일 컬럼, 정보가 최상단 → 이후 이미지들이 순서대로 */
 @media (max-width: 900px) {
   .proj-detail__grid {
     grid-template-columns: 1fr;
@@ -1023,7 +1027,13 @@ body.menu-open { overflow: hidden; }
   .proj-detail__info {
     grid-column: 1;
   }
-  .proj-detail__info { grid-row: auto; }
+  /* 모바일은 sticky 해제 + 정보 영역을 최상단으로 */
+  .proj-detail__info {
+    grid-row: auto;
+    position: static;
+    top: auto;
+    order: -1;       /* DOM 순서와 무관하게 최상단 */
+  }
   .proj-detail__title { font-size: 22px; }
 }
 
@@ -1050,7 +1060,9 @@ body.menu-open { overflow: hidden; }
 @media (max-width: 1024px) {
   .other-projects__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-@media (max-width: 480px) {
+/* 모바일에선 2개만 노출 (3번째 이후 숨김) */
+@media (max-width: 640px) {
+  .other-projects__grid .proj-card:nth-child(n+3) { display: none; }
   .other-projects__grid { gap: 14px; }
 }
 

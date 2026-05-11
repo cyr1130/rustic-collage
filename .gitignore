@@ -1,5 +1,9 @@
 .DS_Store
 node_modules/
+.env
+.env.local
+.env.*.local
+.vercel
 러스틱수정/컨택/시안.jpg
 러스틱수정/컨택/사진.png
 러스틱수정/어바웃/어바웃.psd

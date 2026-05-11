@@ -18,6 +18,7 @@
           <a href="./about.html">About</a>
           <a href="./collection.html">Collage Collection</a>
           <a href="./projects.html">Projects</a>
+          <a href="./notice.html">Notice</a>
           <a href="./contact.html">Contact</a>
         </nav>
         <button class="nav__toggle" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="nav-drawer">
@@ -32,6 +33,7 @@
         <a href="./about.html">About</a>
         <a href="./collection.html">Collage Collection</a>
         <a href="./projects.html">Projects</a>
+        <a href="./notice.html">Notice</a>
         <a href="./contact.html">Contact</a>
       </nav>
       <div class="nav__drawer-social">

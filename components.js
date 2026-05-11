@@ -19,7 +19,6 @@
           <a href="./collection.html">Collage Collection</a>
           <a href="./projects.html">Projects</a>
           <a href="./notice.html">Notice</a>
-          <a href="./contact.html">Contact</a>
         </nav>
         <button class="nav__toggle" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="nav-drawer">
           <span class="nav__toggle-bar"></span>
@@ -29,12 +28,16 @@
     </header>
     <div class="nav__backdrop" aria-hidden="true"></div>
     <aside class="nav__drawer" id="nav-drawer" aria-hidden="true">
+      <button class="nav__drawer-close" type="button" aria-label="메뉴 닫기">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12"/>
+        </svg>
+      </button>
       <nav class="nav__drawer-menu" aria-label="모바일 메뉴">
         <a href="./about.html">About</a>
         <a href="./collection.html">Collage Collection</a>
         <a href="./projects.html">Projects</a>
         <a href="./notice.html">Notice</a>
-        <a href="./contact.html">Contact</a>
       </nav>
       <div class="nav__drawer-social">
         <a href="https://www.instagram.com/rustic_collage" target="_blank" rel="noopener noreferrer" aria-label="Instagram">

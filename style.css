@@ -741,6 +741,9 @@ body.menu-open { overflow: hidden; }
   transform: scale(0.5) translateY(200px);
   transition: transform 1400ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
+  /* transform/will-change 합성 레이어 경계에서 생기는 sub-pixel 갭(흰 줄) 방지 —
+     아래의 footer 와 1px 겹치게 해서 body 의 흰 배경이 새지 않도록. */
+  margin-bottom: -1px;
 }
 .contact.is-revealed {
   transform: scale(1) translateY(0);

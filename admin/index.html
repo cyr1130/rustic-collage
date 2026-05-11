@@ -513,6 +513,30 @@
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
       }
 
+      /* 체크박스 행 */
+      .rc-check-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .rc-check {
+        width: 18px; height: 18px;
+        margin: 2px 0 0;
+        accent-color: #111111;
+        cursor: pointer;
+      }
+      .rc-check-row__text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .rc-check-row__hint {
+        color: var(--gray-500);
+        font-size: 12px;
+      }
+
       .icon-btn {
         width: 38px; height: 38px; padding: 0;
         color: black;
@@ -1104,6 +1128,12 @@
           </svg>
           <span>프로젝트</span>
         </button>
+        <button class="rail__item" data-section="notice" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 5h16M4 12h16M4 19h10"/>
+          </svg>
+          <span>공지사항</span>
+        </button>
       </aside>
 
       <!-- 2뎁스: 서브메뉴 -->
@@ -1146,10 +1176,24 @@
             <span class="badge" id="sidebar-count">0</span>
           </button>
           <button class="submenu__item" data-view="add" type="button">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" 
-            stroke="currentColor" stroke-width="2.2" stroke-linecap="round" 
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
             aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
             <span>새 프로젝트 등록</span>
+          </button>
+        </div>
+        <!-- 공지사항 -->
+        <div class="submenu__group" data-section="notice">
+          <p class="submenu__title">공지사항</p>
+          <button class="submenu__item" data-view="notice-list" type="button">
+            <span>공지사항 목록</span>
+            <span class="badge" id="sidebar-notice-count">0</span>
+          </button>
+          <button class="submenu__item" data-view="notice-add" type="button">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+            <span>새 공지 등록</span>
           </button>
         </div>
       </aside>
@@ -1321,6 +1365,63 @@
             <button class="btn btn--primary" id="btn-coll-add-submit" type="button">+ 목록에 추가하기</button>
           </div>
         </section>
+
+        <!-- View: 공지사항 — 목록 -->
+        <section class="view" data-view="notice-list">
+          <nav class="crumb" aria-label="Breadcrumb">
+            <span>공지사항</span>
+            <svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="crumb__current">공지사항 목록</span>
+          </nav>
+          <h2 class="content__title">공지사항 목록</h2>
+          <div class="tip">
+            <span class="tip__icon">!</span>
+            <div>
+              <strong>게시글 관리</strong><br />
+              글을 클릭하면 상세/편집 화면으로 이동해요. 카테고리는 NOTICE / NEWS / CERTIFICATIONS 중 선택할 수 있고, 본문과 이미지(여러 장)를 함께 등록할 수 있습니다.
+            </div>
+          </div>
+
+          <div class="summary-bar">
+            <span class="summary-bar__count">총 <strong id="notice-count">0</strong>개의 글</span>
+            <div class="search-bar">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-3.5-3.5" />
+              </svg>
+              <input type="search" id="notice-search-input" placeholder="제목으로 검색" autocomplete="off" />
+            </div>
+          </div>
+
+          <div id="notice-list">
+            <div class="loading">불러오고 있어요…</div>
+          </div>
+        </section>
+
+        <!-- View: 공지사항 — 상세/편집 -->
+        <section class="view" data-view="notice-detail">
+          <div id="notice-detail-host"></div>
+        </section>
+
+        <!-- View: 공지사항 — 신규 등록 -->
+        <section class="view" data-view="notice-add">
+          <nav class="crumb" aria-label="Breadcrumb">
+            <span>공지사항</span>
+            <svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="crumb__current">신규 등록</span>
+          </nav>
+          <h2 class="content__title">새 공지 등록</h2>
+          <p class="content__subtitle">새 게시글을 추가합니다. 본문에는 자유롭게 텍스트를 작성하고, 이미지는 여러 장을 첨부할 수 있어요.</p>
+
+          <div class="form-card" id="notice-add-form-host">
+            <!-- 폼 필드는 JS로 렌더링 -->
+          </div>
+
+          <div class="form-card__footer" style="background:transparent;border:0;padding:16px 0 0;">
+            <button class="btn btn--ghost" id="btn-notice-add-reset" type="button">초기화</button>
+            <button class="btn btn--primary" id="btn-notice-add-submit" type="button">+ 목록에 추가하기</button>
+          </div>
+        </section>
       </main>
     </div>
 
@@ -1351,18 +1452,28 @@
     <script>
       'use strict';
 
-      var STATE = { projects: [], collection: [] };
+      var STATE = { projects: [], collection: [], notices: [] };
       var SAVED_SNAPSHOT = '';
       var COLLECTION_SAVED_SNAPSHOT = '';
+      var NOTICES_SAVED_SNAPSHOT = '';
       var SESSION_KEY = 'rc_admin_pw';
       var DRAFT = blankProject();
       var COLLECTION_DRAFT = blankCollectionItem();
+      var NOTICE_DRAFT = blankNotice();
       var EDITING_INDEX = null;     // 프로젝트 편집 인덱스
       var EDIT_MODE = 'view';       // 프로젝트 'view' | 'edit'
       var EDITING_COLLECTION_INDEX = null;
       var COLLECTION_EDIT_MODE = 'view';
+      var EDITING_NOTICE_INDEX = null;
+      var NOTICE_EDIT_MODE = 'view';
       var SEARCH_QUERY = '';
       var COLL_SEARCH_QUERY = '';
+      var NOTICE_SEARCH_QUERY = '';
+      var NOTICE_CATEGORIES = [
+        { value: 'notice', label: 'NOTICE' },
+        { value: 'news', label: 'NEWS' },
+        { value: 'certifications', label: 'CERTIFICATIONS' },
+      ];
       // 컬렉션 카테고리 옵션 (collection.html 의 탭과 동일)
       var COLLECTION_CATEGORIES = [
         { value: '165', label: '165' },
@@ -1433,11 +1544,19 @@
           return clean;
         }));
       }
+      function noticesSnapshot() {
+        return JSON.stringify((STATE.notices || []).map(function (it) {
+          var clean = {};
+          Object.keys(it).forEach(function (k) { if (k.charAt(0) !== '_') clean[k] = it[k]; });
+          return clean;
+        }));
+      }
       function isDirty() { return snapshot() !== SAVED_SNAPSHOT; }
       function isCollectionDirty() { return collectionSnapshot() !== COLLECTION_SAVED_SNAPSHOT; }
+      function isNoticesDirty() { return noticesSnapshot() !== NOTICES_SAVED_SNAPSHOT; }
       function siteConfigSnapshot() { return JSON.stringify(SITE_CONFIG); }
       function isSiteConfigDirty() { return siteConfigSnapshot() !== SITE_CONFIG_SAVED_SNAPSHOT; }
-      function isAnyDirty() { return isDirty() || isCollectionDirty() || isSiteConfigDirty(); }
+      function isAnyDirty() { return isDirty() || isCollectionDirty() || isNoticesDirty() || isSiteConfigDirty(); }
       function slugify(s) {
         return String(s || '').toLowerCase().trim()
           .replace(/[^\w\s-]/g, '')
@@ -1475,6 +1594,23 @@
           grade: '',                // 자유 텍스트 (예: Premium / Standard / Signature)
           _idEdited: false,
         };
+      }
+      function blankNotice() {
+        return {
+          id: '', title: '',
+          category: 'notice',       // notice / news / certifications
+          date: todayISO(),
+          isPinned: false,
+          isFavorite: false,
+          body: '',
+          images: [],
+          _idEdited: false,
+        };
+      }
+      function todayISO() {
+        var d = new Date();
+        var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+        return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
       }
 
       function updateStatus() {
@@ -1581,6 +1717,11 @@
           .then(function (r) { return r.ok ? r.json() : { items: [] }; })
           .catch(function () { return { items: [] }; });
       }
+      function loadNoticesFromServer() {
+        return fetch('../notice-data.json?t=' + Date.now(), { cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : { items: [] }; })
+          .catch(function () { return { items: [] }; });
+      }
       function loadSiteConfig() {
         return fetch('../site-config.json?t=' + Date.now(), { cache: 'no-store' })
           .then(function (r) { return r.ok ? r.json() : null; })
@@ -1592,6 +1733,7 @@
       function viewToSection(view) {
         if (view === 'home-hero' || view === 'home-email' || view === 'home-phone') return 'home';
         if (view === 'collection-home-image' || view === 'collection-list' || view === 'collection-add' || view === 'collection-detail') return 'collection';
+        if (view === 'notice-list' || view === 'notice-add' || view === 'notice-detail') return 'notice';
         // list/add/detail 모두 프로젝트 섹션
         return 'project';
       }
@@ -1622,6 +1764,9 @@
         if (name === 'collection-list') renderCollectionList();
         if (name === 'collection-add') renderCollectionAddForm();
         if (name === 'collection-detail') renderCollectionDetail();
+        if (name === 'notice-list') renderNoticeList();
+        if (name === 'notice-add') renderNoticeAddForm();
+        if (name === 'notice-detail') renderNoticeDetail();
       }
 
       // 레일에서 섹션 클릭 — 해당 섹션의 첫 활성 메뉴로 이동
@@ -2852,6 +2997,438 @@
         renderCollectionAddForm();
       }
 
+      // =============================================================
+      // ===================== NOTICE 관리부 =========================
+      // =============================================================
+
+      function markNoticesDirty() { updateStatus(); }
+
+      // 공지 카테고리 탭 — NOTICE / NEWS / CERTIFICATIONS
+      function noticeCategoryTabs(currentValue, onChange) {
+        var wrap = el('div', { class: 'field' });
+        wrap.appendChild(el('label', { class: 'label', text: '카테고리' }));
+        var tabs = el('div', { class: 'cat-tabs', role: 'tablist' });
+        NOTICE_CATEGORIES.forEach(function (opt) {
+          var btn = el('button', {
+            class: 'cat-tabs__tab' + (opt.value === currentValue ? ' is-active' : ''),
+            type: 'button',
+            'data-value': opt.value,
+            text: opt.label,
+          });
+          btn.addEventListener('click', function () {
+            tabs.querySelectorAll('.cat-tabs__tab').forEach(function (b) { b.classList.remove('is-active'); });
+            btn.classList.add('is-active');
+            onChange(opt.value);
+          });
+          tabs.appendChild(btn);
+        });
+        wrap.appendChild(tabs);
+        return wrap;
+      }
+
+      // 체크박스 라인 (핀 / 즐겨찾기)
+      function checkboxField(label, hint, value, onChange) {
+        var input = el('input', { type: 'checkbox', class: 'rc-check' });
+        if (value) input.checked = true;
+        input.addEventListener('change', function () { onChange(input.checked); });
+        var row = el('label', { class: 'rc-check-row' }, [
+          input,
+          el('span', { class: 'rc-check-row__text' }, [
+            el('span', { text: label }),
+            hint ? el('span', { class: 'rc-check-row__hint', text: hint }) : null,
+          ]),
+        ]);
+        return el('div', { class: 'field' }, [row]);
+      }
+
+      function noticeCategoryLabel(cat) {
+        switch ((cat || '').toLowerCase()) {
+          case 'notice': return 'NOTICE';
+          case 'news': return 'NEWS';
+          case 'certifications': return 'CERTIFICATIONS';
+          default: return '';
+        }
+      }
+
+      // ---------- List ----------
+      function renderNoticeList() {
+        var host = $('#notice-list');
+        if (!host) return;
+        host.innerHTML = '';
+        STATE.notices = STATE.notices || [];
+        $('#notice-count').textContent = STATE.notices.length;
+        $('#sidebar-notice-count').textContent = STATE.notices.length;
+
+        if (STATE.notices.length === 0) {
+          host.appendChild(el('div', { class: 'empty' }, [
+            el('p', { class: 'empty__title', text: '아직 등록된 글이 없어요' }),
+            el('p', { text: '좌측 메뉴에서 새 공지를 추가해 보세요.' }),
+          ]));
+          updateStatus();
+          return;
+        }
+
+        var q = (NOTICE_SEARCH_QUERY || '').trim().toLowerCase();
+        var filtered = STATE.notices.map(function (it, idx) { return { it: it, idx: idx }; });
+        if (q) {
+          filtered = filtered.filter(function (x) {
+            var hay = [x.it.title || '', x.it.id || ''].join(' ').toLowerCase();
+            return hay.indexOf(q) !== -1;
+          });
+        }
+
+        if (filtered.length === 0) {
+          host.appendChild(el('div', { class: 'empty' }, [
+            el('p', { class: 'empty__title', text: '검색 결과가 없어요' }),
+            el('p', { text: '"' + NOTICE_SEARCH_QUERY + '" 와 일치하는 글이 없어요.' }),
+          ]));
+          updateStatus();
+          return;
+        }
+
+        filtered.forEach(function (entry) {
+          host.appendChild(renderNoticeRow(entry.it, entry.idx));
+        });
+        updateStatus();
+      }
+
+      function renderNoticeRow(it, index) {
+        var card = el('div', { class: 'proj' });
+        var nameEl = el('p', { class: 'proj__name', text: it.title || '제목 없음' });
+        var catBadge = el('span', { class: 'cat-badge', text: noticeCategoryLabel(it.category) || '-' });
+        var pinBadge = it.isPinned ? el('span', { class: 'cat-badge', style: 'background: #FFE9CC; color: #8C4F00;', text: '공지' }) : null;
+        var dateEl = el('span', { class: 'cat-badge', style: 'background: transparent; color: #888; padding-left: 0;', text: it.date || '' });
+        var nameRow = el('div', { class: 'proj__name-row' }, [nameEl, pinBadge, catBadge, dateEl]);
+        var headText = el('div', { class: 'proj__head-text' }, [nameRow]);
+
+        var actions = el('div', { class: 'proj__actions' });
+        var btnUp = iconBtn('up', function () { noticeMove(index, -1); }, false, '위로');
+        if (index === 0) btnUp.disabled = true;
+        var btnDown = iconBtn('down', function () { noticeMove(index, 1); }, false, '아래로');
+        if (index === STATE.notices.length - 1) btnDown.disabled = true;
+        actions.appendChild(btnUp);
+        actions.appendChild(btnDown);
+        actions.appendChild(iconBtn('copy', function () { noticeDuplicate(index); }, false, '복제', 'accent'));
+        actions.appendChild(iconBtn('x', function () { noticeRemove(index); }, true, '삭제'));
+
+        var head = el('div', { class: 'proj__head' }, [headText, actions]);
+
+        card.addEventListener('click', function (e) {
+          if (e.target.closest('.proj__actions')) return;
+          openNoticeItem(index);
+        });
+        card.appendChild(head);
+        return card;
+      }
+
+      function noticeMove(index, dir) {
+        var next = index + dir;
+        if (next < 0 || next >= STATE.notices.length) return;
+        var arr = STATE.notices;
+        var tmp = arr[index]; arr[index] = arr[next]; arr[next] = tmp;
+        renderNoticeList();
+        markNoticesDirty();
+      }
+      function noticeDuplicate(index) {
+        var src = STATE.notices[index];
+        if (!src) return;
+        var copy = JSON.parse(JSON.stringify(src));
+        var others = STATE.notices.map(function (x) { return x.id; });
+        copy.id = uniqueId((copy.id || copy.title || 'notice') + '-copy', others);
+        copy.title = (copy.title || '제목 없음') + ' (복제)';
+        STATE.notices.splice(index + 1, 0, copy);
+        renderNoticeList();
+        markNoticesDirty();
+      }
+      function noticeRemove(index) {
+        var p = STATE.notices[index];
+        if (!p) return;
+        showConfirm('"' + (p.title || '제목 없음') + '" 글을\n정말 삭제하시겠습니까?', '', {
+          confirmText: '삭제', cancelText: '취소', danger: true,
+          onConfirm: function () {
+            STATE.notices.splice(index, 1);
+            renderNoticeList();
+            markNoticesDirty();
+          },
+        });
+      }
+
+      function openNoticeItem(index) {
+        EDITING_NOTICE_INDEX = index;
+        NOTICE_EDIT_MODE = 'view';
+        switchView('notice-detail');
+        try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); }
+      }
+
+      // ---------- Detail / Edit ----------
+      function renderNoticeDetail() {
+        var p = STATE.notices[EDITING_NOTICE_INDEX];
+        var host = $('#notice-detail-host');
+        host.innerHTML = '';
+        if (!p) {
+          host.appendChild(el('div', { class: 'empty' }, [
+            el('p', { class: 'empty__title', text: '글을 찾을 수 없어요' }),
+            el('p', { text: '목록으로 돌아가 다시 선택해 주세요.' }),
+          ]));
+          return;
+        }
+
+        var sepSvg = '<svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>';
+        var crumb = el('nav', { class: 'crumb', 'aria-label': 'Breadcrumb', html:
+          '<span>공지사항</span>' + sepSvg +
+          '<span>공지사항 목록</span>' + sepSvg +
+          '<span class="crumb__current"></span>'
+        });
+        crumb.querySelector('.crumb__current').textContent = p.title || '제목 없음';
+        host.appendChild(crumb);
+
+        var header = el('div', { class: 'detail-header' });
+        var backBtn = el('button', { class: 'btn btn--ghost btn--back', type: 'button', html: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg><span>목록</span>' });
+        backBtn.addEventListener('click', function () {
+          EDITING_NOTICE_INDEX = null;
+          renderNoticeList();
+          switchView('notice-list');
+        });
+
+        var actions = el('div', { class: 'detail-header__actions' });
+        if (NOTICE_EDIT_MODE === 'view') {
+          var editBtn = el('button', { class: 'btn btn--primary', type: 'button', text: '수정' });
+          editBtn.addEventListener('click', function () { NOTICE_EDIT_MODE = 'edit'; renderNoticeDetail(); });
+          actions.appendChild(editBtn);
+        } else {
+          var doneBtn = el('button', { class: 'btn btn--primary', type: 'button', text: '편집 완료' });
+          doneBtn.addEventListener('click', function () { NOTICE_EDIT_MODE = 'view'; renderNoticeDetail(); });
+          actions.appendChild(doneBtn);
+        }
+        var deleteBtn = el('button', { class: 'btn btn--danger', type: 'button', text: '삭제' });
+        deleteBtn.addEventListener('click', function () {
+          showConfirm('"' + (p.title || '제목 없음') + '" 글을\n정말 삭제하시겠습니까?', '', {
+            confirmText: '삭제', cancelText: '취소', danger: true,
+            onConfirm: function () {
+              STATE.notices.splice(EDITING_NOTICE_INDEX, 1);
+              EDITING_NOTICE_INDEX = null;
+              markNoticesDirty();
+              renderNoticeList();
+              switchView('notice-list');
+            },
+          });
+        });
+        actions.appendChild(deleteBtn);
+
+        header.appendChild(backBtn);
+        header.appendChild(el('div', { style: 'flex: 1' }));
+        header.appendChild(actions);
+        host.appendChild(header);
+
+        var content = el('div', { class: NOTICE_EDIT_MODE === 'edit' ? 'form-card' : '' });
+        if (NOTICE_EDIT_MODE === 'edit') {
+          renderNoticeEditFields(content, p, function () {
+            var crumbCurrent = host.querySelector('.crumb__current');
+            if (crumbCurrent) crumbCurrent.textContent = p.title || '제목 없음';
+          });
+        } else {
+          renderNoticeViewFields(content, p);
+        }
+        host.appendChild(content);
+      }
+
+      function renderNoticeEditFields(host, p, onTitleChange) {
+        host.appendChild(textInput('제목', p.title || '', '', function (v) {
+          p.title = v;
+          if (!p._idEdited) {
+            var others = STATE.notices.filter(function (x) { return x !== p; }).map(function (x) { return x.id; });
+            p.id = uniqueId(v, others);
+          }
+          if (onTitleChange) onTitleChange();
+          markNoticesDirty();
+        }));
+
+        host.appendChild(noticeCategoryTabs(p.category || 'notice', function (v) {
+          p.category = v; markNoticesDirty();
+        }));
+
+        host.appendChild(textInput('작성일', p.date || '', 'YYYY-MM-DD', function (v) {
+          p.date = v; markNoticesDirty();
+        }));
+
+        host.appendChild(checkboxField('상단 고정 (공지)', '목록 최상단에 "공지" 로 노출', !!p.isPinned, function (v) {
+          p.isPinned = v; markNoticesDirty();
+        }));
+        host.appendChild(checkboxField('하트 표시', '제목 옆에 빨간 하트 아이콘 표시', !!p.isFavorite, function (v) {
+          p.isFavorite = v; markNoticesDirty();
+        }));
+
+        host.appendChild(el('div', { class: 'form-section' }));
+        host.appendChild(textareaInput('본문', p.body || '', '줄바꿈은 Enter — 빈 줄로 문단 구분', function (v) {
+          p.body = v; markNoticesDirty();
+        }));
+
+        host.appendChild(el('div', { class: 'form-section' }));
+        // 이미지 갤러리 — 기존 renderGallery 재활용 (target.gallery 필드명을 images 로 매핑)
+        host.appendChild(renderImageList(p, 'images', markNoticesDirty));
+      }
+
+      function renderNoticeViewFields(host, p) {
+        function row(label, value) {
+          var labelEl = el('div', { class: 'view-row__label', text: label });
+          var valueEl = el('div', { class: 'view-row__value' + (value ? '' : ' view-row__value--muted') });
+          valueEl.textContent = value || '비어있음';
+          return el('div', { class: 'view-row' }, [labelEl, valueEl]);
+        }
+        host.appendChild(row('제목', p.title));
+        host.appendChild(row('카테고리', noticeCategoryLabel(p.category)));
+        host.appendChild(row('작성일', p.date));
+        host.appendChild(row('상단 고정', p.isPinned ? '예' : '아니오'));
+        host.appendChild(row('하트 표시', p.isFavorite ? '예' : '아니오'));
+
+        host.appendChild(el('div', { class: 'form-section' }));
+        var bodyRow = el('div', { class: 'view-row' });
+        bodyRow.appendChild(el('div', { class: 'view-row__label', text: '본문' }));
+        var bodyVal = el('div', { class: 'view-row__value' + (p.body ? '' : ' view-row__value--muted'), style: 'white-space: pre-wrap;' });
+        bodyVal.textContent = p.body || '비어있음';
+        bodyRow.appendChild(bodyVal);
+        host.appendChild(bodyRow);
+
+        var gRow = el('div', { class: 'view-row' });
+        gRow.appendChild(el('div', { class: 'view-row__label', text: '이미지' }));
+        var images = (p.images || []).filter(Boolean);
+        if (images.length === 0) {
+          gRow.appendChild(el('div', { class: 'view-row__value view-row__value--muted', text: '비어있음' }));
+        } else {
+          var gGrid = el('div', { class: 'view-row__gallery' });
+          images.forEach(function (url) {
+            var img = el('img', { src: toPreviewUrl(url), alt: '' });
+            img.addEventListener('error', function () { img.src = placeholderSvg(); });
+            gGrid.appendChild(img);
+          });
+          gRow.appendChild(gGrid);
+        }
+        host.appendChild(gRow);
+      }
+
+      // renderGallery 와 동일 구조지만 필드명만 동적으로 받는 버전
+      function renderImageList(target, fieldName, onChange) {
+        var wrap = el('div', { class: 'field' });
+        wrap.appendChild(el('div', { class: 'label' }, [
+          '이미지',
+          el('span', { class: 'label__hint', text: '원하는 만큼 추가 가능 · 붙여넣기/드래그도 가능' }),
+        ]));
+
+        target[fieldName] = Array.isArray(target[fieldName]) ? target[fieldName].slice() : [];
+        var listEl = el('div', { class: 'gallery-list' });
+
+        function refresh() {
+          listEl.innerHTML = '';
+          target[fieldName].forEach(function (url, idx) {
+            var preview = el('img', { class: 'img-input__preview', src: toPreviewUrl(url), alt: '' });
+            preview.addEventListener('error', function () { preview.src = placeholderSvg(); });
+            var input = el('input', {
+              class: 'input', type: 'text', value: url || '',
+              placeholder: 'https://… 또는 붙여넣기/드래그',
+            });
+            input.addEventListener('input', function (e) {
+              target[fieldName][idx] = e.target.value;
+              preview.src = toPreviewUrl(e.target.value);
+              onChange();
+            });
+            var uploadBtn = makeUploadButton(function (path) {
+              target[fieldName][idx] = path;
+              input.value = path;
+              preview.src = toPreviewUrl(path);
+              onChange();
+            });
+            var removeBtn = iconBtn('x', function () {
+              target[fieldName].splice(idx, 1); refresh(); onChange();
+            }, true, '이미지 제거');
+            var row = el('div', { class: 'img-input' }, [preview, input, uploadBtn, removeBtn]);
+            attachImagePasteAndDrop(row, input, preview, uploadBtn, function (path) {
+              target[fieldName][idx] = path;
+              input.value = path;
+              preview.src = toPreviewUrl(path);
+              onChange();
+            });
+            listEl.appendChild(row);
+          });
+        }
+
+        var addBtn = el('button', { class: 'gallery-add', type: 'button', text: '+ 이미지 추가하기' });
+        addBtn.addEventListener('click', function () {
+          target[fieldName].push(''); refresh(); onChange();
+        });
+
+        wrap.appendChild(listEl);
+        wrap.appendChild(addBtn);
+        refresh();
+        return wrap;
+      }
+
+      // ---------- Add ----------
+      function renderNoticeAddForm() {
+        var host = $('#notice-add-form-host');
+        host.innerHTML = '';
+
+        host.appendChild(textInput('제목', NOTICE_DRAFT.title || '', '', function (v) {
+          NOTICE_DRAFT.title = v;
+          var others = STATE.notices.map(function (x) { return x.id; });
+          NOTICE_DRAFT.id = uniqueId(v, others);
+        }));
+        host.appendChild(noticeCategoryTabs(NOTICE_DRAFT.category || 'notice', function (v) {
+          NOTICE_DRAFT.category = v;
+        }));
+        host.appendChild(textInput('작성일', NOTICE_DRAFT.date || todayISO(), 'YYYY-MM-DD', function (v) {
+          NOTICE_DRAFT.date = v;
+        }));
+        host.appendChild(checkboxField('상단 고정 (공지)', '목록 최상단에 "공지" 로 노출', !!NOTICE_DRAFT.isPinned, function (v) {
+          NOTICE_DRAFT.isPinned = v;
+        }));
+        host.appendChild(checkboxField('하트 표시', '제목 옆에 빨간 하트 아이콘 표시', !!NOTICE_DRAFT.isFavorite, function (v) {
+          NOTICE_DRAFT.isFavorite = v;
+        }));
+
+        host.appendChild(el('div', { class: 'form-section' }));
+        host.appendChild(textareaInput('본문', NOTICE_DRAFT.body || '', '줄바꿈은 Enter — 빈 줄로 문단 구분', function (v) {
+          NOTICE_DRAFT.body = v;
+        }));
+        host.appendChild(el('div', { class: 'form-section' }));
+        host.appendChild(renderImageList(NOTICE_DRAFT, 'images', function () {}));
+      }
+
+      function submitNoticeDraft() {
+        if (!NOTICE_DRAFT.title || !NOTICE_DRAFT.title.trim()) {
+          showAlert('제목이 필요해요', '제목은 꼭 입력해 주세요.');
+          return;
+        }
+        var others = STATE.notices.map(function (x) { return x.id; });
+        if (!NOTICE_DRAFT.id) NOTICE_DRAFT.id = uniqueId(NOTICE_DRAFT.title, others);
+        if (others.indexOf(NOTICE_DRAFT.id) !== -1) NOTICE_DRAFT.id = uniqueId(NOTICE_DRAFT.id, others);
+        if (!NOTICE_DRAFT.date) NOTICE_DRAFT.date = todayISO();
+
+        var newItem = JSON.parse(JSON.stringify(NOTICE_DRAFT));
+        delete newItem._idEdited;
+        STATE.notices.unshift(newItem);   // 최신 글이 위로
+        NOTICE_DRAFT = blankNotice();
+        renderNoticeList();
+        markNoticesDirty();
+
+        showAlert('등록이 완료되었어요\n저장하고 게시를 눌러주세요', '', function () {
+          openNoticeItem(0);
+        });
+      }
+      function resetNoticeDraft() {
+        if (NOTICE_DRAFT.title || NOTICE_DRAFT.body || (NOTICE_DRAFT.images && NOTICE_DRAFT.images.length)) {
+          showConfirm('입력한 내용이 모두 지워져요\n초기화 하시겠습니까?', '', {
+            confirmText: '초기화', cancelText: '취소', danger: true,
+            onConfirm: function () {
+              NOTICE_DRAFT = blankNotice();
+              renderNoticeAddForm();
+            },
+          });
+          return;
+        }
+        NOTICE_DRAFT = blankNotice();
+        renderNoticeAddForm();
+      }
+
       // ---------- Gallery (shared) ----------
       function renderGallery(target, onChange) {
         var wrap = el('div', { class: 'field' });
@@ -3273,6 +3850,21 @@
         });
       }
 
+      function saveNotices(pw) {
+        var payload = (STATE.notices || []).map(function (p) {
+          var clean = {};
+          Object.keys(p).forEach(function (k) { if (k.charAt(0) !== '_') clean[k] = p[k]; });
+          return clean;
+        });
+        return fetch('/api/save-notice', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pw, items: payload }),
+        }).then(handleSaveResponse).then(function () {
+          NOTICES_SAVED_SNAPSHOT = noticesSnapshot();
+        });
+      }
+
       function save() {
         var pw = sessionStorage.getItem(SESSION_KEY);
         if (!pw) { showLogin(); return; }
@@ -3286,6 +3878,7 @@
         var tasks = [];
         if (isDirty()) tasks.push(saveProjects(pw));
         if (isCollectionDirty()) tasks.push(saveCollection(pw));
+        if (isNoticesDirty()) tasks.push(saveNotices(pw));
         if (isSiteConfigDirty()) tasks.push(saveSiteConfig(pw));
 
         Promise.all(tasks)
@@ -3371,6 +3964,11 @@
       if (btnCollAddSubmit) btnCollAddSubmit.addEventListener('click', submitCollectionDraft);
       var btnCollAddReset = $('#btn-coll-add-reset');
       if (btnCollAddReset) btnCollAddReset.addEventListener('click', resetCollectionDraft);
+      // 공지 add 폼 버튼
+      var btnNoticeAddSubmit = $('#btn-notice-add-submit');
+      if (btnNoticeAddSubmit) btnNoticeAddSubmit.addEventListener('click', submitNoticeDraft);
+      var btnNoticeAddReset = $('#btn-notice-add-reset');
+      if (btnNoticeAddReset) btnNoticeAddReset.addEventListener('click', resetNoticeDraft);
 
       // 검색 입력 — 디바운스 가볍게 적용
       var searchTimer = null;
@@ -3392,6 +3990,19 @@
           collSearchTimer = setTimeout(function () {
             COLL_SEARCH_QUERY = v;
             renderCollectionList();
+          }, 120);
+        });
+      }
+      // 공지 검색
+      var noticeSearchTimer = null;
+      var noticeSearchEl = $('#notice-search-input');
+      if (noticeSearchEl) {
+        noticeSearchEl.addEventListener('input', function (e) {
+          clearTimeout(noticeSearchTimer);
+          var v = e.target.value;
+          noticeSearchTimer = setTimeout(function () {
+            NOTICE_SEARCH_QUERY = v;
+            renderNoticeList();
           }, 120);
         });
       }
@@ -3487,12 +4098,21 @@
             return Object.assign({}, it, { _idEdited: !!it.id });
           });
           COLLECTION_SAVED_SNAPSHOT = collectionSnapshot();
-          // 사이드바 카운트 갱신
           var c = $('#sidebar-coll-count');
           if (c) c.textContent = STATE.collection.length;
-          // 현재 활성 뷰가 컬렉션 목록이면 즉시 재렌더
           var activeView = document.querySelector('.view.is-active');
           if (activeView && activeView.dataset.view === 'collection-list') renderCollectionList();
+        });
+        // 공지사항 데이터 로드 (병렬)
+        loadNoticesFromServer().then(function (data) {
+          STATE.notices = (data.items || []).map(function (it) {
+            return Object.assign({}, it, { _idEdited: !!it.id });
+          });
+          NOTICES_SAVED_SNAPSHOT = noticesSnapshot();
+          var n = $('#sidebar-notice-count');
+          if (n) n.textContent = STATE.notices.length;
+          var activeView = document.querySelector('.view.is-active');
+          if (activeView && activeView.dataset.view === 'notice-list') renderNoticeList();
         });
       }
       init();

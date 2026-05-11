@@ -3184,7 +3184,8 @@
 
           function onMove(e2) {
             var dx = e2.clientX - startX;
-            var newWidth = Math.max(60, Math.min(natW, startWidth + dx));
+            // 최소 60px, 최대 3000px (원본 픽셀을 넘기면 약간 흐릴 수 있지만 자유롭게 키울 수 있게)
+            var newWidth = Math.max(60, Math.min(3000, startWidth + dx));
             selectedImg.setAttribute('width', Math.round(newWidth));
             selectedImg.style.width = newWidth + 'px';
             selectedImg.style.height = 'auto';

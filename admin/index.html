@@ -1450,12 +1450,12 @@
       function blankCollectionItem() {
         return {
           id: '', name: '',
-          category: '165',          // 165 / 190 / 240 / collage
+          category: '165',          // 165 / 190 / 240 / collage (탭으로 고정 선택)
           thumbnail: '',
           gallery: ['', '', ''],
           productName: '',
           size: '',
-          grade: 'Premium',         // Premium / Standard / Signature
+          grade: '',                // 자유 텍스트 (예: Premium / Standard / Signature)
           _idEdited: false,
         };
       }
@@ -2618,7 +2618,7 @@
         host.appendChild(textInput('Size', p.size || '', '예: 7mm × 165mm × 1,212mm', function (v) {
           p.size = v; markCollectionDirty();
         }));
-        host.appendChild(gradeTabs(p.grade || 'Premium', function (v) {
+        host.appendChild(textInput('Grade', p.grade || '', '예: Premium / Standard / Signature', function (v) {
           p.grade = v; markCollectionDirty();
         }));
       }
@@ -2695,7 +2695,7 @@
         host.appendChild(textInput('Size', COLLECTION_DRAFT.size || '', '예: 7mm × 165mm × 1,212mm', function (v) {
           COLLECTION_DRAFT.size = v;
         }));
-        host.appendChild(gradeTabs(COLLECTION_DRAFT.grade || 'Premium', function (v) {
+        host.appendChild(textInput('Grade', COLLECTION_DRAFT.grade || '', '예: Premium / Standard / Signature', function (v) {
           COLLECTION_DRAFT.grade = v;
         }));
       }

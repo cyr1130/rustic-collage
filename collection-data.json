@@ -208,6 +208,20 @@
       "productName": "마호가니",
       "size": "",
       "grade": ""
+    },
+    {
+      "id": "antique-240",
+      "name": "antique 240",
+      "category": "240",
+      "thumbnail": "./images/projects/1778500340993-antique_240.webp",
+      "gallery": [
+        "./images/projects/1778500345590-antique_240.webp",
+        "",
+        ""
+      ],
+      "productName": "antique 240",
+      "size": "",
+      "grade": ""
     }
   ]
 }

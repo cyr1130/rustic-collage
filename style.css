@@ -223,6 +223,7 @@ body.menu-open .nav__drawer { transform: translateX(0); }
   gap: 0;
 }
 .nav__drawer-menu a {
+  position: relative;
   font-family: var(--font-display);
   font-size: 16px;
   font-weight: 700;
@@ -231,12 +232,55 @@ body.menu-open .nav__drawer { transform: translateX(0); }
   text-transform: uppercase;
   padding: 22px 4px;
   border-bottom: 1px solid #E5E5E5;
-  transition: color 200ms ease;
+  transition: color 350ms cubic-bezier(0.4, 0, 0.2, 1);
   display: block;
 }
+/* 호버/활성 시 좌→우로 자라는 #3c00a2 프로그레스 바 (콜라쥬 컬렉션 탭과 동일 패턴) */
+.nav__drawer-menu a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: #3c00a2;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 550ms cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
 .nav__drawer-menu a:hover { color: #3c00a2; }
-.nav__drawer-menu a.is-active {
-  color: #3c00a2;
+.nav__drawer-menu a:hover::after,
+.nav__drawer-menu a.is-active::after {
+  transform: scaleX(1);
+}
+.nav__drawer-menu a.is-active { color: #3c00a2; }
+
+/* 드로어 우상단 명확한 X 닫기 버튼 */
+.nav__drawer-close {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  color: #111111;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 200ms ease;
+  z-index: 10;
+}
+.nav__drawer-close svg { display: block; }
+/* 드로어가 열려있을 때 메인 nav 의 햄버거는 숨겨서 드로어 자체 X 만 보이도록 */
+body.menu-open .nav__toggle {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* 하단 소셜 아이콘 — 화면 하단에 고정 */
@@ -1680,7 +1724,40 @@ body.subpage--detail .nav.is-scrolled .nav__brand {
   }
 }
 
-/* -------------------- TITLE LETTER STAGGER (스크롤 진입 1회) -------------------- */
+/* -------------------- ANIMATION COMPONENTS — data-rc-anim 기반 재사용 컴포넌트 --------------------
+   사용 예: <h2 data-rc-anim="01">제목</h2>  또는  <figure data-rc-anim="02"><img ...></figure>
+   별명:
+     "01" = "letter-stagger" (글자 한 자씩 아래에서 페이드 인, 스크롤 진입 시 1회)
+     "02" = "scale-in" (1.1배 → 1배 부드럽게 안착, 스크롤 진입 시 1회 — 이미지 권장)
+   .collection__title / .projects__title 도 letter-stagger 자동 적용 (하위 호환). */
+
+/* "02" / scale-in — 컨테이너에 overflow:hidden 권장. transform-origin 은 중앙. */
+[data-rc-anim="02"],
+[data-rc-anim="scale-in"] {
+  overflow: hidden;
+  transform-origin: center center;
+}
+[data-rc-anim="02"] > *,
+[data-rc-anim="scale-in"] > * {
+  transform: scale(1.1);
+  transform-origin: center center;
+  transition: transform 1000ms cubic-bezier(0.44, 0, 0.56, 1);
+  will-change: transform;
+}
+[data-rc-anim="02"].is-revealed > *,
+[data-rc-anim="scale-in"].is-revealed > * {
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-rc-anim="02"] > *,
+  [data-rc-anim="scale-in"] > * {
+    transform: none;
+    transition: none;
+  }
+}
+
+[data-rc-anim="01"] .ltr,
+[data-rc-anim="letter-stagger"] .ltr,
 .collection__title .ltr,
 .projects__title .ltr {
   display: inline-block;
@@ -1690,12 +1767,15 @@ body.subpage--detail .nav.is-scrolled .nav__brand {
     opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
 }
+[data-rc-anim="01"].is-revealed .ltr,
+[data-rc-anim="letter-stagger"].is-revealed .ltr,
 .collection__title.is-revealed .ltr,
 .projects__title.is-revealed .ltr {
   opacity: 1;
   transform: translateY(0);
 }
 @media (prefers-reduced-motion: reduce) {
+  [data-rc-anim] .ltr,
   .collection__title .ltr,
   .projects__title .ltr {
     opacity: 1;

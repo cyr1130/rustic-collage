@@ -222,7 +222,8 @@
       var isMatch =
         file === path ||
         (path === 'project-detail.html' && file === 'projects.html') ||
-        (path === 'collection-detail.html' && file === 'collection.html');
+        (path === 'collection-detail.html' && file === 'collection.html') ||
+        (path === 'notice-detail.html' && file === 'notice.html');
       if (isMatch) {
         a.classList.add('is-active');
       }

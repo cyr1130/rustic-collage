@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Notice — Rustic Collage</title>
+    <meta name="description" content="Rustic Collage — 공지사항 상세" />
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./components.js"></script>
+  </head>
+  <body class="subpage subpage--light subpage--detail">
+    <rc-nav></rc-nav>
+
+    <main id="top">
+      <!-- ======================== BREADCRUMB ======================== -->
+      <section class="proj-detail-bc">
+        <div class="container">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="./notice.html">Notice</a>
+            <span class="breadcrumb__sep">/</span>
+            <span class="breadcrumb__current" id="bc-current">게시글</span>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ======================== DETAIL ======================== -->
+      <section class="notice-detail">
+        <div class="container">
+          <div id="notice-detail-host">
+            <div class="notice-loading">불러오고 있어요…</div>
+          </div>
+          <div class="notice-detail__footer">
+            <a class="btn-list" href="./notice.html">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              <span>목록으로</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var requestedId = params.get('id');
+        var host = document.getElementById('notice-detail-host');
+        var bcCurrent = document.getElementById('bc-current');
+
+        function esc(s) {
+          return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+            return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+          });
+        }
+        function escMultiline(s) {
+          var withBreaks = String(s == null ? '' : s).replace(/<br\s*\/?>/gi, '\n');
+          return esc(withBreaks).replace(/\n/g, '<br>');
+        }
+        function categoryLabel(cat) {
+          switch ((cat || '').toLowerCase()) {
+            case 'notice': return 'NOTICE';
+            case 'news': return 'NEWS';
+            case 'certifications': return 'CERTIFICATIONS';
+            default: return '';
+          }
+        }
+
+        fetch('./notice-data.json?t=' + Date.now())
+          .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+          .then(function (data) {
+            var list = data.items || [];
+            var current = list.find(function (p) { return p.id === requestedId; }) || list[0];
+            if (!current) {
+              host.innerHTML = '<p class="notice-loading">게시글을 찾을 수 없습니다.</p>';
+              return;
+            }
+            render(current);
+          })
+          .catch(function (err) {
+            host.innerHTML = '<p class="notice-loading">게시글을 불러오지 못했습니다.</p>';
+            console.error(err);
+          });
+
+        function render(p) {
+          if (bcCurrent) bcCurrent.textContent = p.title || '게시글';
+          document.title = (p.title || 'Notice') + ' — Rustic Collage';
+
+          var imagesHtml = '';
+          var imgs = (p.images || []).filter(function (s) { return !!s && String(s).trim(); });
+          if (imgs.length) {
+            imagesHtml = '<div class="notice-detail__images">' +
+              imgs.map(function (src, i) {
+                return '<figure class="notice-detail__image"><img src="' + esc(src) + '" alt="' + esc(p.title) + ' 이미지 ' + (i + 1) + '" loading="lazy" /></figure>';
+              }).join('') +
+              '</div>';
+          }
+
+          host.innerHTML =
+            '<header class="notice-detail__header">' +
+              (categoryLabel(p.category) ? '<span class="notice-detail__category">' + categoryLabel(p.category) + '</span>' : '') +
+              '<h1 class="notice-detail__title">' + esc(p.title || '') + '</h1>' +
+              '<p class="notice-detail__meta">' + esc(p.date || '') + '</p>' +
+            '</header>' +
+            '<div class="notice-detail__body"><p>' + escMultiline(p.body || '') + '</p></div>' +
+            imagesHtml;
+        }
+      })();
+    </script>
+
+    <rc-footer></rc-footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

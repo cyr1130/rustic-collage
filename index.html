@@ -41,7 +41,7 @@
 
         <div class="hero__inner">
           <div class="hero__text">
-            <h1 class="hero__title" id="hero-title">Rustic Collage</h1>
+            <h1 class="hero__title" id="hero-title" data-rc-anim="01">Rustic Collage</h1>
             <p class="hero__copy hero__copy--ko" id="hero-copy-ko"></p>
             <p class="hero__copy hero__copy--en" id="hero-copy-en"></p>
           </div>
@@ -60,7 +60,17 @@
                   (h.images || []).slice(0, 3).forEach(function (src, i) {
                     if (slides[i] && src) slides[i].src = src;
                   });
-                  if (h.title) document.getElementById('hero-title').textContent = h.title;
+                  if (h.title) {
+                    var heroTitle = document.getElementById('hero-title');
+                    if (heroTitle) {
+                      heroTitle.textContent = h.title;
+                      // letter-stagger 애니메이션 재바인딩 — 이전 split 상태와 bound flag 초기화
+                      heroTitle.dataset.split = '';
+                      heroTitle.removeAttribute('data-rc-anim-bound');
+                      heroTitle.classList.remove('is-revealed');
+                      if (window.RC_setupAnimations) window.RC_setupAnimations(heroTitle.parentElement);
+                    }
+                  }
                   if (h.copyKo) document.getElementById('hero-copy-ko').innerHTML = nlToBr(esc(h.copyKo));
                   if (h.copyEn) document.getElementById('hero-copy-en').innerHTML = nlToBr(esc(h.copyEn));
                 }

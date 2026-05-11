@@ -1291,27 +1291,8 @@ body.subpage--light .nav__menu a {
 }
 body.subpage--light .nav__toggle { color: #111111; }
 
-/* 스크롤 시: 라이트 프로스티드 글래스 + 다크 텍스트 */
-body.subpage--light .nav.is-scrolled {
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: url(#rc-liquid-glass);
-  box-shadow:
-    inset 0 0 0 0px rgba(255, 255, 255, 0.6),
-    inset 0 0px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.5),
-    0 16px 32px rgba(0, 0, 0, 0.06);
-}
-@supports not (backdrop-filter: url(#x)) {
-  body.subpage--light .nav.is-scrolled {
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: saturate(190%) brightness(112%) blur(36px);
-  }
-}
-body.subpage--light .nav.is-scrolled .nav__brand,
-body.subpage--light .nav.is-scrolled .nav__menu a,
-body.subpage--light .nav.is-scrolled .nav__toggle {
-  color: #111111;
-}
+/* 스크롤 시: 서브페이지도 메인의 .nav.is-scrolled 룩을 그대로 사용
+   (별도 override 없음 — 글자색은 adaptive nav tone JS 가 자동으로 처리) */
 
 /* -------------------- ADAPTIVE NAV TONE — nav 뒤 배경 밝기에 따라 자동 전환 --------------------
    JS가 nav 바로 아래의 픽셀을 샘플링해서 .nav--on-light / .nav--on-dark 를 토글함.

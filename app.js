@@ -209,6 +209,26 @@
     });
   }
 
+  // 현재 페이지에 해당하는 드로어 메뉴 항목에 .is-active 클래스 부여
+  (function markActiveDrawerLink() {
+    if (!drawer) return;
+    var path = window.location.pathname.split('/').pop() || 'index.html';
+    if (!path || path === '') path = 'index.html';
+    var menuLinks = drawer.querySelectorAll('.nav__drawer-menu a');
+    menuLinks.forEach(function (a) {
+      var href = a.getAttribute('href') || '';
+      var file = href.split('/').pop().split('?')[0];
+      // 디테일 페이지도 부모 카테고리 항목을 활성화
+      var isMatch =
+        file === path ||
+        (path === 'project-detail.html' && file === 'projects.html') ||
+        (path === 'collection-detail.html' && file === 'collection.html');
+      if (isMatch) {
+        a.classList.add('is-active');
+      }
+    });
+  })();
+
   // 백드롭 클릭 시 닫기
   if (backdrop) backdrop.addEventListener('click', closeMenu);
 

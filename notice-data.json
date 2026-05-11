@@ -3,7 +3,7 @@
     {
       "id": "test",
       "title": "test 게시물",
-      "category": "notice",
+      "category": "news",
       "date": "2026-05-11",
       "isPinned": false,
       "body": "<p>게시물 테스트 입니다</p>"

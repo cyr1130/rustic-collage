@@ -13,6 +13,19 @@
       "productName": "natural oak 2",
       "size": "",
       "grade": ""
+    },
+    {
+      "id": "natural-oak-2-copy",
+      "name": "natural oak 2 (복제)",
+      "category": "190",
+      "thumbnail": "./images/projects/1778498273371-natural_oak_3.jpg",
+      "gallery": [
+        "./images/projects/1778498282594-natural_oak_3.jpg",
+        ""
+      ],
+      "productName": "natural oak 3",
+      "size": "",
+      "grade": ""
     }
   ]
 }

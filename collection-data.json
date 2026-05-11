@@ -54,6 +54,90 @@
       "productName": "premium oak 3",
       "size": "",
       "grade": ""
+    },
+    {
+      "id": "solomon",
+      "name": "solomon",
+      "category": "190",
+      "thumbnail": "./images/projects/1778498510233-solomon.jpg",
+      "gallery": [
+        "./images/projects/1778498511759-solomon.jpg",
+        "",
+        ""
+      ],
+      "productName": "solomon",
+      "size": "",
+      "grade": ""
+    },
+    {
+      "id": "amara-cinnamon",
+      "name": "amara-cinnamon",
+      "category": "190",
+      "thumbnail": "./images/projects/1778498535244-amara-cinnamon.jpg",
+      "gallery": [
+        "./images/projects/1778498537125-amara-cinnamon.jpg",
+        "",
+        ""
+      ],
+      "productName": "amara-cinnamon",
+      "size": "",
+      "grade": ""
+    },
+    {
+      "id": "aurora-pistachio",
+      "name": "aurora-pistachio",
+      "category": "190",
+      "thumbnail": "./images/projects/1778498557343-aurora-pistachio.jpg",
+      "gallery": [
+        "./images/projects/1778498558867-aurora-pistachio.jpg",
+        "",
+        ""
+      ],
+      "productName": "aurora-pistachio",
+      "size": "",
+      "grade": ""
+    },
+    {
+      "id": "bonheur-vanilla",
+      "name": "bonheur-vanilla",
+      "category": "165",
+      "thumbnail": "./images/projects/1778498581148-bonheur-vanilla.jpg",
+      "gallery": [
+        "./images/projects/1778498582075-bonheur-vanilla.jpg",
+        "",
+        ""
+      ],
+      "productName": "bonheur-vanilla",
+      "size": "",
+      "grade": ""
+    },
+    {
+      "id": "dsc00101-2",
+      "name": "DSC00101-2",
+      "category": "190",
+      "thumbnail": "./images/projects/1778498592603-DSC00101-2.jpg",
+      "gallery": [
+        "./images/projects/1778498593907-DSC00101-2.jpg",
+        "",
+        ""
+      ],
+      "productName": "DSC00101-2",
+      "size": "",
+      "grade": ""
+    },
+    {
+      "id": "luna-blanco-190",
+      "name": "luna-blanco 190",
+      "category": "190",
+      "thumbnail": "./images/projects/1778498828663-luna-blanco_190.jpg",
+      "gallery": [
+        "./images/projects/1778498830272-luna-blanco_190.jpg",
+        "",
+        ""
+      ],
+      "productName": "luna-blanco 190",
+      "size": "",
+      "grade": ""
     }
   ]
 }

@@ -97,8 +97,9 @@
 
           function rowHTML(it, numLabel) {
             var href = './notice-detail.html?id=' + encodeURIComponent(it.id || '');
+            var cls = 'notice-row' + (it.isPinned ? ' notice-row--pinned' : '');
             return (
-              '<a class="notice-row" role="row" href="' + href + '">' +
+              '<a class="' + cls + '" role="row" href="' + href + '">' +
                 '<div class="notice-cell notice-cell--num" role="cell">' + esc(numLabel) + '</div>' +
                 '<div class="notice-cell notice-cell--title" role="cell">' +
                   '<span class="notice-title">' + esc(it.title || '') + '</span>' +

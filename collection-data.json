@@ -152,6 +152,62 @@
       "productName": "maia-limon",
       "size": "",
       "grade": ""
+    },
+    {
+      "id": "petricoher",
+      "name": "petricoher",
+      "category": "190",
+      "thumbnail": "./images/projects/1778498913712-petricoher.jpg",
+      "gallery": [
+        "./images/projects/1778498916226-petricoher.jpg",
+        "",
+        ""
+      ],
+      "productName": "petricoher",
+      "size": "",
+      "grade": ""
+    },
+    {
+      "id": "premium-montena-cashew",
+      "name": "premium montena-cashew ",
+      "category": "190",
+      "thumbnail": "./images/projects/1778498939286-premium_montena-cashew_.jpg",
+      "gallery": [
+        "./images/projects/1778498941635-premium_montena-cashew_.jpg",
+        "",
+        ""
+      ],
+      "productName": "premium montena-cashew ",
+      "size": "",
+      "grade": ""
+    },
+    {
+      "id": "premium-vona",
+      "name": "premium vona",
+      "category": "190",
+      "thumbnail": "./images/projects/1778498961763-premium_vona.jpg",
+      "gallery": [
+        "",
+        "",
+        ""
+      ],
+      "productName": "premium vona",
+      "size": "",
+      "grade": ""
+    },
+    {
+      "id": "project",
+      "name": "마호가니",
+      "category": "190",
+      "thumbnail": "./images/projects/1778498980436-_.jpg",
+      "gallery": [
+        "./images/projects/1778498982418-_.jpg",
+        "",
+        ""
+      ],
+      "productName": "마호가니",
+      "size": "",
+      "grade": ""
     }
   ]
 }

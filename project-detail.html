@@ -86,7 +86,7 @@
           var gallery = (p.gallery || []).filter(function (s) { return !!s && String(s).trim(); });
           var imgs = gallery.map(function (src, i) {
             return (
-              '<figure class="proj-detail__img">' +
+              '<figure class="proj-detail__img" data-rc-anim="02">' +
                 '<img src="' + esc(src) + '" alt="' + esc(p.name) + ' 이미지 ' + (i + 1) + '" loading="lazy" />' +
               '</figure>'
             );
@@ -94,7 +94,7 @@
 
           var info =
             '<div class="proj-detail__info">' +
-              '<h1 class="proj-detail__title">' + esc(p.title || p.name) + '</h1>' +
+              '<h1 class="proj-detail__title" data-rc-anim="01">' + esc(p.title || p.name) + '</h1>' +
               '<p class="proj-detail__desc">' + escMultiline(p.description || '') + '</p>' +
               '<details class="proj-detail__expand">' +
                 '<summary>Product Details</summary>' +
@@ -112,6 +112,8 @@
           parts.push(info);
           for (var i = 1; i < imgs.length; i++) parts.push(imgs[i]);
           detailGrid.innerHTML = parts.join('');
+          // 동적 주입 콘텐츠에 애니메이션 바인딩
+          if (window.RC_setupAnimations) window.RC_setupAnimations(detailGrid);
         }
 
         function renderOther(list, currentId) {

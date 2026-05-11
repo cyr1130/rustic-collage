@@ -54,7 +54,7 @@
           <h2 class="footer__title">Rustic Collage</h2>
           <div class="footer__contacts">
             <a id="footer-email" href="mailto:dbfldbfl11301130@gmail.com">dbfldbfl11301130@gmail.com</a>
-            <a href="tel:01023940980">01023940980</a>
+            <a id="footer-phone" href="tel:01023940980">01023940980</a>
           </div>
           <a class="footer__address" href="https://map.naver.com/p/search/대구%20서구%20달서천로%20234" target="_blank" rel="noopener noreferrer">대구 서구 달서천로 234, 4층</a>
         </div>

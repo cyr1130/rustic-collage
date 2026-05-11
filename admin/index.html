@@ -11,6 +11,9 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css"
     />
+    <!-- 위지윅 에디터 (Quill) — 공지 본문 작성용 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" />
+    <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
 
     <style>
       :root {
@@ -512,6 +515,50 @@
         color: var(--gray-900);
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
       }
+
+      /* Quill 위지윅 에디터 컨테이너 */
+      .quill-host {
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+      }
+      .quill-host .ql-toolbar {
+        border: 1px solid var(--gray-300);
+        border-bottom: none;
+        border-top-left-radius: var(--radius-sm);
+        border-top-right-radius: var(--radius-sm);
+        background: var(--gray-50, #fafafa);
+      }
+      .quill-host .ql-container {
+        border: 1px solid var(--gray-300);
+        border-bottom-left-radius: var(--radius-sm);
+        border-bottom-right-radius: var(--radius-sm);
+        font-family: inherit;
+        font-size: 14px;
+      }
+      .quill-host .ql-editor {
+        min-height: 320px;
+        font-family: inherit;
+        letter-spacing: var(--ts-letter);
+      }
+      .quill-host .ql-editor img {
+        max-width: 100%;
+        height: auto;
+      }
+      .quill-host .ql-editor .ql-align-center { text-align: center; }
+      .quill-host .ql-editor .ql-align-right { text-align: right; }
+      .quill-host .ql-editor .ql-align-justify { text-align: justify; }
+
+      /* 보기 모드 본문 프리뷰 — 작성한 HTML 그대로 보여주기 */
+      .notice-body-preview {
+        font-size: 14px;
+        line-height: 1.75;
+        color: var(--gray-900);
+        white-space: normal !important;
+      }
+      .notice-body-preview img { max-width: 100%; height: auto; }
+      .notice-body-preview .ql-align-center { text-align: center; }
+      .notice-body-preview .ql-align-right { text-align: right; }
+      .notice-body-preview .ql-align-justify { text-align: justify; }
 
       /* 체크박스 행 */
       .rc-check-row {
@@ -1129,8 +1176,11 @@
           <span>프로젝트</span>
         </button>
         <button class="rail__item" data-section="notice" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M4 5h16M4 12h16M4 19h10"/>
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g fill-rule="evenodd">
+              <path d="M12 21.326a5.055 5.055 0 013.575-1.48H22a1 1 0 001-1V4.674a1 1 0 00-1-1h-6.425A5.056 5.056 0 0012 5.155"/>
+              <path fill-opacity=".6" d="M12 21.326a5.055 5.055 0 00-3.575-1.48H2a1 1 0 01-1-1V4.674a1 1 0 011-1h6.425c1.341 0 2.627.533 3.575 1.481"/>
+            </g>
           </svg>
           <span>공지사항</span>
         </button>
@@ -1601,9 +1651,7 @@
           category: 'notice',       // notice / news / certifications
           date: todayISO(),
           isPinned: false,
-          isFavorite: false,
-          body: '',
-          images: [],
+          body: '',                 // Quill HTML
           _idEdited: false,
         };
       }
@@ -3003,6 +3051,85 @@
 
       function markNoticesDirty() { updateStatus(); }
 
+      // ---------- Quill 위지윅 에디터 ----------
+      // target[fieldName] 에 HTML 문자열을 양방향 바인딩. 이미지는 /api/upload-image 로 업로드 후 src 삽입.
+      function quillEditor(target, fieldName, onChange) {
+        var wrap = el('div', { class: 'field' });
+        wrap.appendChild(el('label', { class: 'label' }, [
+          '본문',
+          el('span', { class: 'label__hint', text: '글자 크기·색·정렬, 이미지 삽입/정렬 가능 — 이미지는 자동 업로드' }),
+        ]));
+        var hostBox = el('div', { class: 'quill-host' });
+        var editorEl = document.createElement('div');
+        editorEl.className = 'quill-editor';
+        hostBox.appendChild(editorEl);
+        wrap.appendChild(hostBox);
+
+        // Quill 은 DOM에 붙은 뒤 초기화해야 함 — setTimeout 0
+        setTimeout(function () {
+          if (typeof Quill === 'undefined') {
+            editorEl.textContent = '에디터를 불러오지 못했어요. 페이지를 새로고침해 주세요.';
+            return;
+          }
+          var quill = new Quill(editorEl, {
+            theme: 'snow',
+            placeholder: '본문을 입력하세요…',
+            modules: {
+              toolbar: {
+                container: [
+                  [{ header: [1, 2, 3, false] }],
+                  [{ size: ['small', false, 'large', 'huge'] }],
+                  ['bold', 'italic', 'underline', 'strike'],
+                  [{ color: [] }, { background: [] }],
+                  [{ align: [] }],
+                  [{ list: 'ordered' }, { list: 'bullet' }],
+                  ['blockquote', 'link', 'image'],
+                  ['clean'],
+                ],
+                handlers: {
+                  image: function () {
+                    selectAndUploadImage(function (path) {
+                      var range = quill.getSelection(true);
+                      quill.insertEmbed(range ? range.index : 0, 'image', path, Quill.sources.USER);
+                      quill.setSelection((range ? range.index : 0) + 1, Quill.sources.SILENT);
+                    });
+                  },
+                },
+              },
+            },
+          });
+          // 초기 콘텐츠 주입
+          if (target[fieldName]) {
+            quill.clipboard.dangerouslyPasteHTML(target[fieldName], 'silent');
+          }
+          quill.on('text-change', function () {
+            target[fieldName] = quill.root.innerHTML;
+            onChange();
+          });
+        }, 0);
+
+        return wrap;
+      }
+
+      // 파일 선택 → handleImageUpload 로 업로드 → 콜백에 GitHub path 전달
+      function selectAndUploadImage(onUploaded) {
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.addEventListener('change', function () {
+          var file = input.files && input.files[0];
+          if (!file) return;
+          // 로딩 상태를 시각적으로 표시할 fake button (DOM 추가 안함)
+          var fakeBtn = document.createElement('button');
+          var span = document.createElement('span');
+          fakeBtn.appendChild(span);
+          handleImageUpload(file, fakeBtn, function (path) {
+            onUploaded(path);
+          });
+        });
+        input.click();
+      }
+
       // 공지 카테고리 탭 — NOTICE / NEWS / CERTIFICATIONS
       function noticeCategoryTabs(currentValue, onChange) {
         var wrap = el('div', { class: 'field' });
@@ -3254,18 +3381,9 @@
         host.appendChild(checkboxField('상단 고정 (공지)', '목록 최상단에 "공지" 로 노출', !!p.isPinned, function (v) {
           p.isPinned = v; markNoticesDirty();
         }));
-        host.appendChild(checkboxField('하트 표시', '제목 옆에 빨간 하트 아이콘 표시', !!p.isFavorite, function (v) {
-          p.isFavorite = v; markNoticesDirty();
-        }));
 
         host.appendChild(el('div', { class: 'form-section' }));
-        host.appendChild(textareaInput('본문', p.body || '', '줄바꿈은 Enter — 빈 줄로 문단 구분', function (v) {
-          p.body = v; markNoticesDirty();
-        }));
-
-        host.appendChild(el('div', { class: 'form-section' }));
-        // 이미지 갤러리 — 기존 renderGallery 재활용 (target.gallery 필드명을 images 로 매핑)
-        host.appendChild(renderImageList(p, 'images', markNoticesDirty));
+        host.appendChild(quillEditor(p, 'body', markNoticesDirty));
       }
 
       function renderNoticeViewFields(host, p) {
@@ -3279,31 +3397,20 @@
         host.appendChild(row('카테고리', noticeCategoryLabel(p.category)));
         host.appendChild(row('작성일', p.date));
         host.appendChild(row('상단 고정', p.isPinned ? '예' : '아니오'));
-        host.appendChild(row('하트 표시', p.isFavorite ? '예' : '아니오'));
 
         host.appendChild(el('div', { class: 'form-section' }));
         var bodyRow = el('div', { class: 'view-row' });
         bodyRow.appendChild(el('div', { class: 'view-row__label', text: '본문' }));
-        var bodyVal = el('div', { class: 'view-row__value' + (p.body ? '' : ' view-row__value--muted'), style: 'white-space: pre-wrap;' });
-        bodyVal.textContent = p.body || '비어있음';
+        var bodyVal = el('div', { class: 'view-row__value notice-body-preview' + (p.body ? '' : ' view-row__value--muted') });
+        if (p.body) {
+          bodyVal.innerHTML = String(p.body)
+            .replace(/<script[\s\S]*?<\/script>/gi, '')
+            .replace(/<iframe[\s\S]*?<\/iframe>/gi, '');
+        } else {
+          bodyVal.textContent = '비어있음';
+        }
         bodyRow.appendChild(bodyVal);
         host.appendChild(bodyRow);
-
-        var gRow = el('div', { class: 'view-row' });
-        gRow.appendChild(el('div', { class: 'view-row__label', text: '이미지' }));
-        var images = (p.images || []).filter(Boolean);
-        if (images.length === 0) {
-          gRow.appendChild(el('div', { class: 'view-row__value view-row__value--muted', text: '비어있음' }));
-        } else {
-          var gGrid = el('div', { class: 'view-row__gallery' });
-          images.forEach(function (url) {
-            var img = el('img', { src: toPreviewUrl(url), alt: '' });
-            img.addEventListener('error', function () { img.src = placeholderSvg(); });
-            gGrid.appendChild(img);
-          });
-          gRow.appendChild(gGrid);
-        }
-        host.appendChild(gRow);
       }
 
       // renderGallery 와 동일 구조지만 필드명만 동적으로 받는 버전
@@ -3381,16 +3488,9 @@
         host.appendChild(checkboxField('상단 고정 (공지)', '목록 최상단에 "공지" 로 노출', !!NOTICE_DRAFT.isPinned, function (v) {
           NOTICE_DRAFT.isPinned = v;
         }));
-        host.appendChild(checkboxField('하트 표시', '제목 옆에 빨간 하트 아이콘 표시', !!NOTICE_DRAFT.isFavorite, function (v) {
-          NOTICE_DRAFT.isFavorite = v;
-        }));
 
         host.appendChild(el('div', { class: 'form-section' }));
-        host.appendChild(textareaInput('본문', NOTICE_DRAFT.body || '', '줄바꿈은 Enter — 빈 줄로 문단 구분', function (v) {
-          NOTICE_DRAFT.body = v;
-        }));
-        host.appendChild(el('div', { class: 'form-section' }));
-        host.appendChild(renderImageList(NOTICE_DRAFT, 'images', function () {}));
+        host.appendChild(quillEditor(NOTICE_DRAFT, 'body', function () {}));
       }
 
       function submitNoticeDraft() {
@@ -3415,7 +3515,7 @@
         });
       }
       function resetNoticeDraft() {
-        if (NOTICE_DRAFT.title || NOTICE_DRAFT.body || (NOTICE_DRAFT.images && NOTICE_DRAFT.images.length)) {
+        if (NOTICE_DRAFT.title || NOTICE_DRAFT.body) {
           showConfirm('입력한 내용이 모두 지워져요\n초기화 하시겠습니까?', '', {
             confirmText: '초기화', cancelText: '취소', danger: true,
             onConfirm: function () {

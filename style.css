@@ -676,6 +676,12 @@ body.menu-open { overflow: hidden; }
   aspect-ratio: 6 / 5;
   position: relative;
 }
+/* 모바일 슬라이드에선 카드 높이 약 +20px (비율을 9:8 로 살짝 길게) */
+@media (max-width: 640px) {
+  .projects .product-card__media {
+    aspect-ratio: 9 / 8;
+  }
+}
 
 /* Projects 호버: 이미지 블러+살짝 확대, 다크 오버레이 페이드인 (텍스트 함께) */
 .projects .product-card__media img {

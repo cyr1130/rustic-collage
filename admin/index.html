@@ -3106,9 +3106,99 @@
             target[fieldName] = quill.root.innerHTML;
             onChange();
           });
+          // 이미지 비율 유지 드래그 리사이즈 활성화
+          enableImageResize(quill, function () {
+            target[fieldName] = quill.root.innerHTML;
+            onChange();
+          });
         }, 0);
 
         return wrap;
+      }
+
+      // Quill 본문 안 이미지에 클릭하면 우하단 드래그 핸들이 나타나서 비율 유지하며 리사이즈
+      function enableImageResize(quill, onResize) {
+        var editor = quill.root;
+        var selectedImg = null;
+        var overlay = null;
+        var handle = null;
+
+        function ensureOverlay() {
+          if (overlay) return;
+          overlay = document.createElement('div');
+          overlay.className = 'rc-img-resize-overlay';
+          overlay.style.cssText = 'position:absolute;display:none;pointer-events:none;outline:2px solid #3c00a2;outline-offset:-2px;z-index:9999;';
+          handle = document.createElement('div');
+          handle.style.cssText = 'position:absolute;right:-7px;bottom:-7px;width:14px;height:14px;background:#3c00a2;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);cursor:nwse-resize;pointer-events:auto;border-radius:2px;';
+          overlay.appendChild(handle);
+          document.body.appendChild(overlay);
+          handle.addEventListener('mousedown', onDragStart);
+        }
+
+        function positionOverlay() {
+          if (!overlay || !selectedImg) return;
+          var rect = selectedImg.getBoundingClientRect();
+          overlay.style.left = (rect.left + window.scrollX) + 'px';
+          overlay.style.top = (rect.top + window.scrollY) + 'px';
+          overlay.style.width = rect.width + 'px';
+          overlay.style.height = rect.height + 'px';
+          overlay.style.display = 'block';
+        }
+
+        function selectImg(img) {
+          selectedImg = img;
+          ensureOverlay();
+          positionOverlay();
+        }
+
+        function deselect() {
+          if (overlay) overlay.style.display = 'none';
+          selectedImg = null;
+        }
+
+        editor.addEventListener('click', function (e) {
+          if (e.target && e.target.tagName === 'IMG') {
+            selectImg(e.target);
+          } else {
+            deselect();
+          }
+        });
+
+        document.addEventListener('mousedown', function (e) {
+          if (selectedImg && !editor.contains(e.target) && (!overlay || !overlay.contains(e.target))) {
+            deselect();
+          }
+        }, true);
+
+        window.addEventListener('scroll', positionOverlay, true);
+        window.addEventListener('resize', positionOverlay);
+
+        function onDragStart(e) {
+          if (!selectedImg) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var startX = e.clientX;
+          var rect = selectedImg.getBoundingClientRect();
+          var startWidth = rect.width;
+          var natW = selectedImg.naturalWidth || startWidth;
+
+          function onMove(e2) {
+            var dx = e2.clientX - startX;
+            var newWidth = Math.max(60, Math.min(natW, startWidth + dx));
+            selectedImg.setAttribute('width', Math.round(newWidth));
+            selectedImg.style.width = newWidth + 'px';
+            selectedImg.style.height = 'auto';
+            positionOverlay();
+          }
+          function onUp() {
+            window.removeEventListener('mousemove', onMove);
+            window.removeEventListener('mouseup', onUp);
+            // 본문 HTML 갱신을 STATE 에 반영 — Quill 의 text-change 이벤트는 DOM 속성만 바뀌면 안 터지므로 수동 호출.
+            if (typeof onResize === 'function') onResize();
+          }
+          window.addEventListener('mousemove', onMove);
+          window.addEventListener('mouseup', onUp);
+        }
       }
 
       // 파일 선택 → handleImageUpload 로 업로드 → Quill 본문에 절대 URL 로 삽입

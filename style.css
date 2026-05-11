@@ -1160,30 +1160,53 @@ body.menu-open { overflow: hidden; }
   color: #888888;
   font-variant-numeric: tabular-nums;
 }
+/* 위지윅 본문 — Quill 출력 HTML 렌더링 */
 .notice-detail__body {
   font-size: 15px;
   line-height: 1.75;
   color: #333333;
   letter-spacing: -0.02em;
-  margin: 0 0 40px;
-}
-.notice-detail__body p { margin: 0; }
-.notice-detail__images {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
   margin: 0 0 48px;
 }
-.notice-detail__image {
-  margin: 0;
-  overflow: hidden;
-  background: #F3F3F3;
+.notice-detail__body p,
+.notice-detail__body h1,
+.notice-detail__body h2,
+.notice-detail__body h3,
+.notice-detail__body ul,
+.notice-detail__body ol {
+  margin: 0 0 0.6em;
 }
-.notice-detail__image img {
-  display: block;
-  width: 100%;
+.notice-detail__body p:last-child,
+.notice-detail__body h1:last-child,
+.notice-detail__body h2:last-child,
+.notice-detail__body h3:last-child,
+.notice-detail__body ul:last-child,
+.notice-detail__body ol:last-child { margin-bottom: 0; }
+.notice-detail__body h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; color: #111111; margin-top: 1.2em; }
+.notice-detail__body h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.03em; color: #111111; margin-top: 1em; }
+.notice-detail__body h3 { font-size: 18px; font-weight: 600; letter-spacing: -0.03em; color: #111111; margin-top: 0.8em; }
+.notice-detail__body ul,
+.notice-detail__body ol { padding-left: 1.4em; }
+.notice-detail__body li { margin: 0 0 0.25em; }
+.notice-detail__body a { color: #3c00a2; text-decoration: underline; }
+.notice-detail__body strong { font-weight: 700; color: #111111; }
+.notice-detail__body img {
+  max-width: 100%;
   height: auto;
+  display: block;
+  margin: 1em auto;
 }
+/* Quill 정렬 클래스 — 본문에서 작성자가 지정한 정렬 유지 */
+.notice-detail__body .ql-align-center { text-align: center; }
+.notice-detail__body .ql-align-right { text-align: right; }
+.notice-detail__body .ql-align-justify { text-align: justify; }
+.notice-detail__body .ql-align-center img { margin-left: auto; margin-right: auto; }
+.notice-detail__body .ql-align-right img { margin-left: auto; margin-right: 0; }
+.notice-detail__body .ql-align-left img { margin-left: 0; margin-right: auto; }
+/* Quill 크기 클래스 */
+.notice-detail__body .ql-size-small { font-size: 12px; }
+.notice-detail__body .ql-size-large { font-size: 18px; }
+.notice-detail__body .ql-size-huge { font-size: 24px; }
 .notice-detail__footer {
   display: flex;
   justify-content: center;

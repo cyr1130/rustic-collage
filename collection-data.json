@@ -29,20 +29,6 @@
       "grade": "test 165_02"
     },
     {
-      "id": "test-190-01",
-      "name": "test 190_01",
-      "category": "190",
-      "thumbnail": "./images/projects/1778480141008-petricoher.jpg",
-      "gallery": [
-        "./images/projects/1778480318867-petricoher.jpg",
-        "",
-        ""
-      ],
-      "productName": "test 190_01",
-      "size": "test 190_01",
-      "grade": "test 190_01"
-    },
-    {
       "id": "test-240-01",
       "name": "test 240_01",
       "category": "240",

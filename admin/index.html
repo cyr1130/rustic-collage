@@ -1205,7 +1205,7 @@
         <div class="submenu__group" data-section="collection">
           <p class="submenu__title">컬렉션</p>
           <button class="submenu__item" data-view="collection-home-image" type="button">
-            <span>컬렉션 썸네일 변경</span>
+            <span>홈 컬렉션 이미지 변경</span>
           </button>
           <button class="submenu__item" data-view="collection-list" type="button">
             <span>컬렉션 목록</span>
@@ -3184,8 +3184,7 @@
 
           function onMove(e2) {
             var dx = e2.clientX - startX;
-            // 최소 60px, 최대 3000px (원본 픽셀을 넘기면 약간 흐릴 수 있지만 자유롭게 키울 수 있게)
-            var newWidth = Math.max(60, Math.min(3000, startWidth + dx));
+            var newWidth = Math.max(60, Math.min(natW, startWidth + dx));
             selectedImg.setAttribute('width', Math.round(newWidth));
             selectedImg.style.width = newWidth + 'px';
             selectedImg.style.height = 'auto';

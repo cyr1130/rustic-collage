@@ -3836,7 +3836,10 @@
             compressedBlob = blob; // 미리보기용으로 보관
             stage = 'base64';
             label.textContent = '업로드 중…';
-            console.log('[upload] compressed size:', Math.round(blob.size / 1024) + 'KB');
+            // 압축 결과의 실제 mime 에 맞춰 확장자 교체 (webp 면 .webp, jpeg 면 .jpg)
+            var ext = (blob.type === 'image/webp') ? 'webp' : 'jpg';
+            safeName = safeName.replace(/\.[^.]+$/, '') + '.' + ext;
+            console.log('[upload] compressed:', Math.round(blob.size / 1024) + 'KB', '(' + blob.type + ')');
             return blobToBase64(blob);
           })
           .then(function (base64) {
@@ -3890,7 +3893,8 @@
           });
       }
 
-      // 클라이언트 사이드 이미지 압축 (긴 변 maxWidth, JPEG quality)
+      // 클라이언트 사이드 이미지 압축 (긴 변 maxWidth, WebP quality)
+      // WebP 미지원 환경(매우 드뭄)은 JPEG 로 폴백.
       function compressImage(file, maxWidth, quality) {
         return new Promise(function (resolve, reject) {
           var reader = new FileReader();
@@ -3904,10 +3908,14 @@
               canvas.width = w; canvas.height = h;
               var ctx = canvas.getContext('2d');
               ctx.drawImage(img, 0, 0, w, h);
+              // WebP 시도 → 빈 blob 이면 JPEG 폴백
               canvas.toBlob(function (blob) {
-                if (blob) resolve(blob);
-                else reject(new Error('압축 실패'));
-              }, 'image/jpeg', quality);
+                if (blob && blob.size > 0) { resolve(blob); return; }
+                canvas.toBlob(function (fb) {
+                  if (fb) resolve(fb);
+                  else reject(new Error('압축 실패'));
+                }, 'image/jpeg', quality);
+              }, 'image/webp', quality);
             };
             img.onerror = function () { reject(new Error('이미지 로드 실패')); };
             img.src = reader.result;

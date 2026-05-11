@@ -92,15 +92,10 @@
           if (bcCurrent) bcCurrent.textContent = p.title || '게시글';
           document.title = (p.title || 'Notice') + ' — Rustic Collage';
 
-          var imagesHtml = '';
-          var imgs = (p.images || []).filter(function (s) { return !!s && String(s).trim(); });
-          if (imgs.length) {
-            imagesHtml = '<div class="notice-detail__images">' +
-              imgs.map(function (src, i) {
-                return '<figure class="notice-detail__image"><img src="' + esc(src) + '" alt="' + esc(p.title) + ' 이미지 ' + (i + 1) + '" loading="lazy" /></figure>';
-              }).join('') +
-              '</div>';
-          }
+          // body 는 어드민에서 위지윅 에디터로 작성된 HTML.
+          // 안전을 위해 script/iframe/style 태그만 추가로 제거(어드민 인증된 작성자 가정).
+          var bodyHtml = String(p.body || '').replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<iframe[\s\S]*?<\/iframe>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '');
+          if (!bodyHtml.trim()) bodyHtml = '<p style="color:#888;">내용이 없습니다.</p>';
 
           host.innerHTML =
             '<header class="notice-detail__header">' +
@@ -108,8 +103,7 @@
               '<h1 class="notice-detail__title">' + esc(p.title || '') + '</h1>' +
               '<p class="notice-detail__meta">' + esc(p.date || '') + '</p>' +
             '</header>' +
-            '<div class="notice-detail__body"><p>' + escMultiline(p.body || '') + '</p></div>' +
-            imagesHtml;
+            '<div class="notice-detail__body">' + bodyHtml + '</div>';
         }
       })();
     </script>

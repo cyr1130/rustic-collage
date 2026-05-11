@@ -1842,6 +1842,16 @@ body.subpage--detail .nav.is-scrolled .nav__brand {
   letter-spacing: -0.02em;
   color: rgba(255, 255, 255, 0.6);
 }
+.footer__socials {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+/* 블로그 아이콘만 80% 사이즈로 (인스타 대비) */
+.footer__social[aria-label="Naver Blog"] svg,
+.nav__drawer-social a[aria-label="Naver Blog"] svg {
+  transform: scale(0.8);
+}
 .footer__social {
   display: inline-flex;
   align-items: center;

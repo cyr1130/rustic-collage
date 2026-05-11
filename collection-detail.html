@@ -94,15 +94,15 @@
           var info =
             '<div class="proj-detail__info">' +
               '<h1 class="proj-detail__title" data-rc-anim="01">' + esc(p.name) + '</h1>' +
-              '<details class="proj-detail__expand">' +
+              '<details class="proj-detail__expand" open>' +
                 '<summary>Product Name</summary>' +
                 '<div class="proj-detail__expand-body"><p>' + escMultiline(p.productName || '') + '</p></div>' +
               '</details>' +
-              '<details class="proj-detail__expand">' +
+              '<details class="proj-detail__expand" open>' +
                 '<summary>Size</summary>' +
                 '<div class="proj-detail__expand-body"><p>' + escMultiline(p.size || '') + '</p></div>' +
               '</details>' +
-              '<details class="proj-detail__expand">' +
+              '<details class="proj-detail__expand" open>' +
                 '<summary>Grade</summary>' +
                 '<div class="proj-detail__expand-body"><p>' + escMultiline(p.grade || '') + '</p></div>' +
               '</details>' +

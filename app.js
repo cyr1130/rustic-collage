@@ -207,6 +207,9 @@
     drawer.querySelectorAll('a').forEach(function (a) {
       a.addEventListener('click', closeMenu);
     });
+    // 드로어 자체의 X 닫기 버튼
+    var drawerCloseBtn = drawer.querySelector('.nav__drawer-close');
+    if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeMenu);
   }
 
   // 현재 페이지에 해당하는 드로어 메뉴 항목에 .is-active 클래스 부여
@@ -245,8 +248,19 @@
     }
   });
 
-  // ---------- 타이틀 글자 스태거 (스크롤 진입 시 1회) ----------
-  function splitTitleIntoLetters(el) {
+  // ---------- 애니메이션 컴포넌트 ----------
+  // 사용: <h2 data-rc-anim="01">제목</h2> 또는 data-rc-anim="letter-stagger"
+  // 별명 매핑: "01" = "letter-stagger" (글자 한 자씩 아래에서 페이드 인, 스크롤 진입 시 1회)
+  // .collection__title / .projects__title 도 자동 적용 (하위 호환)
+  var ANIM_ALIASES = {
+    '01': 'letter-stagger',
+    '02': 'scale-in',
+  };
+  function resolveAnimName(name) {
+    return ANIM_ALIASES[name] || name;
+  }
+
+  function applyLetterStagger(el) {
     if (!el || el.dataset.split === '1') return;
     var text = el.textContent;
     el.textContent = '';
@@ -264,25 +278,56 @@
     el.dataset.split = '1';
   }
 
-  var titles = document.querySelectorAll('.collection__title, .projects__title');
-  titles.forEach(splitTitleIntoLetters);
-
-  if ('IntersectionObserver' in window && titles.length) {
-    var titleIO = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          titleIO.unobserve(entry.target);
-        }
+  // 재사용 가능한 IntersectionObserver — setupAnimations 가 여러 번 호출되어도 같은 인스턴스 공유
+  var ANIM_OBSERVER = null;
+  function getAnimObserver() {
+    if (!ANIM_OBSERVER && 'IntersectionObserver' in window) {
+      ANIM_OBSERVER = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            ANIM_OBSERVER.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.3,
+        rootMargin: '0px 0px -40px 0px',
       });
-    }, {
-      threshold: 0.3,
-      rootMargin: '0px 0px -40px 0px',
-    });
-    titles.forEach(function (el) { titleIO.observe(el); });
-  } else {
-    titles.forEach(function (el) { el.classList.add('is-revealed'); });
+    }
+    return ANIM_OBSERVER;
   }
+
+  // 동적으로 주입된 콘텐츠에도 호출 가능. root 미지정 시 document 전체.
+  // 이미 바인딩된 요소(data-rc-anim-bound)는 건너뜀.
+  function setupAnimations(root) {
+    root = root || document;
+    var animTargets = Array.prototype.slice.call(
+      root.querySelectorAll(
+        '[data-rc-anim]:not([data-rc-anim-bound]),' +
+        ' .collection__title:not([data-rc-anim-bound]),' +
+        ' .projects__title:not([data-rc-anim-bound])'
+      )
+    );
+    var obs = getAnimObserver();
+    animTargets.forEach(function (el) {
+      var name = el.dataset && el.dataset.rcAnim
+        ? resolveAnimName(el.dataset.rcAnim)
+        : 'letter-stagger';
+      el.setAttribute('data-rc-anim-bound', '1');
+      if (name === 'letter-stagger') {
+        applyLetterStagger(el);
+      }
+      // (scale-in 은 CSS 만으로 동작)
+      if (obs) obs.observe(el);
+      else el.classList.add('is-revealed');
+    });
+  }
+
+  // 동적 콘텐츠가 있는 페이지(디테일 페이지 등) 에서 호출용으로 전역 노출
+  window.RC_setupAnimations = setupAnimations;
+
+  // 초기 1회 실행
+  setupAnimations(document);
 
   // ---------- Contact 섹션: 스크롤 진입/이탈 시 양방향 애니메이션 ----------
   var contactSection = document.querySelector('.contact');

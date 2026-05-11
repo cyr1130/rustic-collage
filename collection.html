@@ -12,85 +12,126 @@
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css"
     />
     <link rel="stylesheet" href="./style.css" />
+    <script src="./components.js"></script>
   </head>
   <body class="subpage subpage--light">
-    <header class="nav" id="nav">
-      <div class="nav__inner">
-        <a class="nav__brand" href="index.html">Rustic Collage</a>
-
-        <nav class="nav__menu" aria-label="Primary">
-          <a href="./about.html">About</a>
-          <a href="./collection.html">Collage Collection</a>
-          <a href="./projects.html">Projects</a>
-          <a href="./contact.html">Contact</a>
-        </nav>
-
-        <button
-          class="nav__toggle"
-          type="button"
-          aria-label="메뉴 열기"
-          aria-expanded="false"
-          aria-controls="nav-drawer"
-        >
-          <span class="nav__toggle-bar"></span>
-          <span class="nav__toggle-bar"></span>
-        </button>
-      </div>
-    </header>
-
-    <div class="nav__backdrop" aria-hidden="true"></div>
-    <aside class="nav__drawer" id="nav-drawer" aria-hidden="true">
-      <nav class="nav__drawer-menu" aria-label="모바일 메뉴">
-        <a href="./about.html">About</a>
-        <a href="./collection.html">Collage Collection</a>
-        <a href="./projects.html">Projects</a>
-        <a href="./contact.html">Contact</a>
-      </nav>
-    </aside>
+    <rc-nav></rc-nav>
 
     <main id="top">
-      <section class="page-hero">
+      <!-- ======================== PAGE HEADER ======================== -->
+      <section class="coll-page-hero">
         <div class="container">
-          <p class="page-hero__eyebrow">Collage Collection</p>
-          <h1 class="page-hero__title">취향이 닿는 면</h1>
-          <p class="page-hero__lead">
-            소재와 톤, 마감의 차이 속에서 나에게 맞는 한 장을 고르는 일.<br />
-            Rustic Collage의 모든 컬렉션을 한 곳에서 살펴봅니다.
-          </p>
+          <h1 class="coll-page-hero__title">Collage Collection</h1>
         </div>
       </section>
 
-      <section class="page-body">
+      <!-- ======================== CATEGORY TABS ======================== -->
+      <section class="coll-page-tabs">
         <div class="container">
-          <p class="page-body__note">콘텐츠 준비 중입니다.</p>
-        </div>
-      </section>
-    </main>
-
-    <!-- ======================== FOOTER ======================== -->
-    <footer class="footer">
-      <div class="container footer__inner">
-        <div class="footer__brand">
-          <h2 class="footer__title">Rustic Collage</h2>
-          <div class="footer__contacts">
-            <a id="footer-email" href="mailto:dbfldbfl11301130@gmail.com">dbfldbfl11301130@gmail.com</a>
-            <a href="tel:01012345678">01012345678</a>
+          <div class="coll-tabs" role="tablist" aria-label="컬렉션 카테고리">
+            <button type="button" class="coll-tabs__tab is-active" data-filter="all" role="tab" aria-selected="true">ALL</button>
+            <button type="button" class="coll-tabs__tab" data-filter="165" role="tab" aria-selected="false">165</button>
+            <button type="button" class="coll-tabs__tab" data-filter="190" role="tab" aria-selected="false">190</button>
+            <button type="button" class="coll-tabs__tab" data-filter="240" role="tab" aria-selected="false">240</button>
+            <button type="button" class="coll-tabs__tab" data-filter="collage" role="tab" aria-selected="false">Collage</button>
           </div>
         </div>
+      </section>
 
-        <nav class="footer__nav" aria-label="Footer">
-          <ul class="footer__nav-col">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="#">How to Use</a></li>
-          </ul>
-          <ul class="footer__nav-col">
-            <li><a href="collection.html">Collage Collection</a></li>
-            <li><a href="projects.html">Projects</a></li>
-          </ul>
-        </nav>
-      </div>
-    </footer>
+      <!-- ======================== GRID LIST ======================== -->
+      <section class="coll-page-list">
+        <div class="container">
+          <div class="coll-grid" id="coll-grid">
+            <!-- collection-data.json 에서 자동 렌더링 -->
+          </div>
+          <p class="coll-empty" id="coll-empty" hidden>해당 카테고리에 등록된 제품이 없습니다.</p>
+        </div>
+      </section>
+
+      <script>
+        (function () {
+          var tabs = document.querySelectorAll('.coll-tabs__tab');
+          var grid = document.getElementById('coll-grid');
+          var emptyMsg = document.getElementById('coll-empty');
+          if (!grid) return;
+
+          function esc(s) {
+            return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+              return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+            });
+          }
+
+          // ---------- 데이터 로드 + 카드 렌더링 ----------
+          fetch('./collection-data.json?t=' + Date.now())
+            .then(function (r) {
+              if (!r.ok) throw new Error('HTTP ' + r.status);
+              return r.json();
+            })
+            .then(function (data) {
+              var items = (data.items || []).slice();
+              grid.innerHTML = items.map(function (it) {
+                return (
+                  '<a class="coll-card" data-cat="' + esc(it.category) + '" href="./collection-detail.html?id=' + encodeURIComponent(it.id) + '">' +
+                    '<figure class="coll-card__media">' +
+                      '<img src="' + esc(it.thumbnail) + '" alt="" loading="lazy" />' +
+                    '</figure>' +
+                    '<p class="coll-card__name">' + esc(it.name) + '</p>' +
+                  '</a>'
+                );
+              }).join('');
+              wireTabs();
+            })
+            .catch(function (err) {
+              grid.innerHTML = '<p style="color:#888;font-size:14px;">컬렉션 목록을 불러오지 못했습니다.</p>';
+              console.error(err);
+            });
+
+          // ---------- 탭 필터 ----------
+          function wireTabs() {
+            if (!tabs.length) return;
+            function applyFilter(filter) {
+              var cards = grid.querySelectorAll('.coll-card');
+              var visibleCount = 0;
+              cards.forEach(function (card) {
+                var cat = card.getAttribute('data-cat');
+                var show = filter === 'all' || cat === filter;
+                if (show) {
+                  card.removeAttribute('hidden');
+                  visibleCount++;
+                } else {
+                  card.setAttribute('hidden', '');
+                }
+              });
+              if (emptyMsg) emptyMsg.hidden = visibleCount !== 0;
+            }
+            function activate(tab) {
+              tabs.forEach(function (t) {
+                t.classList.remove('is-active');
+                t.setAttribute('aria-selected', 'false');
+              });
+              tab.classList.add('is-active');
+              tab.setAttribute('aria-selected', 'true');
+              applyFilter(tab.getAttribute('data-filter') || 'all');
+            }
+            tabs.forEach(function (tab) {
+              tab.addEventListener('click', function () { activate(tab); });
+            });
+            // URL ?cat=... 으로 진입 시 해당 탭 자동 활성화
+            var params = new URLSearchParams(window.location.search);
+            var requestedCat = (params.get('cat') || '').toLowerCase();
+            if (requestedCat) {
+              var matched = null;
+              tabs.forEach(function (t) {
+                if ((t.getAttribute('data-filter') || '').toLowerCase() === requestedCat) matched = t;
+              });
+              if (matched) activate(matched);
+            }
+          }
+        })();
+      </script>
+    </main>
+
+    <rc-footer></rc-footer>
 
     <script src="./app.js"></script>
   </body>

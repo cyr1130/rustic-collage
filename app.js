@@ -255,6 +255,7 @@
   var ANIM_ALIASES = {
     '01': 'letter-stagger',
     '02': 'scale-in',
+    '03': 'stagger-fade-up',
   };
   function resolveAnimName(name) {
     return ANIM_ALIASES[name] || name;
@@ -317,7 +318,7 @@
       if (name === 'letter-stagger') {
         applyLetterStagger(el);
       }
-      // (scale-in 은 CSS 만으로 동작)
+      // (scale-in, stagger-fade-up 은 CSS 만으로 동작 — is-revealed 토글만 필요)
       if (obs) obs.observe(el);
       else el.classList.add('is-revealed');
     });

@@ -47,6 +47,11 @@
             <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
           </svg>
         </a>
+        <a href="https://blog.naver.com/rustic_collage" target="_blank" rel="noopener noreferrer" aria-label="Naver Blog">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 924.43 1000" fill="currentColor" aria-hidden="true">
+            <path d="M344.06,286.98c-70.27,0-135.39,22.03-188.86,59.55V70.18H0v858.3h155.2v-42.62c53.47,37.51,118.59,59.55,188.86,59.55,181.82,0,329.21-147.39,329.21-329.21s-147.4-329.22-329.21-329.22h0ZM329.28,801.62c-99.13,0-179.49-83.08-179.49-185.56s80.36-185.56,179.49-185.56,179.49,83.08,179.49,185.56-80.36,185.56-179.49,185.56h0ZM862.35,0h62.08v1000h-62.08V0Z"/>
+          </svg>
+        </a>
       </div>
     </aside>
   `;
@@ -65,13 +70,20 @@
         </div>
         <div class="footer__bottom">
           <p class="footer__copyright">Copyright © 2026 Rustic Collage. All rights reserved.</p>
-          <a class="footer__social" href="https://www.instagram.com/rustic_collage" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="3" y="3" width="18" height="18" rx="5"/>
-              <circle cx="12" cy="12" r="4"/>
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-            </svg>
-          </a>
+          <div class="footer__socials">
+            <a class="footer__social" href="https://www.instagram.com/rustic_collage" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+              </svg>
+            </a>
+            <a class="footer__social" href="https://blog.naver.com/rustic_collage" target="_blank" rel="noopener noreferrer" aria-label="Naver Blog">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 924.43 1000" fill="currentColor" aria-hidden="true">
+                <path d="M344.06,286.98c-70.27,0-135.39,22.03-188.86,59.55V70.18H0v858.3h155.2v-42.62c53.47,37.51,118.59,59.55,188.86,59.55,181.82,0,329.21-147.39,329.21-329.21s-147.4-329.22-329.21-329.22h0ZM329.28,801.62c-99.13,0-179.49-83.08-179.49-185.56s80.36-185.56,179.49-185.56,179.49,83.08,179.49,185.56-80.36,185.56-179.49,185.56h0ZM862.35,0h62.08v1000h-62.08V0Z"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </footer>

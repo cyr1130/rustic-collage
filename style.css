@@ -624,11 +624,11 @@ body.menu-open { overflow: hidden; }
 @media (max-width: 640px) {
   .projects__progress {
     display: block;
-    margin: 18px auto 0;
-    width: min(220px, 60%);
+    /* 화면 가장자리까지 풀너비로 확장 — 컨테이너 gutter 양옆 음수 마진으로 뚫고 나감 */
+    margin: 24px calc(-1 * var(--gutter-mobile)) 0;
+    width: auto;
     height: 2px;
     background: #E5E5E5;
-    border-radius: 2px;
     overflow: hidden;
   }
   .projects__progress-fill {
@@ -636,7 +636,6 @@ body.menu-open { overflow: hidden; }
     width: 0%;
     background: #111111;
     transition: width 350ms cubic-bezier(0.22, 1, 0.36, 1);
-    border-radius: 2px;
   }
 }
 

@@ -429,7 +429,7 @@ body.menu-open { overflow: hidden; }
 .hero__title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(38px, 8.5vw, 48px);
+  font-size: clamp(39px, 8.5vw, 48px);
   line-height: 1.0;
   letter-spacing: -0.03em;
   color: var(--hero-text);
@@ -440,7 +440,7 @@ body.menu-open { overflow: hidden; }
 .hero__copy {
   margin: 0;
   color: var(--hero-text-soft);
-  font-size: clamp(12px, 1.1vw, 17px);
+  font-size: clamp(13px, 1.1vw, 17px);
   line-height: clamp(1, 1.1vw, 1.7);
   letter-spacing: -0.03em;
   font-weight: 400;
@@ -624,7 +624,29 @@ body.menu-open { overflow: hidden; }
     display: inline-flex;
     margin-top: 36px;
   }
-  .projects__grid { grid-template-columns: 1fr; gap: 32px; }
+  /* 모바일에선 카드들이 가로 스와이프 슬라이드로 — 가로 스크롤 + scroll-snap */
+  .projects__grid {
+    display: flex;
+    grid-template-columns: none;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* 마지막 카드 끝에 약간 숨 쉴 여백 */
+    padding-right: 24px;
+    /* container padding 위로 살짝 비집고 나와서 화면 가장자리까지 스크롤 가능 */
+    margin-left: calc(-1 * var(--gutter-mobile));
+    margin-right: calc(-1 * var(--gutter-mobile));
+    padding-left: var(--gutter-mobile);
+  }
+  .projects__grid::-webkit-scrollbar { display: none; }
+  .projects__grid > .product-card {
+    flex: 0 0 82%;
+    max-width: 340px;
+    scroll-snap-align: start;
+  }
 }
 
 /* Projects 카드는 약간 더 키 큰 비율 — 17:10 → 6:5 (약 +100px) */

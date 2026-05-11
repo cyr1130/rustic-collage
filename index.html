@@ -234,6 +234,8 @@
                     '</a>'
                   );
                 }).join('');
+                // 모바일에서만 자동 회전 슬라이드 시작
+                startAutoSlide();
               })
               .catch(function (err) {
                 grid.innerHTML = '<p style="color:#888;font-size:14px;">프로젝트 목록을 불러오지 못했습니다.</p>';
@@ -248,6 +250,70 @@
             function escMultiline(s) {
               var withBreaks = String(s == null ? '' : s).replace(/<br\s*\/?>/gi, '\n');
               return esc(withBreaks).replace(/\n/g, '<br>');
+            }
+
+            // 모바일에서만 자동 슬라이드 회전
+            function startAutoSlide() {
+              if (!grid) return;
+              var timer = null;
+              var PAUSE_AFTER_USER = 6000;   // 사용자 인터랙션 후 일시정지 시간
+              var INTERVAL = 3500;            // 자동 슬라이드 간격
+              var userPausedUntil = 0;
+
+              function isMobile() {
+                return window.matchMedia('(max-width: 640px)').matches;
+              }
+              function cards() {
+                return grid.querySelectorAll('.product-card');
+              }
+              function currentIndex() {
+                var list = cards();
+                if (!list.length) return 0;
+                var cardW = list[0].offsetWidth + 14;  // gap 14 포함
+                return Math.round(grid.scrollLeft / cardW);
+              }
+              function goTo(i) {
+                var list = cards();
+                if (!list.length) return;
+                var max = list.length - 1;
+                if (i > max) i = 0;        // 끝에 도달하면 처음으로
+                if (i < 0) i = max;
+                var cardW = list[0].offsetWidth + 14;
+                grid.scrollTo({ left: cardW * i, behavior: 'smooth' });
+              }
+              function tick() {
+                if (!isMobile()) return;
+                if (Date.now() < userPausedUntil) return;
+                if (document.hidden) return;          // 다른 탭이면 멈춤
+                // 화면에 안 보이면 회전하지 않음
+                var rect = grid.getBoundingClientRect();
+                var inView = rect.bottom > 0 && rect.top < window.innerHeight;
+                if (!inView) return;
+                goTo(currentIndex() + 1);
+              }
+              function start() {
+                stop();
+                if (!isMobile()) return;
+                timer = setInterval(tick, INTERVAL);
+              }
+              function stop() {
+                if (timer) { clearInterval(timer); timer = null; }
+              }
+              function pauseFromUser() {
+                userPausedUntil = Date.now() + PAUSE_AFTER_USER;
+              }
+
+              // 사용자가 손가락으로 스크롤하거나 카드를 만질 때 일시 정지
+              grid.addEventListener('touchstart', pauseFromUser, { passive: true });
+              grid.addEventListener('pointerdown', pauseFromUser);
+              grid.addEventListener('wheel', pauseFromUser, { passive: true });
+
+              // 화면 폭이 모바일 ↔ 데스크탑으로 바뀌면 자동 재시작
+              window.addEventListener('resize', function () {
+                start();
+              });
+
+              start();
             }
           })();
         </script>

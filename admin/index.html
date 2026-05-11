@@ -1117,6 +1117,9 @@
           <button class="submenu__item" data-view="home-email" type="button">
             <span>메일 주소 수정</span>
           </button>
+          <button class="submenu__item" data-view="home-phone" type="button">
+            <span>전화번호 수정</span>
+          </button>
         </div>
         <!-- 컬렉션 -->
         <div class="submenu__group" data-section="collection">
@@ -1232,6 +1235,19 @@
           </nav>
           <h2 class="content__title">메일 주소 수정</h2>
           <div class="form-stack" id="home-email-host">
+            <div class="loading">불러오고 있어요…</div>
+          </div>
+        </section>
+
+        <!-- View: 홈 — 전화번호 수정 -->
+        <section class="view" data-view="home-phone">
+          <nav class="crumb" aria-label="Breadcrumb">
+            <span>홈</span>
+            <svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="crumb__current">전화번호 수정</span>
+          </nav>
+          <h2 class="content__title">전화번호 수정</h2>
+          <div class="form-stack" id="home-phone-host">
             <div class="loading">불러오고 있어요…</div>
           </div>
         </section>
@@ -1368,6 +1384,8 @@
         homeCollection: JSON.parse(JSON.stringify(HOME_COLLECTION_DEFAULTS)),
         email: '',
         emailHistory: [],
+        phone: '',
+        phoneHistory: [],
       };
       var SITE_CONFIG_SAVED_SNAPSHOT = '';
 
@@ -1573,7 +1591,7 @@
       // ---------- View switching ----------
       // 뷰 → 1뎁스 섹션 매핑
       function viewToSection(view) {
-        if (view === 'home-hero' || view === 'home-email') return 'home';
+        if (view === 'home-hero' || view === 'home-email' || view === 'home-phone') return 'home';
         if (view === 'collection-home-image' || view === 'collection-list' || view === 'collection-add' || view === 'collection-detail') return 'collection';
         // list/add/detail 모두 프로젝트 섹션
         return 'project';
@@ -1600,6 +1618,7 @@
         if (name === 'detail') renderDetail();
         if (name === 'home-hero') renderHomeHeroForm();
         if (name === 'home-email') renderHomeEmailForm();
+        if (name === 'home-phone') renderHomePhoneForm();
         if (name === 'collection-home-image') renderHomeCollectionForm();
         if (name === 'collection-list') renderCollectionList();
         if (name === 'collection-add') renderCollectionAddForm();
@@ -1989,6 +2008,102 @@
           SITE_CONFIG.emailHistory.forEach(function (h) {
             var item = el('div', { class: 'email-history__item' });
             item.appendChild(el('span', { class: 'email-history__email', text: h.email || '' }));
+            item.appendChild(el('span', { class: 'email-history__date', text: formatHistoryDate(h.changedAt) }));
+            list.appendChild(item);
+          });
+          logBox.appendChild(list);
+        }
+        host.appendChild(logBox);
+      }
+
+      // ---------- Home: 전화번호 변경 ----------
+      function renderHomePhoneForm() {
+        var host = $('#home-phone-host');
+        if (!host) return;
+        host.innerHTML = '';
+
+        if (typeof SITE_CONFIG.phone !== 'string') SITE_CONFIG.phone = '';
+        if (!Array.isArray(SITE_CONFIG.phoneHistory)) SITE_CONFIG.phoneHistory = [];
+
+        // ── 박스 1: 현재 전화번호 + 변경 폼 ──
+        var changeBox = el('div', { class: 'form-card' });
+        changeBox.appendChild(el('h3', { class: 'form-card__heading', text: '전화번호 등록' }));
+
+        var current = el('div', { class: 'email-current' });
+        current.appendChild(el('span', { class: 'email-current__label', text: '현재 번호' }));
+        current.appendChild(el('span', { class: 'email-current__value', text: SITE_CONFIG.phone || '(미설정)' }));
+        changeBox.appendChild(current);
+
+        var newField = el('div', { class: 'field' });
+        newField.appendChild(el('label', { class: 'label', text: '새 전화번호' }));
+        var inputRow = el('div', { class: 'email-change-row' });
+        var input = el('input', {
+          type: 'tel',
+          class: 'input',
+          placeholder: '01012345678 또는 02-123-4567',
+          autocomplete: 'off',
+        });
+        var btn = el('button', { class: 'btn btn--primary', type: 'button', text: '변경' });
+        inputRow.appendChild(input);
+        inputRow.appendChild(btn);
+        newField.appendChild(inputRow);
+        changeBox.appendChild(newField);
+
+        function applyChange() {
+          var nv = (input.value || '').trim();
+          if (!nv) {
+            showAlert('전화번호를 입력해 주세요', '');
+            input.focus();
+            return;
+          }
+          // 숫자, 하이픈, 점, 공백, 괄호, + 만 허용
+          if (!/^[\d\s+().\-]+$/.test(nv)) {
+            showAlert('전화번호 형식이 올바르지 않아요', '숫자와 - + ( ) 점만 사용할 수 있어요');
+            input.focus();
+            return;
+          }
+          // 숫자만 최소 7자리 이상
+          var digits = nv.replace(/\D/g, '');
+          if (digits.length < 7) {
+            showAlert('전화번호 자릿수가 너무 짧아요', '');
+            input.focus();
+            return;
+          }
+          if (nv === SITE_CONFIG.phone) {
+            showAlert('동일한 번호예요', '현재와 같아서 변경할 게 없습니다');
+            return;
+          }
+          if (SITE_CONFIG.phone) {
+            SITE_CONFIG.phoneHistory.unshift({
+              phone: SITE_CONFIG.phone,
+              changedAt: new Date().toISOString(),
+            });
+          }
+          SITE_CONFIG.phone = nv;
+          markDirty();
+          renderHomePhoneForm();
+          showAlert('전화번호가 변경됐어요\n저장하고 게시를 눌러 사이트에 반영해 주세요', '');
+        }
+        btn.addEventListener('click', applyChange);
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); applyChange(); }
+        });
+
+        host.appendChild(changeBox);
+
+        // ── 박스 2: 변경 이력 ──
+        var logBox = el('div', { class: 'form-card' });
+        logBox.appendChild(el('h3', { class: 'form-card__heading', text: '변경 이력' }));
+        if (SITE_CONFIG.phoneHistory.length === 0) {
+          var empty = el('div', { class: 'empty', style: 'padding: 32px 16px;' });
+          empty.appendChild(el('p', { class: 'empty__title', text: '아직 변경 이력이 없어요' }));
+          empty.appendChild(el('p', { text: '전화번호를 변경하면 이전 값이 여기에 기록됩니다.' }));
+          logBox.appendChild(empty);
+        } else {
+          var list = el('div', { class: 'email-history' });
+          SITE_CONFIG.phoneHistory.forEach(function (h) {
+            var item = el('div', { class: 'email-history__item' });
+            item.appendChild(el('span', { class: 'email-history__email', text: h.phone || '' }));
             item.appendChild(el('span', { class: 'email-history__date', text: formatHistoryDate(h.changedAt) }));
             list.appendChild(item);
           });
@@ -3312,6 +3427,8 @@
                 homeCollection: JSON.parse(JSON.stringify(HOME_COLLECTION_DEFAULTS)),
                 email: '',
                 emailHistory: [],
+                phone: '',
+                phoneHistory: [],
               },
               cfg
             );
@@ -3336,11 +3453,14 @@
             }
             if (!Array.isArray(SITE_CONFIG.emailHistory)) SITE_CONFIG.emailHistory = [];
             if (typeof SITE_CONFIG.email !== 'string') SITE_CONFIG.email = '';
+            if (!Array.isArray(SITE_CONFIG.phoneHistory)) SITE_CONFIG.phoneHistory = [];
+            if (typeof SITE_CONFIG.phone !== 'string') SITE_CONFIG.phone = '';
           }
           SITE_CONFIG_SAVED_SNAPSHOT = siteConfigSnapshot();
           var activeView = document.querySelector('.view.is-active');
           if (activeView && activeView.dataset.view === 'home-hero') renderHomeHeroForm();
           if (activeView && activeView.dataset.view === 'home-email') renderHomeEmailForm();
+          if (activeView && activeView.dataset.view === 'home-phone') renderHomePhoneForm();
           if (activeView && activeView.dataset.view === 'collection-home-image') renderHomeCollectionForm();
         });
         loadFromServer()

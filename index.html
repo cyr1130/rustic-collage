@@ -192,6 +192,11 @@
             <!-- projects-data.json 에서 최신순으로 자동 렌더링됨 -->
           </div>
 
+          <!-- 모바일 전용 슬라이드 프로그레스 바 -->
+          <div class="projects__progress" id="projects-progress" aria-hidden="true">
+            <div class="projects__progress-fill"></div>
+          </div>
+
           <!-- 모바일 전용 풀폭 CTA -->
           <a class="pill-btn pill-btn--full projects__cta-mobile" href="projects.html">
             <span class="pill-btn__label">View All Projects</span>
@@ -252,9 +257,10 @@
               return esc(withBreaks).replace(/\n/g, '<br>');
             }
 
-            // 모바일에서만 자동 슬라이드 회전
+            // 모바일에서만 자동 슬라이드 회전 + 프로그레스 바 갱신
             function startAutoSlide() {
               if (!grid) return;
+              var progressFill = document.querySelector('#projects-progress .projects__progress-fill');
               var timer = null;
               var PAUSE_AFTER_USER = 6000;   // 사용자 인터랙션 후 일시정지 시간
               var INTERVAL = 3500;            // 자동 슬라이드 간격
@@ -272,6 +278,17 @@
                 var cardW = list[0].offsetWidth + 14;  // gap 14 포함
                 return Math.round(grid.scrollLeft / cardW);
               }
+              function totalCount() {
+                return cards().length;
+              }
+              function updateProgress() {
+                if (!progressFill) return;
+                var total = totalCount();
+                if (!total) { progressFill.style.width = '0%'; return; }
+                // (현재 인덱스 + 1) / 전체 비율로 차오름
+                var pct = ((currentIndex() + 1) / total) * 100;
+                progressFill.style.width = Math.max(0, Math.min(100, pct)) + '%';
+              }
               function goTo(i) {
                 var list = cards();
                 if (!list.length) return;
@@ -284,8 +301,7 @@
               function tick() {
                 if (!isMobile()) return;
                 if (Date.now() < userPausedUntil) return;
-                if (document.hidden) return;          // 다른 탭이면 멈춤
-                // 화면에 안 보이면 회전하지 않음
+                if (document.hidden) return;
                 var rect = grid.getBoundingClientRect();
                 var inView = rect.bottom > 0 && rect.top < window.innerHeight;
                 if (!inView) return;
@@ -293,6 +309,7 @@
               }
               function start() {
                 stop();
+                updateProgress();
                 if (!isMobile()) return;
                 timer = setInterval(tick, INTERVAL);
               }
@@ -303,14 +320,24 @@
                 userPausedUntil = Date.now() + PAUSE_AFTER_USER;
               }
 
-              // 사용자가 손가락으로 스크롤하거나 카드를 만질 때 일시 정지
+              // 손가락 스크롤/터치 시 일시정지
               grid.addEventListener('touchstart', pauseFromUser, { passive: true });
               grid.addEventListener('pointerdown', pauseFromUser);
               grid.addEventListener('wheel', pauseFromUser, { passive: true });
 
-              // 화면 폭이 모바일 ↔ 데스크탑으로 바뀌면 자동 재시작
+              // 스크롤 위치 바뀔 때마다 프로그레스 바 동기화 (자동 + 수동 모두 반영)
+              var rafId = null;
+              grid.addEventListener('scroll', function () {
+                if (rafId) return;
+                rafId = requestAnimationFrame(function () {
+                  rafId = null;
+                  updateProgress();
+                });
+              }, { passive: true });
+
               window.addEventListener('resize', function () {
                 start();
+                updateProgress();
               });
 
               start();

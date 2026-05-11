@@ -71,11 +71,6 @@
             return esc(s || '');
           }
 
-          var HEART_SVG =
-            '<svg class="notice-heart" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">' +
-              '<path fill="#EE5A6A" d="M12 21s-7.5-4.5-9.5-9.5C1.1 8.1 3.2 4.5 6.8 4.5c2 0 3.7 1 5.2 3 1.5-2 3.2-3 5.2-3 3.6 0 5.7 3.6 4.3 7-2 5-9.5 9.5-9.5 9.5z"/>' +
-            '</svg>';
-
           function render(filter) {
             tbody.innerHTML = '';
             var filtered = ALL_ITEMS.filter(function (it) {
@@ -87,9 +82,7 @@
             }
             if (emptyMsg) emptyMsg.hidden = true;
 
-            // 1) 핀 공지 (날짜 최신순)
             var pinned = filtered.filter(function (it) { return !!it.isPinned; }).sort(byDateDesc);
-            // 2) 일반 (날짜 최신순) — 일반 번호는 전체 일반 개수 기준으로 역순 매김
             var normal = filtered.filter(function (it) { return !it.isPinned; }).sort(byDateDesc);
 
             var html = '';
@@ -103,14 +96,12 @@
           }
 
           function rowHTML(it, numLabel) {
-            var heart = it.isFavorite ? HEART_SVG : '';
             var href = './notice-detail.html?id=' + encodeURIComponent(it.id || '');
             return (
               '<a class="notice-row" role="row" href="' + href + '">' +
                 '<div class="notice-cell notice-cell--num" role="cell">' + esc(numLabel) + '</div>' +
                 '<div class="notice-cell notice-cell--title" role="cell">' +
                   '<span class="notice-title">' + esc(it.title || '') + '</span>' +
-                  heart +
                 '</div>' +
                 '<div class="notice-cell notice-cell--date" role="cell">' + formatDate(it.date) + '</div>' +
               '</a>'

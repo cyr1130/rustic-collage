@@ -1062,6 +1062,10 @@ body.menu-open { overflow: hidden; }
   color: #111111;
   text-align: center;
 }
+.notice-table__head .notice-cell--title {
+  justify-content: flex-start;
+  text-align: left;
+}
 .notice-cell--num {
   text-align: center;
   color: #666666;
@@ -1071,8 +1075,8 @@ body.menu-open { overflow: hidden; }
   display: flex;
   align-items: center;
   gap: 8px;
-  justify-content: center;
-  text-align: center;
+  justify-content: flex-start;
+  text-align: left;
 }
 .notice-cell--date {
   text-align: center;
@@ -1086,6 +1090,10 @@ body.menu-open { overflow: hidden; }
 }
 .notice-row:hover { background: #FAFAFA; }
 .notice-row:hover .notice-title { color: #000000; }
+/* 상단 고정 공지 — 일반 행과 시각적으로 분리 */
+.notice-row--pinned { background: #f9f9f9; }
+.notice-row--pinned:hover { background: #F3F3F3; }
+.notice-row--pinned .notice-cell--num { font-weight: 600; color: #111111; }
 .notice-title {
   color: #111111;
   white-space: nowrap;

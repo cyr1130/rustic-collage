@@ -14,27 +14,54 @@
     <link rel="stylesheet" href="./style.css" />
     <script src="./components.js"></script>
   </head>
-  <body class="subpage subpage--light">
+  <body class="subpage subpage--light subpage--solid-nav">
     <rc-nav></rc-nav>
 
     <main id="top">
-      <!-- 페이지 헤더 -->
-      <section class="page-hero">
-        <div class="container">
-          <p class="page-hero__eyebrow">About</p>
-          <h1 class="page-hero__title" data-rc-anim="01">우리의 이야기</h1>
-          <p class="page-hero__lead">
-            나무마다 결이 다르듯, 우리의 시간도 다른 결을 새깁니다.<br />
-            Rustic Collage가 마루에 담는 철학과 과정을 이 페이지에서 소개합니다.
-          </p>
+      <!-- ======================== INTRO: 좌 이미지 + 우 한글 카피 (풀블리드) ======================== -->
+      <section class="about-split about-split--image-left">
+        <figure class="about-split__media" data-rc-anim="02">
+          <img src="./images/about/about01.png" alt="Rustic Collage 원목 자재" loading="lazy" />
+        </figure>
+        <div class="about-split__panel">
+          <div class="about-split__text" data-rc-anim="03">
+            <p><b>러스틱(Rustic)</b>은<br />원초적인 재료를,</p>
+            <p><b>꼴라주(Collage)</b>는<br />서로 다른 조각을 붙여<br />하나로 만드는 예술을 의미합니다.</p>
+            <p><b>러스틱꼴라주는</b><br />재료를 고르고, 삶을 연결하며,<br />이야기를 이어갑니다.<br />덧붙이고, 겹치고, 연결되는<br />공간의 미학을 담고 있습니다.</p>
+          </div>
         </div>
       </section>
 
-      <!-- 본문 placeholder — 추후 콘텐츠 추가 -->
-      <section class="page-body">
-        <div class="container">
-          <p class="page-body__note">콘텐츠 준비 중입니다.</p>
+      <!-- ======================== CONCEPTS: 베이지 띠 + 3개 컨셉 ======================== -->
+      <section class="about-concepts">
+        <ul class="about-concepts__grid" data-rc-anim="03">
+          <li class="about-concept">
+            <p class="about-concept__ko">고르고</p>
+            <p class="about-concept__en">Select</p>
+          </li>
+          <li class="about-concept">
+            <p class="about-concept__ko">붙이고</p>
+            <p class="about-concept__en">Place</p>
+          </li>
+          <li class="about-concept">
+            <p class="about-concept__ko">더하다</p>
+            <p class="about-concept__en">Layer</p>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ======================== STATEMENT: 좌 영문 + 우 이미지 (풀블리드) ======================== -->
+      <section class="about-split about-split--image-right">
+        <div class="about-split__panel">
+          <div class="about-split__text about-split__text--end" data-rc-anim="03">
+            <p><b>Rustic</b> speaks to<br />the essence of raw materials.</p>
+            <p><b>Collage</b> is the art of bringing<br />different pieces together into a unified whole.</p>
+            <p><b>Rustic Collage</b> curates materials,<br />connects everyday life,<br />and weaves stories into space.<br />It embodies the aesthetics of layering,<br />accumulation, and connection.</p>
+          </div>
         </div>
+        <figure class="about-split__media" data-rc-anim="02">
+          <img src="./images/about/about02.png" alt="Rustic Collage 시공 사례" loading="lazy" />
+        </figure>
       </section>
     </main>
 

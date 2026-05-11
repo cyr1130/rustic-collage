@@ -467,6 +467,52 @@
       }
       .proj__actions { display: flex; gap: 4px; flex-shrink: 0; }
 
+      /* 컬렉션 리스트 — 이름 + 카테고리 배지 */
+      .proj__name-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+      .proj__name-row .proj__name { margin: 0; }
+      .cat-badge {
+        display: inline-flex; align-items: center;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: var(--gray-100);
+        color: var(--gray-700);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: var(--ts-letter);
+        flex-shrink: 0;
+      }
+
+      /* 카테고리 / Grade 탭 (segmented control) — 폼 안에서 사용 */
+      .cat-tabs {
+        display: inline-flex;
+        gap: 6px;
+        padding: 4px;
+        background: var(--gray-100);
+        border-radius: var(--radius-sm);
+        flex-wrap: wrap;
+      }
+      .cat-tabs__tab {
+        appearance: none;
+        background: transparent;
+        border: 0;
+        padding: 8px 16px;
+        margin: 0;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: var(--ts-letter);
+        color: var(--gray-600);
+        border-radius: calc(var(--radius-sm) - 2px);
+        cursor: pointer;
+        transition: background 160ms ease, color 160ms ease;
+      }
+      .cat-tabs__tab:hover { color: var(--gray-900); }
+      .cat-tabs__tab.is-active {
+        background: #ffffff;
+        color: var(--gray-900);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+      }
+
       .icon-btn {
         width: 38px; height: 38px; padding: 0;
         color: black;
@@ -1078,9 +1124,15 @@
           <button class="submenu__item" data-view="collection-home-image" type="button">
             <span>컬렉션 썸네일 변경</span>
           </button>
-          <button class="submenu__item submenu__item--disabled" data-view="collection-page" type="button" disabled>
-            <span>컬렉션 페이지 수정</span>
-            <span class="submenu__badge-soon">예정</span>
+          <button class="submenu__item" data-view="collection-list" type="button">
+            <span>컬렉션 목록</span>
+            <span class="badge" id="sidebar-coll-count">0</span>
+          </button>
+          <button class="submenu__item" data-view="collection-add" type="button">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+            <span>새 제품 등록</span>
           </button>
         </div>
         <!-- 프로젝트 -->
@@ -1192,29 +1244,66 @@
             <span class="crumb__current">홈 컬렉션 이미지 변경</span>
           </nav>
           <h2 class="content__title">홈 컬렉션 이미지 변경</h2>
-          
-          <div class="form-card">
-            <div class="empty">
-              <p class="empty__title">기능 준비 중이에요</p>
-              <p>다음 작업에서 4장 이미지 카드 업로드/순서 변경을 구현 예정입니다.</p>
-            </div>
+          <p class="content__subtitle">홈페이지의 Collage Collection 섹션에 보이는 4개 카테고리 카드의 이름과 이미지를 변경합니다. 카드를 클릭하면 컬렉션 페이지의 해당 탭이 자동으로 열려요.</p>
+          <div class="form-stack" id="home-collection-host">
+            <div class="loading">불러오고 있어요…</div>
           </div>
         </section>
 
-        <!-- View: 컬렉션 — 컬렉션 페이지 수정 (예정) -->
-        <section class="view" data-view="collection-page">
+        <!-- View: 컬렉션 — 목록 -->
+        <section class="view" data-view="collection-list">
           <nav class="crumb" aria-label="Breadcrumb">
             <span>컬렉션</span>
             <svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            <span class="crumb__current">컬렉션 페이지 수정</span>
+            <span class="crumb__current">컬렉션 목록</span>
           </nav>
-          <h2 class="content__title">컬렉션 페이지 수정</h2>
-          <p class="content__subtitle">컬렉션 상세 페이지가 추후 제작되면 그 콘텐츠를 관리할 수 있게 됩니다.</p>
-          <div class="form-card">
-            <div class="empty">
-              <p class="empty__title">제작 예정</p>
-              <p>컬렉션 상세 페이지가 만들어진 후, 어드민에서 페이지 콘텐츠를 편집할 수 있도록 구현 예정입니다.</p>
+          <h2 class="content__title">컬렉션 목록</h2>
+          <div class="tip">
+            <span class="tip__icon">!</span>
+            <div>
+              <strong>컬렉션 수정 방법</strong><br />
+              제품을 클릭하면 상세 페이지로 이동해요. 카테고리는 165 / 190 / 240 / Collage 중 하나를 선택할 수 있습니다.
             </div>
+          </div>
+
+          <div class="summary-bar">
+            <span class="summary-bar__count">총 <strong id="coll-count">0</strong>개의 제품</span>
+            <div class="search-bar">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-3.5-3.5" />
+              </svg>
+              <input type="search" id="coll-search-input" placeholder="제품 이름으로 검색" autocomplete="off" />
+            </div>
+          </div>
+
+          <div id="collection-list">
+            <div class="loading">불러오고 있어요…</div>
+          </div>
+        </section>
+
+        <!-- View: 컬렉션 — 상세/편집 -->
+        <section class="view" data-view="collection-detail">
+          <div id="coll-detail-host"></div>
+        </section>
+
+        <!-- View: 컬렉션 — 신규 등록 -->
+        <section class="view" data-view="collection-add">
+          <nav class="crumb" aria-label="Breadcrumb">
+            <span>컬렉션</span>
+            <svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="crumb__current">신규 등록</span>
+          </nav>
+          <h2 class="content__title">신규 제품 등록</h2>
+          <p class="content__subtitle">신규 제품을 컬렉션 목록에 추가합니다. 추가하고 저장 후 게시를 눌러주세요</p>
+
+          <div class="form-card" id="coll-add-form-host">
+            <!-- 폼 필드는 JS로 렌더링 -->
+          </div>
+
+          <div class="form-card__footer" style="background:transparent;border:0;padding:16px 0 0;">
+            <button class="btn btn--ghost" id="btn-coll-add-reset" type="button">초기화</button>
+            <button class="btn btn--primary" id="btn-coll-add-submit" type="button">+ 목록에 추가하기</button>
           </div>
         </section>
       </main>
@@ -1247,16 +1336,36 @@
     <script>
       'use strict';
 
-      var STATE = { projects: [] };
+      var STATE = { projects: [], collection: [] };
       var SAVED_SNAPSHOT = '';
+      var COLLECTION_SAVED_SNAPSHOT = '';
       var SESSION_KEY = 'rc_admin_pw';
       var DRAFT = blankProject();
-      var EDITING_INDEX = null;     // 상세/편집 페이지에서 보고 있는 프로젝트 인덱스
-      var EDIT_MODE = 'view';       // 'view' | 'edit'
+      var COLLECTION_DRAFT = blankCollectionItem();
+      var EDITING_INDEX = null;     // 프로젝트 편집 인덱스
+      var EDIT_MODE = 'view';       // 프로젝트 'view' | 'edit'
+      var EDITING_COLLECTION_INDEX = null;
+      var COLLECTION_EDIT_MODE = 'view';
       var SEARCH_QUERY = '';
-      // 사이트 전역 설정 (히어로, 이메일, 컬렉션 등)
+      var COLL_SEARCH_QUERY = '';
+      // 컬렉션 카테고리 옵션 (collection.html 의 탭과 동일)
+      var COLLECTION_CATEGORIES = [
+        { value: '165', label: '165' },
+        { value: '190', label: '190' },
+        { value: '240', label: '240' },
+        { value: 'collage', label: 'Collage' },
+      ];
+      var COLLECTION_GRADES = ['Premium', 'Standard', 'Signature'];
+      // 사이트 전역 설정 (히어로, 이메일, 홈 컬렉션 카드 등)
+      var HOME_COLLECTION_DEFAULTS = [
+        { name: '165', image: '', category: '165' },
+        { name: '190', image: '', category: '190' },
+        { name: '240', image: '', category: '240' },
+        { name: 'Collage', image: '', category: 'collage' },
+      ];
       var SITE_CONFIG = {
         hero: { images: ['', '', ''], title: '', copyKo: '', copyEn: '' },
+        homeCollection: JSON.parse(JSON.stringify(HOME_COLLECTION_DEFAULTS)),
         email: '',
         emailHistory: [],
       };
@@ -1300,10 +1409,18 @@
           return clean;
         }));
       }
+      function collectionSnapshot() {
+        return JSON.stringify((STATE.collection || []).map(function (it) {
+          var clean = {};
+          Object.keys(it).forEach(function (k) { if (k.charAt(0) !== '_') clean[k] = it[k]; });
+          return clean;
+        }));
+      }
       function isDirty() { return snapshot() !== SAVED_SNAPSHOT; }
+      function isCollectionDirty() { return collectionSnapshot() !== COLLECTION_SAVED_SNAPSHOT; }
       function siteConfigSnapshot() { return JSON.stringify(SITE_CONFIG); }
       function isSiteConfigDirty() { return siteConfigSnapshot() !== SITE_CONFIG_SAVED_SNAPSHOT; }
-      function isAnyDirty() { return isDirty() || isSiteConfigDirty(); }
+      function isAnyDirty() { return isDirty() || isCollectionDirty() || isSiteConfigDirty(); }
       function slugify(s) {
         return String(s || '').toLowerCase().trim()
           .replace(/[^\w\s-]/g, '')
@@ -1328,6 +1445,18 @@
           _idEdited: false,
           _thumbTitleEdited: false,
           _titleEdited: false,
+        };
+      }
+      function blankCollectionItem() {
+        return {
+          id: '', name: '',
+          category: '165',          // 165 / 190 / 240 / collage
+          thumbnail: '',
+          gallery: ['', '', ''],
+          productName: '',
+          size: '',
+          grade: 'Premium',         // Premium / Standard / Signature
+          _idEdited: false,
         };
       }
 
@@ -1430,6 +1559,11 @@
             return r.json();
           });
       }
+      function loadCollectionFromServer() {
+        return fetch('../collection-data.json?t=' + Date.now(), { cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : { items: [] }; })
+          .catch(function () { return { items: [] }; });
+      }
       function loadSiteConfig() {
         return fetch('../site-config.json?t=' + Date.now(), { cache: 'no-store' })
           .then(function (r) { return r.ok ? r.json() : null; })
@@ -1440,7 +1574,7 @@
       // 뷰 → 1뎁스 섹션 매핑
       function viewToSection(view) {
         if (view === 'home-hero' || view === 'home-email') return 'home';
-        if (view === 'collection-home-image' || view === 'collection-page') return 'collection';
+        if (view === 'collection-home-image' || view === 'collection-list' || view === 'collection-add' || view === 'collection-detail') return 'collection';
         // list/add/detail 모두 프로젝트 섹션
         return 'project';
       }
@@ -1466,6 +1600,10 @@
         if (name === 'detail') renderDetail();
         if (name === 'home-hero') renderHomeHeroForm();
         if (name === 'home-email') renderHomeEmailForm();
+        if (name === 'collection-home-image') renderHomeCollectionForm();
+        if (name === 'collection-list') renderCollectionList();
+        if (name === 'collection-add') renderCollectionAddForm();
+        if (name === 'collection-detail') renderCollectionDetail();
       }
 
       // 레일에서 섹션 클릭 — 해당 섹션의 첫 활성 메뉴로 이동
@@ -1870,6 +2008,111 @@
         } catch (e) { return iso; }
       }
 
+      // ---------- Collection: 홈 컬렉션 카드 4개 편집 폼 ----------
+      function renderHomeCollectionForm() {
+        var host = $('#home-collection-host');
+        if (!host) return;
+        host.innerHTML = '';
+
+        if (!Array.isArray(SITE_CONFIG.homeCollection) || SITE_CONFIG.homeCollection.length !== 4) {
+          SITE_CONFIG.homeCollection = JSON.parse(JSON.stringify(HOME_COLLECTION_DEFAULTS));
+        }
+
+        var box = el('div', { class: 'form-card' });
+        box.appendChild(el('h3', { class: 'form-card__heading', text: '카테고리 카드' }));
+        var grid = el('div', { class: 'hero-slide-grid' });
+        SITE_CONFIG.homeCollection.forEach(function (item, i) {
+          grid.appendChild(makeHomeCollectionField(i, item));
+        });
+        box.appendChild(grid);
+        host.appendChild(box);
+      }
+
+      function makeHomeCollectionField(index, item) {
+        var wrap = el('div', { class: 'hero-slide' });
+        // 카드 번호 + 고정 카테고리 표시
+        var labelText = '카드 ' + (index + 1) + ' · 카테고리 ' + (item.category === 'collage' ? 'Collage' : item.category);
+        wrap.appendChild(el('div', { class: 'hero-slide__label', text: labelText }));
+
+        // 이미지 미리보기 + 업로드/페이스트/드롭
+        var preview = el('div', { class: 'hero-slide__preview', tabindex: '0', title: '클릭/포커스 후 붙여넣기 가능' });
+        var img = el('img', { src: toPreviewUrl(item.image), alt: '' });
+        img.addEventListener('error', function () { img.src = placeholderSvg(); });
+        var hint = el('div', { class: 'hero-slide__preview-hint', text: '여기에 붙여넣거나 드롭하세요' });
+        preview.appendChild(img);
+        preview.appendChild(hint);
+        preview.addEventListener('mouseenter', function () { preview.focus(); });
+
+        var uploadWrap = makeUploadButton(function (path) {
+          item.image = path;
+          img.src = toPreviewUrl(path);
+          markDirty();
+        });
+        var uploadBtn = uploadWrap.querySelector('button');
+        preview.addEventListener('click', function () { uploadBtn.click(); });
+
+        function onPaste(e) {
+          var items = e.clipboardData && e.clipboardData.items;
+          if (!items) return;
+          for (var i = 0; i < items.length; i++) {
+            var it = items[i];
+            if (it.type && it.type.indexOf('image') === 0) {
+              e.preventDefault();
+              var blob = it.getAsFile();
+              if (!blob) { showAlert('붙여넣기 실패', '클립보드에서 이미지를 읽을 수 없어요.'); return; }
+              var mime = (blob.type || 'image/png');
+              var ext = (mime.split('/')[1] || 'png').replace('jpeg', 'jpg').split(';')[0];
+              handleImageUpload(blob, uploadBtn, function (path) {
+                item.image = path; img.src = toPreviewUrl(path); markDirty();
+              }, 'pasted-' + Date.now() + '.' + ext);
+              return;
+            }
+          }
+        }
+        preview.addEventListener('paste', onPaste);
+        ['dragenter', 'dragover'].forEach(function (evt) {
+          preview.addEventListener(evt, function (e) {
+            if (e.dataTransfer && Array.from(e.dataTransfer.types || []).indexOf('Files') !== -1) {
+              e.preventDefault();
+              preview.classList.add('is-dragover');
+              hint.textContent = '여기에 드롭하세요';
+            }
+          });
+        });
+        ['dragleave', 'drop'].forEach(function (evt) {
+          preview.addEventListener(evt, function () {
+            preview.classList.remove('is-dragover');
+            hint.textContent = '여기에 붙여넣거나 드롭하세요';
+          });
+        });
+        preview.addEventListener('drop', function (e) {
+          var files = e.dataTransfer && e.dataTransfer.files;
+          if (!files || !files.length) return;
+          var f = files[0];
+          if (!f.type || f.type.indexOf('image') !== 0) {
+            showAlert('업로드 불가', '이미지 파일만 업로드할 수 있어요');
+            return;
+          }
+          e.preventDefault();
+          handleImageUpload(f, uploadBtn, function (path) {
+            item.image = path; img.src = toPreviewUrl(path); markDirty();
+          });
+        });
+
+        wrap.appendChild(preview);
+        var actions = el('div', { class: 'hero-slide__actions' }, [uploadWrap]);
+        wrap.appendChild(actions);
+
+        // 카드 이름(라벨) 입력 — 카테고리 자체는 고정이지만 표시 텍스트는 자유
+        var nameField = textInput('표시 이름', item.name || '', '홈 카드에 보이는 라벨', function (v) {
+          item.name = v;
+          markDirty();
+        });
+        wrap.appendChild(nameField);
+
+        return wrap;
+      }
+
       // ---------- Home: Hero 편집 폼 ----------
       function renderHomeHeroForm() {
         var host = $('#home-hero-host');
@@ -2097,6 +2340,402 @@
         }
         DRAFT = blankProject();
         renderAddForm();
+      }
+
+      // =============================================================
+      // ===================== COLLECTION 관리부 =====================
+      // =============================================================
+
+      function markCollectionDirty() {
+        // 일반 markDirty 와 동일하게 status만 갱신
+        updateStatus();
+      }
+
+      // 카테고리 탭 (segmented control) — 165 / 190 / 240 / Collage
+      function categoryTabs(currentValue, onChange) {
+        var wrap = el('div', { class: 'field' });
+        wrap.appendChild(el('label', { class: 'label', text: '카테고리' }));
+        var tabs = el('div', { class: 'cat-tabs', role: 'tablist' });
+        COLLECTION_CATEGORIES.forEach(function (opt) {
+          var btn = el('button', {
+            class: 'cat-tabs__tab' + (opt.value === currentValue ? ' is-active' : ''),
+            type: 'button',
+            'data-value': opt.value,
+            text: opt.label,
+          });
+          btn.addEventListener('click', function () {
+            tabs.querySelectorAll('.cat-tabs__tab').forEach(function (b) { b.classList.remove('is-active'); });
+            btn.classList.add('is-active');
+            onChange(opt.value);
+          });
+          tabs.appendChild(btn);
+        });
+        wrap.appendChild(tabs);
+        return wrap;
+      }
+
+      // Grade 탭 — Premium / Standard / Signature
+      function gradeTabs(currentValue, onChange) {
+        var wrap = el('div', { class: 'field' });
+        wrap.appendChild(el('label', { class: 'label', text: 'Grade' }));
+        var tabs = el('div', { class: 'cat-tabs', role: 'tablist' });
+        COLLECTION_GRADES.forEach(function (g) {
+          var btn = el('button', {
+            class: 'cat-tabs__tab' + (g === currentValue ? ' is-active' : ''),
+            type: 'button',
+            'data-value': g,
+            text: g,
+          });
+          btn.addEventListener('click', function () {
+            tabs.querySelectorAll('.cat-tabs__tab').forEach(function (b) { b.classList.remove('is-active'); });
+            btn.classList.add('is-active');
+            onChange(g);
+          });
+          tabs.appendChild(btn);
+        });
+        wrap.appendChild(tabs);
+        return wrap;
+      }
+
+      // ---------- List ----------
+      function renderCollectionList() {
+        var host = $('#collection-list');
+        if (!host) return;
+        host.innerHTML = '';
+        STATE.collection = STATE.collection || [];
+        $('#coll-count').textContent = STATE.collection.length;
+        $('#sidebar-coll-count').textContent = STATE.collection.length;
+
+        if (STATE.collection.length === 0) {
+          host.appendChild(el('div', { class: 'empty' }, [
+            el('p', { class: 'empty__title', text: '아직 등록된 제품이 없어요' }),
+            el('p', { text: '좌측 메뉴에서 새 제품을 추가해 보세요.' }),
+          ]));
+          updateStatus();
+          return;
+        }
+
+        var q = (COLL_SEARCH_QUERY || '').trim().toLowerCase();
+        var filtered = STATE.collection.map(function (it, idx) { return { it: it, idx: idx }; });
+        if (q) {
+          filtered = filtered.filter(function (x) {
+            var hay = [x.it.name || '', x.it.productName || '', x.it.id || ''].join(' ').toLowerCase();
+            return hay.indexOf(q) !== -1;
+          });
+        }
+
+        if (filtered.length === 0) {
+          host.appendChild(el('div', { class: 'empty' }, [
+            el('p', { class: 'empty__title', text: '검색 결과가 없어요' }),
+            el('p', { text: '"' + COLL_SEARCH_QUERY + '" 와 일치하는 제품이 없어요.' }),
+          ]));
+          updateStatus();
+          return;
+        }
+
+        filtered.forEach(function (entry) {
+          host.appendChild(renderCollItem(entry.it, entry.idx));
+        });
+        updateStatus();
+      }
+
+      function renderCollItem(it, index) {
+        var card = el('div', { class: 'proj' });
+        var thumb = el('img', { class: 'proj__thumb', src: toPreviewUrl(it.thumbnail), alt: '' });
+        thumb.addEventListener('error', function () { thumb.src = placeholderSvg(); });
+
+        var nameEl = el('p', { class: 'proj__name', text: it.name || '제목 없음' });
+        var catBadge = el('span', {
+          class: 'cat-badge',
+          text: it.category === 'collage' ? 'Collage' : (it.category || '-'),
+        });
+        var nameRow = el('div', { class: 'proj__name-row' }, [nameEl, catBadge]);
+        var headText = el('div', { class: 'proj__head-text' }, [nameRow]);
+
+        var actions = el('div', { class: 'proj__actions' });
+        var btnUp = iconBtn('up', function () { collMove(index, -1); }, false, '위로');
+        if (index === 0) btnUp.disabled = true;
+        var btnDown = iconBtn('down', function () { collMove(index, 1); }, false, '아래로');
+        if (index === STATE.collection.length - 1) btnDown.disabled = true;
+        actions.appendChild(btnUp);
+        actions.appendChild(btnDown);
+        actions.appendChild(iconBtn('copy', function () { collDuplicate(index); }, false, '복제', 'accent'));
+        actions.appendChild(iconBtn('x', function () { collRemove(index); }, true, '삭제'));
+
+        var head = el('div', { class: 'proj__head' }, [thumb, headText, actions]);
+
+        card.addEventListener('click', function (e) {
+          if (e.target.closest('.proj__actions')) return;
+          openCollectionItem(index);
+        });
+
+        card.appendChild(head);
+        return card;
+      }
+
+      function collMove(index, dir) {
+        var next = index + dir;
+        if (next < 0 || next >= STATE.collection.length) return;
+        var arr = STATE.collection;
+        var tmp = arr[index]; arr[index] = arr[next]; arr[next] = tmp;
+        renderCollectionList();
+        markCollectionDirty();
+      }
+      function collDuplicate(index) {
+        var src = STATE.collection[index];
+        if (!src) return;
+        var copy = JSON.parse(JSON.stringify(src));
+        var others = STATE.collection.map(function (x) { return x.id; });
+        copy.id = uniqueId((copy.id || copy.name || 'item') + '-copy', others);
+        copy.name = (copy.name || '제목 없음') + ' (복제)';
+        STATE.collection.splice(index + 1, 0, copy);
+        renderCollectionList();
+        markCollectionDirty();
+      }
+      function collRemove(index) {
+        var p = STATE.collection[index];
+        if (!p) return;
+        showConfirm('"' + (p.name || '제목 없음') + '" 제품을\n정말 삭제하시겠습니까?', '', {
+          confirmText: '삭제',
+          cancelText: '취소',
+          danger: true,
+          onConfirm: function () {
+            STATE.collection.splice(index, 1);
+            renderCollectionList();
+            markCollectionDirty();
+          },
+        });
+      }
+
+      function openCollectionItem(index) {
+        EDITING_COLLECTION_INDEX = index;
+        COLLECTION_EDIT_MODE = 'view';
+        switchView('collection-detail');
+        try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); }
+      }
+
+      // ---------- Detail / Edit ----------
+      function renderCollectionDetail() {
+        var p = STATE.collection[EDITING_COLLECTION_INDEX];
+        var host = $('#coll-detail-host');
+        host.innerHTML = '';
+        if (!p) {
+          host.appendChild(el('div', { class: 'empty' }, [
+            el('p', { class: 'empty__title', text: '제품을 찾을 수 없어요' }),
+            el('p', { text: '목록으로 돌아가 다시 선택해 주세요.' }),
+          ]));
+          return;
+        }
+
+        var sepSvg = '<svg class="crumb__sep" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>';
+        var crumb = el('nav', { class: 'crumb', 'aria-label': 'Breadcrumb', html:
+          '<span>컬렉션</span>' + sepSvg +
+          '<span>컬렉션 목록</span>' + sepSvg +
+          '<span class="crumb__current"></span>'
+        });
+        crumb.querySelector('.crumb__current').textContent = p.name || '제목 없음';
+        host.appendChild(crumb);
+
+        var header = el('div', { class: 'detail-header' });
+        var backBtn = el('button', { class: 'btn btn--ghost btn--back', type: 'button', html: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg><span>목록</span>' });
+        backBtn.addEventListener('click', function () {
+          EDITING_COLLECTION_INDEX = null;
+          renderCollectionList();
+          switchView('collection-list');
+        });
+
+        var actions = el('div', { class: 'detail-header__actions' });
+        if (COLLECTION_EDIT_MODE === 'view') {
+          var editBtn = el('button', { class: 'btn btn--primary', type: 'button', text: '수정' });
+          editBtn.addEventListener('click', function () { COLLECTION_EDIT_MODE = 'edit'; renderCollectionDetail(); });
+          actions.appendChild(editBtn);
+        } else {
+          var doneBtn = el('button', { class: 'btn btn--primary', type: 'button', text: '편집 완료' });
+          doneBtn.addEventListener('click', function () { COLLECTION_EDIT_MODE = 'view'; renderCollectionDetail(); });
+          actions.appendChild(doneBtn);
+        }
+        var deleteBtn = el('button', { class: 'btn btn--danger', type: 'button', text: '삭제' });
+        deleteBtn.addEventListener('click', function () {
+          showConfirm('"' + (p.name || '제목 없음') + '" 제품을\n정말 삭제하시겠습니까?', '', {
+            confirmText: '삭제', cancelText: '취소', danger: true,
+            onConfirm: function () {
+              STATE.collection.splice(EDITING_COLLECTION_INDEX, 1);
+              EDITING_COLLECTION_INDEX = null;
+              markCollectionDirty();
+              renderCollectionList();
+              switchView('collection-list');
+            },
+          });
+        });
+        actions.appendChild(deleteBtn);
+
+        header.appendChild(backBtn);
+        header.appendChild(el('div', { style: 'flex: 1' }));
+        header.appendChild(actions);
+        host.appendChild(header);
+
+        var content = el('div', { class: COLLECTION_EDIT_MODE === 'edit' ? 'form-card' : '' });
+        if (COLLECTION_EDIT_MODE === 'edit') {
+          renderCollectionEditFields(content, p, function () {
+            var crumbCurrent = host.querySelector('.crumb__current');
+            if (crumbCurrent) crumbCurrent.textContent = p.name || '제목 없음';
+          });
+        } else {
+          renderCollectionViewFields(content, p);
+        }
+        host.appendChild(content);
+      }
+
+      function renderCollectionEditFields(host, p, onNameChange) {
+        // 제품 이름 (목록·홈에 표시되는 한글 이름)
+        host.appendChild(textInput('제품 이름', p.name || '', '예: 마루 이름 01', function (v) {
+          p.name = v;
+          if (!p._idEdited) {
+            var others = STATE.collection.filter(function (x) { return x !== p; }).map(function (x) { return x.id; });
+            p.id = uniqueId(v, others);
+          }
+          if (onNameChange) onNameChange();
+          markCollectionDirty();
+        }));
+
+        // 카테고리 탭
+        host.appendChild(categoryTabs(p.category || '165', function (v) {
+          p.category = v;
+          markCollectionDirty();
+        }));
+
+        host.appendChild(el('div', { class: 'form-section' }));
+        host.appendChild(imageInputField('썸네일 이미지', '', p.thumbnail || '', function (v) {
+          p.thumbnail = v; markCollectionDirty();
+        }));
+        host.appendChild(renderGallery(p, markCollectionDirty));
+
+        // 디테일 영역
+        host.appendChild(el('div', { class: 'form-section' }));
+        host.appendChild(textInput('Product Name', p.productName || '', '영문 제품명', function (v) {
+          p.productName = v; markCollectionDirty();
+        }));
+        host.appendChild(textInput('Size', p.size || '', '예: 7mm × 165mm × 1,212mm', function (v) {
+          p.size = v; markCollectionDirty();
+        }));
+        host.appendChild(gradeTabs(p.grade || 'Premium', function (v) {
+          p.grade = v; markCollectionDirty();
+        }));
+      }
+
+      function renderCollectionViewFields(host, p) {
+        function row(label, value, opts) {
+          opts = opts || {};
+          var labelEl = el('div', { class: 'view-row__label', text: label });
+          var valueEl;
+          if (opts.image && value) {
+            valueEl = el('img', { class: 'view-row__image', src: toPreviewUrl(value), alt: '' });
+            valueEl.addEventListener('error', function () { valueEl.src = placeholderSvg(); });
+          } else {
+            valueEl = el('div', { class: 'view-row__value' + (value ? '' : ' view-row__value--muted') });
+            valueEl.textContent = value || '비어있음';
+          }
+          return el('div', { class: 'view-row' }, [labelEl, valueEl]);
+        }
+
+        host.appendChild(row('제품 이름', p.name));
+        host.appendChild(row('카테고리', p.category === 'collage' ? 'Collage' : (p.category || '')));
+
+        host.appendChild(el('div', { class: 'form-section' }));
+        host.appendChild(row('썸네일 이미지', p.thumbnail, { image: true }));
+
+        // 갤러리
+        var gRow = el('div', { class: 'view-row' });
+        gRow.appendChild(el('div', { class: 'view-row__label', text: '이미지' }));
+        var gallery = (p.gallery || []).filter(Boolean);
+        if (gallery.length === 0) {
+          gRow.appendChild(el('div', { class: 'view-row__value view-row__value--muted', text: '비어있음' }));
+        } else {
+          var gGrid = el('div', { class: 'view-row__gallery' });
+          gallery.forEach(function (url) {
+            var img = el('img', { src: toPreviewUrl(url), alt: '' });
+            img.addEventListener('error', function () { img.src = placeholderSvg(); });
+            gGrid.appendChild(img);
+          });
+          gRow.appendChild(gGrid);
+        }
+        host.appendChild(gRow);
+
+        host.appendChild(el('div', { class: 'form-section' }));
+        host.appendChild(row('Product Name', p.productName));
+        host.appendChild(row('Size', p.size));
+        host.appendChild(row('Grade', p.grade));
+      }
+
+      // ---------- Add ----------
+      function renderCollectionAddForm() {
+        var host = $('#coll-add-form-host');
+        host.innerHTML = '';
+
+        host.appendChild(textInput('제품 이름', COLLECTION_DRAFT.name || '', '예: 마루 이름 01', function (v) {
+          COLLECTION_DRAFT.name = v;
+          var others = STATE.collection.map(function (x) { return x.id; });
+          COLLECTION_DRAFT.id = uniqueId(v, others);
+        }));
+
+        host.appendChild(categoryTabs(COLLECTION_DRAFT.category || '165', function (v) {
+          COLLECTION_DRAFT.category = v;
+        }));
+
+        host.appendChild(el('div', { class: 'form-section' }));
+        host.appendChild(imageInputField('썸네일 이미지', '', COLLECTION_DRAFT.thumbnail || '', function (v) {
+          COLLECTION_DRAFT.thumbnail = v;
+        }));
+        host.appendChild(renderGallery(COLLECTION_DRAFT, function () {}));
+
+        host.appendChild(el('div', { class: 'form-section' }));
+        host.appendChild(textInput('Product Name', COLLECTION_DRAFT.productName || '', '영문 제품명', function (v) {
+          COLLECTION_DRAFT.productName = v;
+        }));
+        host.appendChild(textInput('Size', COLLECTION_DRAFT.size || '', '예: 7mm × 165mm × 1,212mm', function (v) {
+          COLLECTION_DRAFT.size = v;
+        }));
+        host.appendChild(gradeTabs(COLLECTION_DRAFT.grade || 'Premium', function (v) {
+          COLLECTION_DRAFT.grade = v;
+        }));
+      }
+
+      function submitCollectionDraft() {
+        if (!COLLECTION_DRAFT.name || !COLLECTION_DRAFT.name.trim()) {
+          showAlert('제품 이름이 필요해요', '제품 이름은 꼭 입력해 주세요.');
+          return;
+        }
+        var others = STATE.collection.map(function (x) { return x.id; });
+        if (!COLLECTION_DRAFT.id) COLLECTION_DRAFT.id = uniqueId(COLLECTION_DRAFT.name, others);
+        if (others.indexOf(COLLECTION_DRAFT.id) !== -1) COLLECTION_DRAFT.id = uniqueId(COLLECTION_DRAFT.id, others);
+
+        var newItem = JSON.parse(JSON.stringify(COLLECTION_DRAFT));
+        delete newItem._idEdited;
+        STATE.collection.push(newItem);
+
+        COLLECTION_DRAFT = blankCollectionItem();
+        var newIndex = STATE.collection.length - 1;
+        renderCollectionList();
+        markCollectionDirty();
+
+        showAlert('등록이 완료되었어요\n저장하고 게시를 눌러주세요', '', function () {
+          openCollectionItem(newIndex);
+        });
+      }
+
+      function resetCollectionDraft() {
+        if (COLLECTION_DRAFT.name || COLLECTION_DRAFT.thumbnail || COLLECTION_DRAFT.productName) {
+          showConfirm('입력한 내용이 모두 지워져요\n초기화 하시겠습니까?', '', {
+            confirmText: '초기화', cancelText: '취소', danger: true,
+            onConfirm: function () {
+              COLLECTION_DRAFT = blankCollectionItem();
+              renderCollectionAddForm();
+            },
+          });
+          return;
+        }
+        COLLECTION_DRAFT = blankCollectionItem();
+        renderCollectionAddForm();
       }
 
       // ---------- Gallery (shared) ----------
@@ -2505,6 +3144,21 @@
         });
       }
 
+      function saveCollection(pw) {
+        var payload = (STATE.collection || []).map(function (p) {
+          var clean = {};
+          Object.keys(p).forEach(function (k) { if (k.charAt(0) !== '_') clean[k] = p[k]; });
+          return clean;
+        });
+        return fetch('/api/save-collection', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pw, items: payload }),
+        }).then(handleSaveResponse).then(function () {
+          COLLECTION_SAVED_SNAPSHOT = collectionSnapshot();
+        });
+      }
+
       function save() {
         var pw = sessionStorage.getItem(SESSION_KEY);
         if (!pw) { showLogin(); return; }
@@ -2517,6 +3171,7 @@
 
         var tasks = [];
         if (isDirty()) tasks.push(saveProjects(pw));
+        if (isCollectionDirty()) tasks.push(saveCollection(pw));
         if (isSiteConfigDirty()) tasks.push(saveSiteConfig(pw));
 
         Promise.all(tasks)
@@ -2597,6 +3252,11 @@
       });
       $('#btn-add-submit').addEventListener('click', submitDraft);
       $('#btn-add-reset').addEventListener('click', resetDraft);
+      // 컬렉션 add 폼 버튼
+      var btnCollAddSubmit = $('#btn-coll-add-submit');
+      if (btnCollAddSubmit) btnCollAddSubmit.addEventListener('click', submitCollectionDraft);
+      var btnCollAddReset = $('#btn-coll-add-reset');
+      if (btnCollAddReset) btnCollAddReset.addEventListener('click', resetCollectionDraft);
 
       // 검색 입력 — 디바운스 가볍게 적용
       var searchTimer = null;
@@ -2608,6 +3268,19 @@
           renderList();
         }, 120);
       });
+      // 컬렉션 검색
+      var collSearchTimer = null;
+      var collSearchEl = $('#coll-search-input');
+      if (collSearchEl) {
+        collSearchEl.addEventListener('input', function (e) {
+          clearTimeout(collSearchTimer);
+          var v = e.target.value;
+          collSearchTimer = setTimeout(function () {
+            COLL_SEARCH_QUERY = v;
+            renderCollectionList();
+          }, 120);
+        });
+      }
 
       // 서브메뉴 항목 클릭 — 뷰 전환
       $all('.submenu__item').forEach(function (b) {
@@ -2633,9 +3306,13 @@
         // site-config 도 병행 로드
         loadSiteConfig().then(function (cfg) {
           if (cfg && typeof cfg === 'object') {
-            // 기본값과 병합 — 누락 필드 대비
             SITE_CONFIG = Object.assign(
-              { hero: { images: ['', '', ''], title: '', copyKo: '', copyEn: '' }, email: '', emailHistory: [] },
+              {
+                hero: { images: ['', '', ''], title: '', copyKo: '', copyEn: '' },
+                homeCollection: JSON.parse(JSON.stringify(HOME_COLLECTION_DEFAULTS)),
+                email: '',
+                emailHistory: [],
+              },
               cfg
             );
             SITE_CONFIG.hero = Object.assign(
@@ -2644,36 +3321,60 @@
             );
             var imgs = SITE_CONFIG.hero.images || [];
             SITE_CONFIG.hero.images = [imgs[0] || '', imgs[1] || '', imgs[2] || ''];
+            // homeCollection — 항상 4개, 카테고리 고정
+            if (!Array.isArray(SITE_CONFIG.homeCollection)) {
+              SITE_CONFIG.homeCollection = JSON.parse(JSON.stringify(HOME_COLLECTION_DEFAULTS));
+            } else {
+              SITE_CONFIG.homeCollection = HOME_COLLECTION_DEFAULTS.map(function (def, i) {
+                var cur = SITE_CONFIG.homeCollection[i] || {};
+                return {
+                  name: typeof cur.name === 'string' ? cur.name : def.name,
+                  image: typeof cur.image === 'string' ? cur.image : '',
+                  category: def.category,
+                };
+              });
+            }
             if (!Array.isArray(SITE_CONFIG.emailHistory)) SITE_CONFIG.emailHistory = [];
             if (typeof SITE_CONFIG.email !== 'string') SITE_CONFIG.email = '';
           }
           SITE_CONFIG_SAVED_SNAPSHOT = siteConfigSnapshot();
-          // 첫 화면이 home-hero/home-email이면 site-config 로딩 후 즉시 폼 렌더링
           var activeView = document.querySelector('.view.is-active');
           if (activeView && activeView.dataset.view === 'home-hero') renderHomeHeroForm();
           if (activeView && activeView.dataset.view === 'home-email') renderHomeEmailForm();
+          if (activeView && activeView.dataset.view === 'collection-home-image') renderHomeCollectionForm();
         });
         loadFromServer()
           .then(function (data) {
-            STATE = { projects: (data.projects || []).map(function (p) {
+            STATE.projects = (data.projects || []).map(function (p) {
               return Object.assign({}, p, { _idEdited: !!p.id });
-            }) };
+            });
             SAVED_SNAPSHOT = snapshot();
             renderList();
           })
           .catch(function (err) {
             console.warn('projects-data.json 로드 실패 → 샘플 데이터로 대체:', err);
-            // file:// 또는 다른 이유로 fetch 실패 시 샘플 데이터 표시
-            STATE = { projects: SAMPLE_FALLBACK.projects.map(function (p) {
+            STATE.projects = SAMPLE_FALLBACK.projects.map(function (p) {
               return Object.assign({}, p, { _idEdited: true });
-            }) };
+            });
             SAVED_SNAPSHOT = snapshot();
             renderList();
-            // 로컬 미리보기/폴백 안내는 콘솔에만 (불필요한 모달 방지)
             if (!isLocalFile) {
               showAlert('데이터 로드 실패', '저장된 데이터를 불러오지 못했어요.\n새로고침을 시도해 주세요.');
             }
           });
+        // 컬렉션 데이터 로드 (병렬)
+        loadCollectionFromServer().then(function (data) {
+          STATE.collection = (data.items || []).map(function (it) {
+            return Object.assign({}, it, { _idEdited: !!it.id });
+          });
+          COLLECTION_SAVED_SNAPSHOT = collectionSnapshot();
+          // 사이드바 카운트 갱신
+          var c = $('#sidebar-coll-count');
+          if (c) c.textContent = STATE.collection.length;
+          // 현재 활성 뷰가 컬렉션 목록이면 즉시 재렌더
+          var activeView = document.querySelector('.view.is-active');
+          if (activeView && activeView.dataset.view === 'collection-list') renderCollectionList();
+        });
       }
       init();
     </script>

@@ -3111,7 +3111,8 @@
         return wrap;
       }
 
-      // 파일 선택 → handleImageUpload 로 업로드 → 콜백에 GitHub path 전달
+      // 파일 선택 → handleImageUpload 로 업로드 → Quill 본문에 절대 URL 로 삽입
+      // (어드민은 /admin/ 경로라서 './images/...' 상대경로가 깨져요. raw GitHub URL 로 변환해서 삽입)
       function selectAndUploadImage(onUploaded) {
         var input = document.createElement('input');
         input.type = 'file';
@@ -3119,15 +3120,26 @@
         input.addEventListener('change', function () {
           var file = input.files && input.files[0];
           if (!file) return;
-          // 로딩 상태를 시각적으로 표시할 fake button (DOM 추가 안함)
           var fakeBtn = document.createElement('button');
-          var span = document.createElement('span');
-          fakeBtn.appendChild(span);
+          fakeBtn.appendChild(document.createElement('span'));
           handleImageUpload(file, fakeBtn, function (path) {
-            onUploaded(path);
+            var displayUrl = pathToAbsoluteImageUrl(path);
+            onUploaded(displayUrl);
           });
         });
         input.click();
+      }
+
+      // './images/projects/xyz.jpg' → 'https://raw.githubusercontent.com/.../xyz.jpg'
+      // 어드민 페이지(/admin/) 기준이 아니라 어디서든 동작하는 절대 URL 로 변환.
+      function pathToAbsoluteImageUrl(p) {
+        if (!p) return '';
+        if (/^(https?:|data:|blob:)/.test(p)) return p;
+        if (p.indexOf('./images/') === 0) {
+          return 'https://raw.githubusercontent.com/' + GH_OWNER + '/' + GH_REPO + '/' + GH_BRANCH + '/' + p.slice(2);
+        }
+        if (p.indexOf('./') === 0) return p.slice(1);
+        return p;
       }
 
       // 공지 카테고리 탭 — NOTICE / NEWS / CERTIFICATIONS

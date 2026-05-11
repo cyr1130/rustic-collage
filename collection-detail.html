@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>제품 이름 — Rustic Collage</title>
+    <meta name="description" content="Rustic Collage — 컬렉션 디테일" />
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./components.js"></script>
+  </head>
+  <body class="subpage subpage--light">
+    <rc-nav></rc-nav>
+
+    <main id="top">
+      <!-- ======================== BREADCRUMB ======================== -->
+      <section class="proj-detail-bc">
+        <div class="container">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="./collection.html">Collage Collection</a>
+            <span class="breadcrumb__sep">/</span>
+            <span class="breadcrumb__current" id="bc-current">제품 이름</span>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ======================== DETAIL GALLERY + INFO ======================== -->
+      <section class="proj-detail">
+        <div class="container">
+          <div class="proj-detail__grid" id="detail-grid">
+            <!-- collection-data.json + URL ?id= 로 자동 렌더링됨 -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================== OTHER COLLECTION ======================== -->
+      <section class="other-projects">
+        <div class="container">
+          <h2 class="other-projects__title">Other Collection</h2>
+          <div class="other-projects__grid" id="other-grid">
+            <!-- 자동 렌더링 -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var requestedId = params.get('id');
+
+        var detailGrid = document.getElementById('detail-grid');
+        var otherGrid = document.getElementById('other-grid');
+        var bcCurrent = document.getElementById('bc-current');
+
+        fetch('./collection-data.json?t=' + Date.now())
+          .then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          })
+          .then(function (data) {
+            var list = data.items || [];
+            var current = list.find(function (p) { return p.id === requestedId; }) || list[0];
+            if (!current) {
+              detailGrid.innerHTML = '<p style="color:#888;">제품을 찾을 수 없습니다.</p>';
+              return;
+            }
+            renderDetail(current);
+            renderOther(list, current);
+          })
+          .catch(function (err) {
+            detailGrid.innerHTML = '<p style="color:#888;">제품 정보를 불러오지 못했습니다.</p>';
+            console.error(err);
+          });
+
+        function renderDetail(p) {
+          if (bcCurrent) bcCurrent.textContent = p.name || '';
+          document.title = (p.name || 'Collection') + ' — Rustic Collage';
+
+          var gallery = (p.gallery || []).filter(function (s) { return !!s && String(s).trim(); });
+          var imgs = gallery.map(function (src, i) {
+            return (
+              '<figure class="proj-detail__img">' +
+                '<img src="' + esc(src) + '" alt="' + esc(p.name) + ' 이미지 ' + (i + 1) + '" loading="lazy" />' +
+              '</figure>'
+            );
+          });
+
+          var info =
+            '<div class="proj-detail__info">' +
+              '<h1 class="proj-detail__title">' + esc(p.name) + '</h1>' +
+              '<details class="proj-detail__expand">' +
+                '<summary>Product Name</summary>' +
+                '<div class="proj-detail__expand-body"><p>' + escMultiline(p.productName || '') + '</p></div>' +
+              '</details>' +
+              '<details class="proj-detail__expand">' +
+                '<summary>Size</summary>' +
+                '<div class="proj-detail__expand-body"><p>' + escMultiline(p.size || '') + '</p></div>' +
+              '</details>' +
+              '<details class="proj-detail__expand">' +
+                '<summary>Grade</summary>' +
+                '<div class="proj-detail__expand-body"><p>' + escMultiline(p.grade || '') + '</p></div>' +
+              '</details>' +
+            '</div>';
+
+          var parts = [];
+          if (imgs[0]) parts.push(imgs[0]);
+          parts.push(info);
+          for (var i = 1; i < imgs.length; i++) parts.push(imgs[i]);
+          detailGrid.innerHTML = parts.join('');
+        }
+
+        function renderOther(list, current) {
+          if (!otherGrid) return;
+          // 1) 같은 카테고리 우선 (현재 제품 제외)
+          var sameCat = list.filter(function (p) {
+            return p.id !== current.id && p.category === current.category;
+          });
+          // 2) 부족하면 다른 카테고리에서 채움
+          var others = list.filter(function (p) {
+            return p.id !== current.id && p.category !== current.category;
+          });
+          var picks = sameCat.concat(others).slice(0, 4);
+          otherGrid.innerHTML = picks.map(function (p) {
+            return (
+              '<a class="proj-card" href="./collection-detail.html?id=' + encodeURIComponent(p.id) + '">' +
+                '<figure class="proj-card__media">' +
+                  '<img src="' + esc(p.thumbnail) + '" alt="" loading="lazy" />' +
+                '</figure>' +
+                '<p class="proj-card__name">' + esc(p.name) + '</p>' +
+              '</a>'
+            );
+          }).join('');
+        }
+
+        function esc(s) {
+          return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+            return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+          });
+        }
+        function escMultiline(s) {
+          var withBreaks = String(s == null ? '' : s).replace(/<br\s*\/?>/gi, '\n');
+          return esc(withBreaks).replace(/\n/g, '<br>');
+        }
+      })();
+    </script>
+
+    <rc-footer></rc-footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -45,7 +45,7 @@
     {
       "id": "test-240-01",
       "name": "test 240_01",
-      "category": "165",
+      "category": "240",
       "thumbnail": "./images/projects/1778480162941-premium_montena-cashew_.jpg",
       "gallery": [
         "",
@@ -59,7 +59,7 @@
     {
       "id": "test-collage-01",
       "name": "test Collage_01",
-      "category": "165",
+      "category": "collage",
       "thumbnail": "./images/projects/1778480182460-maia-limon.jpg",
       "gallery": [
         "",

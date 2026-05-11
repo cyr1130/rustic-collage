@@ -9,6 +9,12 @@
     "copyKo": "나무마다 결이 다르듯, 사람도 모두 다릅니다.\n질감과 색상, 수종과 마감의 차이 속에서 나의 마루를 고르는 일.\n그 과정을 리스틱 콜라주가 함께합니다.",
     "copyEn": "No two trees share the same grain. Neither do people.\nYour floor is not a surface. It's a reflection of who you are."
   },
+  "homeCollection": [
+    { "name": "165", "image": "https://framerusercontent.com/images/mWGKWCXw1em9l6sTY9wdoJWJM.jpg?width=1200", "category": "165" },
+    { "name": "190", "image": "https://framerusercontent.com/images/7nPpvgDGNRpPRcKCGP8AfeHakCQ.jpg?width=1200", "category": "190" },
+    { "name": "240", "image": "https://framerusercontent.com/images/ztVfgze1PwplOyJghqO9aBP6Y.jpg?width=1200", "category": "240" },
+    { "name": "Collage", "image": "https://framerusercontent.com/images/XTkp20wHzW9mUi8nbUXiVmnMbo8.jpg?width=1200", "category": "collage" }
+  ],
   "email": "yull@storelink.io",
   "emailHistory": [
     {

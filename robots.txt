@@ -1,0 +1,9 @@
+# Rustic Collage — robots.txt
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /러스틱수정/
+
+# 검색엔진 사이트맵 위치
+Sitemap: https://rusticcollage.com/sitemap.xml

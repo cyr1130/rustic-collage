@@ -21,22 +21,28 @@
     },
     {
       "id": "01-copy",
-      "name": "Milla Villa Show Room (복제)",
-      "thumbnail": "./images/projects/1779429761572-jerrygrapher_60_-_163_.webp",
-      "title": "Milla Villa Show Room",
-      "description": "Design. 디귿건축",
-      "details": "Rustic Collage Premium Oak 1.2",
-      "size": "12/1.2 x 190 x 1900",
+      "name": "Rustic Collage Hazel 240",
+      "thumbnail": "./images/projects/1779432826256-jerrygrapher_45_-_126_.webp",
+      "title": "Rustic Collage Hazel 240",
+      "description": "Design. Aalto Design Studio",
+      "details": "Rustic Collage Hazel 240",
+      "size": "14/3 x 240 x 2200",
       "gallery": [
-        "./images/projects/1779428810880-41bd8d58-e11e-4ab8-b58e-00a3e4c93514.webp",
-        "./images/projects/1779428812781-ad693ea1-e83a-4698-98dc-5e4886ae44a0.webp",
-        "./images/projects/1779428840896-jerrygrapher_62_-_163_.webp",
-        "./images/projects/1779428854182-jerrygrapher_74_-_163_.webp",
-        "./images/projects/1779428867564-jerrygrapher_132_-_163_.webp",
-        "./images/projects/1779428884434-jerrygrapher_129_-_163_.webp"
+        "./images/projects/1779432880896-jerrygrapher_57_-_126_.webp",
+        "./images/projects/1779432883835-jerrygrapher_1_-_126_.webp",
+        "./images/projects/1779432887678-jerrygrapher_13_-_126_.webp",
+        "./images/projects/1779432893532-jerrygrapher_31_-_126_.webp",
+        "./images/projects/1779432897697-jerrygrapher_33_-_126_.webp",
+        "./images/projects/1779432904031-jerrygrapher_45_-_126_.webp",
+        "./images/projects/1779432910524-jerrygrapher_20_-_126_.webp",
+        "./images/projects/1779432924776-jerrygrapher_62_-_126_.webp",
+        "./images/projects/1779432927754-jerrygrapher_82_-_126_.webp",
+        "./images/projects/1779432943029-jerrygrapher_84_-_126_.webp",
+        "./images/projects/1779432955745-jerrygrapher_99_-_126_.webp",
+        "./images/projects/1779432959991-jerrygrapher_122_-_126_.webp"
       ],
-      "thumbnailDesc": "Rustic Collage Premium Oak 1.2",
-      "thumbnailTitle": "Milla Villa Show Room"
+      "thumbnailDesc": "",
+      "thumbnailTitle": "Rustic Collage Hazel 240"
     }
   ]
 }

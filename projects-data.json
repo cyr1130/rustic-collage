@@ -47,25 +47,26 @@
     {
       "id": "01-copy-copy",
       "name": "Blueroom_my",
-      "thumbnail": "./images/projects/1779434224755-jerrygrapher_65_-_170_.webp",
+      "thumbnail": "./images/projects/1779434464269-jerrygrapher_65_-_170_.webp",
       "title": "Blueroom_my",
-      "description": "Design. Blueroom_my, Han Design",
-      "details": "Rustic Collage Natural Oak 2",
-      "size": "14/2 x 190 x1900",
+      "description": "Design. Aalto Design Studio",
+      "details": "Rustic Collage Hazel 240",
+      "size": "14/3 x 240 x 2200",
       "gallery": [
-        "./images/projects/1779434232692-jerrygrapher_89_-_170_.webp",
-        "./images/projects/1779434236954-jerrygrapher_57_-_170_.webp",
-        "./images/projects/1779434243280-jerrygrapher_63_-_170_.webp",
-        "./images/projects/1779434247824-jerrygrapher_58_-_170_.webp",
-        "./images/projects/1779434260151-jerrygrapher_64_-_170_.webp",
-        "./images/projects/1779434273404-jerrygrapher_65_-_170_.webp",
-        "./images/projects/1779434299592-jerrygrapher_168_-_170_.webp",
-        "./images/projects/1779434278785-jerrygrapher_73_-_170_.webp",
-        "./images/projects/1779434288928-jerrygrapher_164_-_170_.webp",
-        "./images/projects/1779434318644-jerrygrapher_55_-_170_.webp",
-        "./images/projects/1779434326163-jerrygrapher_96_-_170_.webp"
+        "./images/projects/1779432880896-jerrygrapher_57_-_126_.webp",
+        "./images/projects/1779432883835-jerrygrapher_1_-_126_.webp",
+        "./images/projects/1779432887678-jerrygrapher_13_-_126_.webp",
+        "./images/projects/1779432893532-jerrygrapher_31_-_126_.webp",
+        "./images/projects/1779432897697-jerrygrapher_33_-_126_.webp",
+        "./images/projects/1779432904031-jerrygrapher_45_-_126_.webp",
+        "./images/projects/1779432910524-jerrygrapher_20_-_126_.webp",
+        "./images/projects/1779432924776-jerrygrapher_62_-_126_.webp",
+        "./images/projects/1779432927754-jerrygrapher_82_-_126_.webp",
+        "./images/projects/1779432943029-jerrygrapher_84_-_126_.webp",
+        "./images/projects/1779432955745-jerrygrapher_99_-_126_.webp",
+        "./images/projects/1779432959991-jerrygrapher_122_-_126_.webp"
       ],
-      "thumbnailDesc": "Rustic Collage Natural Oak 2",
+      "thumbnailDesc": "",
       "thumbnailTitle": "Blueroom_my"
     }
   ]

@@ -1661,6 +1661,11 @@ body.menu-open { overflow: hidden; }
   position: sticky;
   top: 90px;
   align-self: start;
+  /* sticky 스크롤 중 sub-pixel 좌우 진동 방지 — GPU 레이어 분리 + 픽셀 스냅 */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+  contain: layout style;
 }
 .proj-detail__title {
   font-family: var(--font-display);

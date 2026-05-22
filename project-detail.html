@@ -115,7 +115,10 @@
           var info =
             '<div class="proj-detail__info">' +
               '<h1 class="proj-detail__title" data-rc-anim="01">' + esc(p.title || p.name) + '</h1>' +
-              '<p class="proj-detail__desc">' + escMultiline(p.description || '') + '</p>' +
+              '<details class="proj-detail__expand" open>' +
+                '<summary>Design</summary>' +
+                '<div class="proj-detail__expand-body"><p>' + escMultiline(p.description || '') + '</p></div>' +
+              '</details>' +
               '<details class="proj-detail__expand" open>' +
                 '<summary>Product Details</summary>' +
                 '<div class="proj-detail__expand-body"><p>' + escMultiline(p.details || '') + '</p></div>' +

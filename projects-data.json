@@ -2,20 +2,22 @@
   "projects": [
     {
       "id": "01",
-      "name": "테스트 프로젝트01",
-      "thumbnail": "./images/projects/1777903723602-pasted-1777903721215.png",
-      "title": "테스트 프로젝트01",
-      "description": "테스트01 입니다\n프로젝트의 설명을 적는 테스트입니다",
-      "details": "테스트 디테일",
-      "size": "테스트 사이즈",
+      "name": "Milla Villa Show Room",
+      "thumbnail": "./images/projects/1779428680813-jerrygrapher_155_-_163_.webp",
+      "title": "Milla Villa Show Room",
+      "description": "Design. 디귿건축",
+      "details": "Rustic Collage Premium Oak 1.2",
+      "size": "12/1.2 x 190 x 1900",
       "gallery": [
-        "./images/projects/1777903740647-pasted-1777903738924.png",
-        "./images/projects/1777903757445-pasted-1777903755767.png",
-        "./images/projects/1777903767982-pasted-1777903766510.png",
-        "./images/projects/1777903760268-pasted-1777903758728.png",
-        "./images/projects/1777903780583-pasted-1777903779057.png"
+        "./images/projects/1779428810880-41bd8d58-e11e-4ab8-b58e-00a3e4c93514.webp",
+        "./images/projects/1779428812781-ad693ea1-e83a-4698-98dc-5e4886ae44a0.webp",
+        "./images/projects/1779428840896-jerrygrapher_62_-_163_.webp",
+        "./images/projects/1779428854182-jerrygrapher_74_-_163_.webp",
+        "./images/projects/1779428867564-jerrygrapher_132_-_163_.webp",
+        "./images/projects/1779428884434-jerrygrapher_129_-_163_.webp"
       ],
-      "thumbnailDesc": "테스트입니다 프로젝트<br>\n테스트입니다"
+      "thumbnailDesc": "테스트입니다 프로젝트<br>\n테스트입니다",
+      "thumbnailTitle": "Milla Villa Show Room"
     },
     {
       "id": "01-copy",

@@ -24,7 +24,7 @@
       "name": "Beomeo Soop Hwaseong Park S",
       "thumbnail": "./images/projects/1779433077101-jerrygrapher_13_-_126_.webp",
       "title": "Beomeo Soop Hwaseong Park S",
-      "description": "Aalto Design Studio",
+      "description": "Design. Aalto Design Studio",
       "details": "Rustic Collage Hazel 240",
       "size": "14/3 x 240 x 2200",
       "gallery": [
@@ -49,7 +49,7 @@
       "name": "Blueroom_my",
       "thumbnail": "./images/projects/1779445837574-jerrygrapher_168_-_170_.webp",
       "title": "Blueroom_my",
-      "description": "Blueroom_my, Han Design",
+      "description": "Design. Blueroom_my, Han Design",
       "details": "Rustic Collage Natural Oak 190 2",
       "size": "14/2 x 190 x 1900",
       "gallery": [
@@ -67,6 +67,30 @@
       ],
       "thumbnailDesc": "Rustic Collage Natural Oak 190 2",
       "thumbnailTitle": "Blueroom_my"
+    },
+    {
+      "id": "01-copy-copy-copy",
+      "name": "Umokmin Design Studio",
+      "thumbnail": "./images/projects/1779445837574-jerrygrapher_168_-_170_.webp",
+      "title": "Umokmin Design Studio",
+      "description": "Design. Blueroom_my, Han Design",
+      "details": "Rustic Collage Natural Oak 190 2",
+      "size": "14/2 x 190 x 1900",
+      "gallery": [
+        "./images/projects/1779446133644-jerrygrapher_89_-_170_.webp",
+        "./images/projects/1779446136279-jerrygrapher_57_-_170_.webp",
+        "./images/projects/1779446142307-jerrygrapher_63_-_170_.webp",
+        "./images/projects/1779446146351-jerrygrapher_65_-_170_.webp",
+        "./images/projects/1779446152442-jerrygrapher_75_-_170_.webp",
+        "./images/projects/1779446160527-jerrygrapher_64_-_170_.webp",
+        "./images/projects/1779446164169-jerrygrapher_168_-_170_.webp",
+        "./images/projects/1779446169175-jerrygrapher_164_-_170_.webp",
+        "./images/projects/1779446182077-jerrygrapher_55_-_170_.webp",
+        "./images/projects/1779446190757-jerrygrapher_73_-_170_.webp",
+        "./images/projects/1779446202064-jerrygrapher_96_-_170_.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Natural Oak 190 2",
+      "thumbnailTitle": "Umokmin Design Studio"
     }
   ]
 }

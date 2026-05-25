@@ -104,6 +104,25 @@
       "thumbnailTitle": "Aphae De Sel (아페드셀)"
     },
     {
+      "id": "01-copy-copy-copy-copy-copy-copy-2",
+      "name": "House of Quiet Density (조용한 밀도의 집)",
+      "thumbnail": "./images/projects/1779688571725-2Q3A6204.webp",
+      "title": "House of Quiet Density (조용한 밀도의 집)",
+      "description": "Super Pie Design Studio",
+      "details": "Rustic Collage Dark Rosé",
+      "size": "12/2 x 190 x 1900",
+      "gallery": [
+        "./images/projects/1779688947420-2Q3A6204.webp",
+        "./images/projects/1779688956352-2Q3A6146.webp",
+        "./images/projects/1779688982561-2Q3A6150.webp",
+        "./images/projects/1779688989973-2Q3A6272.webp",
+        "./images/projects/1779689022524-2Q3A6088.webp",
+        "./images/projects/1779689012285-2Q3A6028.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Dark Rosé",
+      "thumbnailTitle": "House of Quiet Density (조용한 밀도의 집)"
+    },
+    {
       "id": "01",
       "name": "Milla Villa Show Room",
       "thumbnail": "./images/projects/1779429761572-jerrygrapher_60_-_163_.webp",

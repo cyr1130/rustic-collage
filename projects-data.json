@@ -18,6 +18,20 @@
       "thumbnailTitle": "Wei Quan Haus (Verticality House)"
     },
     {
+      "id": "01-copy-copy-copy-copy-copy-copy-copy-2",
+      "name": "Mooah Yoga",
+      "thumbnail": "./images/projects/1779691387588-DSC09738-HDR.webp",
+      "title": "Mooah Yoga",
+      "description": "Mooah Yoga",
+      "details": "Rustic Collage Antique",
+      "size": "14/2 x 190 x 1900",
+      "gallery": [
+        "./images/projects/1779691423208-DSC09738-HDR.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Antique",
+      "thumbnailTitle": "Mooah Yoga"
+    },
+    {
       "id": "01-copy-copy-copy-copy-copy-copy-copy",
       "name": "Dorang De Ville",
       "thumbnail": "./images/projects/1779690017084-KakaoTalk_20250409_110305272_03.webp",

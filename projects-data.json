@@ -26,28 +26,23 @@
       "thumbnailTitle": "Beomeo Soop Hwaseong Park S"
     },
     {
-      "id": "01-copy-copy",
-      "name": "Blueroom_my",
-      "thumbnail": "./images/projects/1779445837574-jerrygrapher_168_-_170_.webp",
-      "title": "Blueroom_my",
-      "description": "Blueroom_my, Han Design",
-      "details": "Rustic Collage Natural Oak 190 2",
-      "size": "14/2 x 190 x 1900",
+      "id": "01",
+      "name": "Milla Villa Show Room",
+      "thumbnail": "./images/projects/1779429761572-jerrygrapher_60_-_163_.webp",
+      "title": "Milla Villa Show Room",
+      "description": "디귿건축",
+      "details": "Rustic Collage Premium Oak 1.2",
+      "size": "12/1.2 x 190 x 1900",
       "gallery": [
-        "./images/projects/1779446133644-jerrygrapher_89_-_170_.webp",
-        "./images/projects/1779446136279-jerrygrapher_57_-_170_.webp",
-        "./images/projects/1779446142307-jerrygrapher_63_-_170_.webp",
-        "./images/projects/1779446146351-jerrygrapher_65_-_170_.webp",
-        "./images/projects/1779446152442-jerrygrapher_75_-_170_.webp",
-        "./images/projects/1779446160527-jerrygrapher_64_-_170_.webp",
-        "./images/projects/1779446164169-jerrygrapher_168_-_170_.webp",
-        "./images/projects/1779446169175-jerrygrapher_164_-_170_.webp",
-        "./images/projects/1779446182077-jerrygrapher_55_-_170_.webp",
-        "./images/projects/1779446190757-jerrygrapher_73_-_170_.webp",
-        "./images/projects/1779446202064-jerrygrapher_96_-_170_.webp"
+        "./images/projects/1779428810880-41bd8d58-e11e-4ab8-b58e-00a3e4c93514.webp",
+        "./images/projects/1779428812781-ad693ea1-e83a-4698-98dc-5e4886ae44a0.webp",
+        "./images/projects/1779428840896-jerrygrapher_62_-_163_.webp",
+        "./images/projects/1779428854182-jerrygrapher_74_-_163_.webp",
+        "./images/projects/1779428867564-jerrygrapher_132_-_163_.webp",
+        "./images/projects/1779428884434-jerrygrapher_129_-_163_.webp"
       ],
-      "thumbnailDesc": "Rustic Collage Natural Oak 190 2",
-      "thumbnailTitle": "Blueroom_my"
+      "thumbnailDesc": "Rustic Collage Premium Oak 1.2",
+      "thumbnailTitle": "Milla Villa Show Room"
     },
     {
       "id": "01-copy-copy-copy",
@@ -87,23 +82,52 @@
       "thumbnailTitle": "A Blue-Columned House (푸른기둥 집)"
     },
     {
-      "id": "01",
-      "name": "Milla Villa Show Room",
-      "thumbnail": "./images/projects/1779429761572-jerrygrapher_60_-_163_.webp",
-      "title": "Milla Villa Show Room",
-      "description": "디귿건축",
-      "details": "Rustic Collage Premium Oak 1.2",
-      "size": "12/1.2 x 190 x 1900",
+      "id": "01-copy-copy",
+      "name": "Blueroom_my",
+      "thumbnail": "./images/projects/1779445837574-jerrygrapher_168_-_170_.webp",
+      "title": "Blueroom_my",
+      "description": "Blueroom_my, Han Design",
+      "details": "Rustic Collage Natural Oak 190 2",
+      "size": "14/2 x 190 x 1900",
       "gallery": [
-        "./images/projects/1779428810880-41bd8d58-e11e-4ab8-b58e-00a3e4c93514.webp",
-        "./images/projects/1779428812781-ad693ea1-e83a-4698-98dc-5e4886ae44a0.webp",
-        "./images/projects/1779428840896-jerrygrapher_62_-_163_.webp",
-        "./images/projects/1779428854182-jerrygrapher_74_-_163_.webp",
-        "./images/projects/1779428867564-jerrygrapher_132_-_163_.webp",
-        "./images/projects/1779428884434-jerrygrapher_129_-_163_.webp"
+        "./images/projects/1779446133644-jerrygrapher_89_-_170_.webp",
+        "./images/projects/1779446136279-jerrygrapher_57_-_170_.webp",
+        "./images/projects/1779446142307-jerrygrapher_63_-_170_.webp",
+        "./images/projects/1779446146351-jerrygrapher_65_-_170_.webp",
+        "./images/projects/1779446152442-jerrygrapher_75_-_170_.webp",
+        "./images/projects/1779446160527-jerrygrapher_64_-_170_.webp",
+        "./images/projects/1779446164169-jerrygrapher_168_-_170_.webp",
+        "./images/projects/1779446169175-jerrygrapher_164_-_170_.webp",
+        "./images/projects/1779446182077-jerrygrapher_55_-_170_.webp",
+        "./images/projects/1779446190757-jerrygrapher_73_-_170_.webp",
+        "./images/projects/1779446202064-jerrygrapher_96_-_170_.webp"
       ],
-      "thumbnailDesc": "Rustic Collage Premium Oak 1.2",
-      "thumbnailTitle": "Milla Villa Show Room"
+      "thumbnailDesc": "Rustic Collage Natural Oak 190 2",
+      "thumbnailTitle": "Blueroom_my"
+    },
+    {
+      "id": "01-copy-copy-copy-2",
+      "name": "Doosan We've the Zenith",
+      "thumbnail": "./images/projects/1779445837574-jerrygrapher_168_-_170_.webp",
+      "title": "Doosan We've the Zenith",
+      "description": "Blueroom_my, Han Design",
+      "details": "Rustic Collage Natural Oak 190 2",
+      "size": "14/2 x 190 x 1900",
+      "gallery": [
+        "./images/projects/1779446133644-jerrygrapher_89_-_170_.webp",
+        "./images/projects/1779446136279-jerrygrapher_57_-_170_.webp",
+        "./images/projects/1779446142307-jerrygrapher_63_-_170_.webp",
+        "./images/projects/1779446146351-jerrygrapher_65_-_170_.webp",
+        "./images/projects/1779446152442-jerrygrapher_75_-_170_.webp",
+        "./images/projects/1779446160527-jerrygrapher_64_-_170_.webp",
+        "./images/projects/1779446164169-jerrygrapher_168_-_170_.webp",
+        "./images/projects/1779446169175-jerrygrapher_164_-_170_.webp",
+        "./images/projects/1779446182077-jerrygrapher_55_-_170_.webp",
+        "./images/projects/1779446190757-jerrygrapher_73_-_170_.webp",
+        "./images/projects/1779446202064-jerrygrapher_96_-_170_.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Natural Oak 190 2",
+      "thumbnailTitle": "Doosan We've the Zenith"
     },
     {
       "id": "01-copy-copy-copy-copy-copy",

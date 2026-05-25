@@ -18,6 +18,26 @@
       "thumbnailTitle": "Wei Quan Haus (Verticality House)"
     },
     {
+      "id": "01-copy-copy-copy-copy-copy-copy-copy",
+      "name": "Dorang De Ville",
+      "thumbnail": "./images/projects/1779690017084-KakaoTalk_20250409_110305272_03.webp",
+      "title": "Dorang De Ville",
+      "description": "Rieul Dorang",
+      "details": "Rustic Collage Harmony",
+      "size": "14/2 x 190 x 1900",
+      "gallery": [
+        "./images/projects/1779690055782-KakaoTalk_20250409_110305272_03.webp",
+        "./images/projects/1779690058365-KakaoTalk_20250409_110305272_04.webp",
+        "./images/projects/1779690063737-KakaoTalk_20250409_110305272_05.webp",
+        "./images/projects/1779690068723-KakaoTalk_20250409_110305272_06.webp",
+        "./images/projects/1779690080710-KakaoTalk_20250409_110305272_02.webp",
+        "./images/projects/1779690088703-KakaoTalk_20250409_110305272.webp",
+        "./images/projects/1779690099205-KakaoTalk_20250409_110305272_07.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Harmony",
+      "thumbnailTitle": "Dorang De Ville"
+    },
+    {
       "id": "01-copy",
       "name": "Beomeo Soop Hwaseong Park S",
       "thumbnail": "./images/projects/1779433077101-jerrygrapher_13_-_126_.webp",

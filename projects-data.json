@@ -26,25 +26,6 @@
       "thumbnailTitle": "Beomeo Soop Hwaseong Park S"
     },
     {
-      "id": "01",
-      "name": "Milla Villa Show Room",
-      "thumbnail": "./images/projects/1779429761572-jerrygrapher_60_-_163_.webp",
-      "title": "Milla Villa Show Room",
-      "description": "디귿건축",
-      "details": "Rustic Collage Premium Oak 1.2",
-      "size": "12/1.2 x 190 x 1900",
-      "gallery": [
-        "./images/projects/1779428810880-41bd8d58-e11e-4ab8-b58e-00a3e4c93514.webp",
-        "./images/projects/1779428812781-ad693ea1-e83a-4698-98dc-5e4886ae44a0.webp",
-        "./images/projects/1779428840896-jerrygrapher_62_-_163_.webp",
-        "./images/projects/1779428854182-jerrygrapher_74_-_163_.webp",
-        "./images/projects/1779428867564-jerrygrapher_132_-_163_.webp",
-        "./images/projects/1779428884434-jerrygrapher_129_-_163_.webp"
-      ],
-      "thumbnailDesc": "Rustic Collage Premium Oak 1.2",
-      "thumbnailTitle": "Milla Villa Show Room"
-    },
-    {
       "id": "01-copy-copy-copy",
       "name": "Umokmin Design Studio",
       "thumbnail": "./images/projects/1779503800190-jerrygrapher_7_-_163_.webp",
@@ -62,24 +43,6 @@
       ],
       "thumbnailDesc": "Rustic Collage Natural Oak 240 ",
       "thumbnailTitle": "Umokmin Design Studio"
-    },
-    {
-      "id": "01-copy-copy-copy-copy",
-      "name": "A Blue-Columned House (푸른기둥의 집)",
-      "thumbnail": "./images/projects/1779505946513-KakaoTalk_20251025_123523421.webp",
-      "title": "A Blue-Columned House (푸른 기둥 집)",
-      "description": "Super Pie Design Studio",
-      "details": "Rustic Collage Blanco 240",
-      "size": "14/3 x 240 x 2200",
-      "gallery": [
-        "./images/projects/1779505993904-KakaoTalk_20251025_123523421.webp",
-        "./images/projects/1779505997204-KakaoTalk_20251025_123523421_01.webp",
-        "./images/projects/1779506004372-KakaoTalk_20251025_123523421_03.webp",
-        "./images/projects/1779506020753-6f079ad0-e636-491d-a596-aa0adf7ffc71.webp",
-        "./images/projects/1779506026634-KakaoTalk_20251025_125041342.webp"
-      ],
-      "thumbnailDesc": "Rustic Collage Blanco 240 ",
-      "thumbnailTitle": "A Blue-Columned House (푸른기둥 집)"
     },
     {
       "id": "01-copy-copy",
@@ -106,6 +69,78 @@
       "thumbnailTitle": "Blueroom_my"
     },
     {
+      "id": "01-copy-copy-copy-copy-copy-copy",
+      "name": "Wei Quan Haus (Verticality House)",
+      "thumbnail": "./images/projects/1779507100045-KakaoTalk_20260101_215316645.webp",
+      "title": "Wei Quan Haus (Verticality House)",
+      "description": "Super Pie Design Studio",
+      "details": "Rustic Collage Dark Rosé",
+      "size": "12/2 x 190 x 1900",
+      "gallery": [
+        "./images/projects/1779507356307-KakaoTalk_20260101_213408239.webp",
+        "./images/projects/1779507359666-KakaoTalk_20260101_213530869.webp",
+        "./images/projects/1779507363478-KakaoTalk_20260101_215316645.webp",
+        "./images/projects/1779507384713-KakaoTalk_20260101_215316645_01.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Dark Rosé",
+      "thumbnailTitle": "Wei Quan Haus (Verticality House)"
+    },
+    {
+      "id": "01-copy-copy-copy-copy-copy",
+      "name": "Aphae De Sel (아페드셀)",
+      "thumbnail": "./images/projects/1779506801097-DSC02239-HDR.webp",
+      "title": "Aphae De Sel (아페드셀)",
+      "description": "Rieul Dorang (리을도랑)",
+      "details": "Rustic Collage Harmony",
+      "size": "14/2 x 190 x 1900",
+      "gallery": [
+        "./images/projects/1779506641630-DSC02137-HDR.webp",
+        "./images/projects/1779506682015-DSC02166-HDR.webp",
+        "./images/projects/1779506693384-DSC02239-HDR.webp",
+        "./images/projects/1779506712491-DSC02113-HDR.webp",
+        "./images/projects/1779506719336-DSC02215-HDR.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Harmony",
+      "thumbnailTitle": "Aphae De Sel (아페드셀)"
+    },
+    {
+      "id": "01",
+      "name": "Milla Villa Show Room",
+      "thumbnail": "./images/projects/1779429761572-jerrygrapher_60_-_163_.webp",
+      "title": "Milla Villa Show Room",
+      "description": "디귿건축",
+      "details": "Rustic Collage Premium Oak 1.2",
+      "size": "12/1.2 x 190 x 1900",
+      "gallery": [
+        "./images/projects/1779428810880-41bd8d58-e11e-4ab8-b58e-00a3e4c93514.webp",
+        "./images/projects/1779428812781-ad693ea1-e83a-4698-98dc-5e4886ae44a0.webp",
+        "./images/projects/1779428840896-jerrygrapher_62_-_163_.webp",
+        "./images/projects/1779428854182-jerrygrapher_74_-_163_.webp",
+        "./images/projects/1779428867564-jerrygrapher_132_-_163_.webp",
+        "./images/projects/1779428884434-jerrygrapher_129_-_163_.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Premium Oak 1.2",
+      "thumbnailTitle": "Milla Villa Show Room"
+    },
+    {
+      "id": "01-copy-copy-copy-copy",
+      "name": "A Blue-Columned House (푸른기둥의 집)",
+      "thumbnail": "./images/projects/1779505946513-KakaoTalk_20251025_123523421.webp",
+      "title": "A Blue-Columned House (푸른 기둥 집)",
+      "description": "Super Pie Design Studio",
+      "details": "Rustic Collage Blanco 240",
+      "size": "14/3 x 240 x 2200",
+      "gallery": [
+        "./images/projects/1779505993904-KakaoTalk_20251025_123523421.webp",
+        "./images/projects/1779505997204-KakaoTalk_20251025_123523421_01.webp",
+        "./images/projects/1779506004372-KakaoTalk_20251025_123523421_03.webp",
+        "./images/projects/1779506020753-6f079ad0-e636-491d-a596-aa0adf7ffc71.webp",
+        "./images/projects/1779506026634-KakaoTalk_20251025_125041342.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Blanco 240 ",
+      "thumbnailTitle": "A Blue-Columned House (푸른기둥 집)"
+    },
+    {
       "id": "01-copy-copy-copy-2",
       "name": "Doosan We've the Zenith",
       "thumbnail": "./images/projects/1779685788699-KakaoTalk_20260525_140032204_23.webp",
@@ -127,41 +162,6 @@
       ],
       "thumbnailDesc": "Rustic Collage Premium Oak 1.2",
       "thumbnailTitle": "Doosan We've the Zenith"
-    },
-    {
-      "id": "01-copy-copy-copy-copy-copy",
-      "name": "Aphae De Sel (아페드셀)",
-      "thumbnail": "./images/projects/1779506801097-DSC02239-HDR.webp",
-      "title": "Aphae De Sel (아페드셀)",
-      "description": "Rieul Dorang (리을도랑)",
-      "details": "Rustic Collage Harmony",
-      "size": "14/2 x 190 x 1900",
-      "gallery": [
-        "./images/projects/1779506641630-DSC02137-HDR.webp",
-        "./images/projects/1779506682015-DSC02166-HDR.webp",
-        "./images/projects/1779506693384-DSC02239-HDR.webp",
-        "./images/projects/1779506712491-DSC02113-HDR.webp",
-        "./images/projects/1779506719336-DSC02215-HDR.webp"
-      ],
-      "thumbnailDesc": "Rustic Collage Harmony",
-      "thumbnailTitle": "Aphae De Sel (아페드셀)"
-    },
-    {
-      "id": "01-copy-copy-copy-copy-copy-copy",
-      "name": "Wei Quan Haus (Verticality House)",
-      "thumbnail": "./images/projects/1779507100045-KakaoTalk_20260101_215316645.webp",
-      "title": "Wei Quan Haus (Verticality House)",
-      "description": "Super Pie Design Studio",
-      "details": "Rustic Collage Dark Rosé",
-      "size": "12/2 x 190 x 1900",
-      "gallery": [
-        "./images/projects/1779507356307-KakaoTalk_20260101_213408239.webp",
-        "./images/projects/1779507359666-KakaoTalk_20260101_213530869.webp",
-        "./images/projects/1779507363478-KakaoTalk_20260101_215316645.webp",
-        "./images/projects/1779507384713-KakaoTalk_20260101_215316645_01.webp"
-      ],
-      "thumbnailDesc": "Rustic Collage Dark Rosé",
-      "thumbnailTitle": "Wei Quan Haus (Verticality House)"
     }
   ]
 }

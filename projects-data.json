@@ -1,6 +1,23 @@
 {
   "projects": [
     {
+      "id": "01-copy-copy-copy-copy-copy-copy",
+      "name": "Wei Quan Haus (Verticality House)",
+      "thumbnail": "./images/projects/1779507100045-KakaoTalk_20260101_215316645.webp",
+      "title": "Wei Quan Haus (Verticality House)",
+      "description": "Super Pie Design Studio",
+      "details": "Rustic Collage Dark Rosé",
+      "size": "12/2 x 190 x 1900",
+      "gallery": [
+        "./images/projects/1779507356307-KakaoTalk_20260101_213408239.webp",
+        "./images/projects/1779507359666-KakaoTalk_20260101_213530869.webp",
+        "./images/projects/1779507363478-KakaoTalk_20260101_215316645.webp",
+        "./images/projects/1779507384713-KakaoTalk_20260101_215316645_01.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Dark Rosé",
+      "thumbnailTitle": "Wei Quan Haus (Verticality House)"
+    },
+    {
       "id": "01-copy",
       "name": "Beomeo Soop Hwaseong Park S",
       "thumbnail": "./images/projects/1779433077101-jerrygrapher_13_-_126_.webp",
@@ -69,23 +86,6 @@
       "thumbnailTitle": "Blueroom_my"
     },
     {
-      "id": "01-copy-copy-copy-copy-copy-copy",
-      "name": "Wei Quan Haus (Verticality House)",
-      "thumbnail": "./images/projects/1779507100045-KakaoTalk_20260101_215316645.webp",
-      "title": "Wei Quan Haus (Verticality House)",
-      "description": "Super Pie Design Studio",
-      "details": "Rustic Collage Dark Rosé",
-      "size": "12/2 x 190 x 1900",
-      "gallery": [
-        "./images/projects/1779507356307-KakaoTalk_20260101_213408239.webp",
-        "./images/projects/1779507359666-KakaoTalk_20260101_213530869.webp",
-        "./images/projects/1779507363478-KakaoTalk_20260101_215316645.webp",
-        "./images/projects/1779507384713-KakaoTalk_20260101_215316645_01.webp"
-      ],
-      "thumbnailDesc": "Rustic Collage Dark Rosé",
-      "thumbnailTitle": "Wei Quan Haus (Verticality House)"
-    },
-    {
       "id": "01-copy-copy-copy-copy-copy",
       "name": "Aphae De Sel (아페드셀)",
       "thumbnail": "./images/projects/1779506801097-DSC02239-HDR.webp",
@@ -102,6 +102,25 @@
       ],
       "thumbnailDesc": "Rustic Collage Harmony",
       "thumbnailTitle": "Aphae De Sel (아페드셀)"
+    },
+    {
+      "id": "01-copy-copy-copy-copy-copy-copy-3",
+      "name": "Jay Art Hall",
+      "thumbnail": "./images/projects/1779689816285-jerrygrapher_37_-_163_.webp",
+      "title": "Jay Art Hall",
+      "description": "Poly Lab Design",
+      "details": "Rustic Collage Pitch Black 240",
+      "size": "14/2 x 240 x 2200",
+      "gallery": [
+        "./images/projects/1779689658296-jerrygrapher_40_-_163_.webp",
+        "./images/projects/1779689674969-jerrygrapher_37_-_163_.webp",
+        "./images/projects/1779689699652-jerrygrapher_57_-_163_.webp",
+        "./images/projects/1779689711911-jerrygrapher_48_-_163_.webp",
+        "./images/projects/1779689766895-jerrygrapher_39_-_163_.webp",
+        "./images/projects/1779689797710-jerrygrapher_53_-_163_.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Pitch Black 240",
+      "thumbnailTitle": "Jay Art Stage"
     },
     {
       "id": "01-copy-copy-copy-copy-copy-copy-2",

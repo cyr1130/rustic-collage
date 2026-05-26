@@ -174,6 +174,24 @@
       "thumbnailTitle": "Jay Art Stage"
     },
     {
+      "id": "01-copy-copy-copy-2-copy",
+      "name": "Doosan We've the Zenith",
+      "thumbnail": "./images/projects/1779776003126-KakaoTalk_20260102_073326951.webp",
+      "title": "Doosan We've the Zenith",
+      "description": "디귿건축",
+      "details": "Rustic Collage Premium Oak 1.2",
+      "size": "12/1.2 x 190 x 1900",
+      "gallery": [
+        "./images/projects/1779776017922-KakaoTalk_20260102_073355681.webp",
+        "./images/projects/1779776021722-KakaoTalk_20260102_073409358.webp",
+        "./images/projects/1779776024720-KakaoTalk_20260102_073402696.webp",
+        "./images/projects/1779776042972-KakaoTalk_20260523_130540317.webp",
+        "./images/projects/1779776036576-KakaoTalk_20260102_073326951.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Premium Oak 1.2",
+      "thumbnailTitle": "Doosan We've the Zenith"
+    },
+    {
       "id": "01-copy-copy-copy-copy-copy-copy-2",
       "name": "House of Quiet Density (조용한 밀도의 집)",
       "thumbnail": "./images/projects/1779688571725-2Q3A6204.webp",
@@ -248,24 +266,6 @@
         "./images/projects/1779688117869-KakaoTalk_20260525_140032204_26.webp",
         "./images/projects/1779688125742-KakaoTalk_20260525_140014987_29.webp",
         "./images/projects/1779688129586-KakaoTalk_20260525_140014987_14.webp"
-      ],
-      "thumbnailDesc": "Rustic Collage Premium Oak 1.2",
-      "thumbnailTitle": "Doosan We've the Zenith"
-    },
-    {
-      "id": "01-copy-copy-copy-2-copy",
-      "name": "Doosan We've the Zenith",
-      "thumbnail": "./images/projects/1779776003126-KakaoTalk_20260102_073326951.webp",
-      "title": "Doosan We've the Zenith",
-      "description": "디귿건축",
-      "details": "Rustic Collage Premium Oak 1.2",
-      "size": "12/1.2 x 190 x 1900",
-      "gallery": [
-        "./images/projects/1779776017922-KakaoTalk_20260102_073355681.webp",
-        "./images/projects/1779776021722-KakaoTalk_20260102_073409358.webp",
-        "./images/projects/1779776024720-KakaoTalk_20260102_073402696.webp",
-        "./images/projects/1779776042972-KakaoTalk_20260523_130540317.webp",
-        "./images/projects/1779776036576-KakaoTalk_20260102_073326951.webp"
       ],
       "thumbnailDesc": "Rustic Collage Premium Oak 1.2",
       "thumbnailTitle": "Doosan We've the Zenith"

@@ -307,7 +307,7 @@
     },
     {
       "id": "pitch-black-240",
-      "name": "pitch black 240",
+      "name": "Pitch Black 240",
       "category": "240",
       "thumbnail": "./images/projects/1778499413725-pitch_black_240.jpg",
       "gallery": [
@@ -315,9 +315,9 @@
         "",
         ""
       ],
-      "productName": "pitch black 240",
-      "size": "",
-      "grade": ""
+      "productName": "Pitch Black 240",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "sahara",

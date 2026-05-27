@@ -139,7 +139,7 @@
     },
     {
       "id": "maia-limon",
-      "name": "maia-limon",
+      "name": "Limon",
       "category": "190",
       "thumbnail": "./images/projects/1778498850840-maia-limon.jpg",
       "gallery": [
@@ -147,9 +147,9 @@
         "",
         ""
       ],
-      "productName": "maia-limon",
-      "size": "",
-      "grade": ""
+      "productName": "Limon",
+      "size": "12/1.2 x 190 x 1900",
+      "grade": "A"
     },
     {
       "id": "petricoher",

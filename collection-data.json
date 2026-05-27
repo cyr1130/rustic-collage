@@ -293,7 +293,7 @@
     },
     {
       "id": "pecan",
-      "name": "pecan",
+      "name": "Pecan",
       "category": "240",
       "thumbnail": "./images/projects/1778499384889-pecan.jpg",
       "gallery": [
@@ -301,9 +301,9 @@
         "",
         ""
       ],
-      "productName": "pecan",
-      "size": "",
-      "grade": ""
+      "productName": "Pecan",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "pitch-black-240",

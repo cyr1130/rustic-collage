@@ -335,7 +335,7 @@
     },
     {
       "id": "sunset",
-      "name": "sunset",
+      "name": "Sunset",
       "category": "240",
       "thumbnail": "./images/projects/1778499437835-sahara.jpg",
       "gallery": [
@@ -343,9 +343,9 @@
         "",
         ""
       ],
-      "productName": "sunset",
-      "size": "",
-      "grade": ""
+      "productName": "Sunset",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "volcanic",

@@ -27,7 +27,7 @@
     },
     {
       "id": "premium-oak-12",
-      "name": "premium oak 1.2",
+      "name": "Premium Oak 190 1.2",
       "category": "190",
       "thumbnail": "./images/projects/1778498347077-premium_oak_1.2.jpg",
       "gallery": [
@@ -35,9 +35,9 @@
         "",
         ""
       ],
-      "productName": "",
-      "size": "",
-      "grade": ""
+      "productName": "Premium Oak 190 1.2",
+      "size": "12/1.2 x 190 x 1900",
+      "grade": "A"
     },
     {
       "id": "premium-oak-3",

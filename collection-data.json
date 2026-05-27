@@ -237,7 +237,7 @@
     },
     {
       "id": "fiji",
-      "name": "fiji",
+      "name": "Fiji",
       "category": "240",
       "thumbnail": "./images/projects/1778499164707-fiji.jpg",
       "gallery": [
@@ -245,9 +245,9 @@
         "",
         ""
       ],
-      "productName": "fiji",
-      "size": "",
-      "grade": ""
+      "productName": "Fiji",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "hazel",

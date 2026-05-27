@@ -2,15 +2,15 @@
   "items": [
     {
       "id": "natural-oak-2",
-      "name": "natural oak 2",
+      "name": "Natural Oak 190 2",
       "category": "190",
       "thumbnail": "./images/projects/1778498126514-natural_oak_2.jpg",
       "gallery": [
         "./images/projects/1778549001732-1111111.webp"
       ],
-      "productName": "natural oak 2",
-      "size": "",
-      "grade": ""
+      "productName": "Natural Oak 190 2",
+      "size": "14/2 x 190 x 1900",
+      "grade": "ABC"
     },
     {
       "id": "natural-oak-3",

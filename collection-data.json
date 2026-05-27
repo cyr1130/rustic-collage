@@ -41,7 +41,7 @@
     },
     {
       "id": "premium-oak-3",
-      "name": "premium oak 3",
+      "name": "Premium Oak 190 3",
       "category": "190",
       "thumbnail": "./images/projects/1778498413922-premium_oak_3.jpg",
       "gallery": [
@@ -49,9 +49,9 @@
         "",
         ""
       ],
-      "productName": "premium oak 3",
-      "size": "",
-      "grade": ""
+      "productName": "Premium Oak 190 3",
+      "size": "14/3 x 190 x 1900",
+      "grade": "A"
     },
     {
       "id": "solomon",

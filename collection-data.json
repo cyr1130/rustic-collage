@@ -251,7 +251,7 @@
     },
     {
       "id": "hazel",
-      "name": "hazel",
+      "name": "Hazel",
       "category": "240",
       "thumbnail": "./images/projects/1778499182376-hazel.jpg",
       "gallery": [
@@ -259,9 +259,9 @@
         "",
         ""
       ],
-      "productName": "hazel",
-      "size": "",
-      "grade": ""
+      "productName": "Hazel",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "linen",

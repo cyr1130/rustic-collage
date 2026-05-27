@@ -55,7 +55,7 @@
     },
     {
       "id": "solomon",
-      "name": "solomon",
+      "name": "Solomon",
       "category": "190",
       "thumbnail": "./images/projects/1778498510233-solomon.jpg",
       "gallery": [
@@ -63,9 +63,9 @@
         "",
         ""
       ],
-      "productName": "solomon",
-      "size": "",
-      "grade": ""
+      "productName": "Solomon",
+      "size": "14/3 x 190 x 1900",
+      "grade": "ABC"
     },
     {
       "id": "amara-cinnamon",

@@ -349,7 +349,7 @@
     },
     {
       "id": "volcanic",
-      "name": "volcanic",
+      "name": "Volcanic",
       "category": "240",
       "thumbnail": "./images/projects/1778499474936-volcanic.jpg",
       "gallery": [
@@ -358,7 +358,7 @@
         ""
       ],
       "productName": "Volcanic",
-      "size": "240/3 x 240 x 2200",
+      "size": "14/3 x 240 x 2200",
       "grade": "ABC"
     }
   ]

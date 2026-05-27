@@ -83,17 +83,17 @@
     },
     {
       "id": "aurora-pistachio",
-      "name": "aurora-pistachio",
+      "name": "Pistachio",
       "category": "190",
-      "thumbnail": "./images/projects/1778498557343-aurora-pistachio.jpg",
+      "thumbnail": "./images/projects/1779886814540-KakaoTalk_20260525_154837698_04.webp",
       "gallery": [
-        "./images/projects/1778498558867-aurora-pistachio.jpg",
+        "./images/projects/1779886819265-KakaoTalk_20260525_154837698_04.webp",
         "",
         ""
       ],
-      "productName": "aurora-pistachio",
-      "size": "",
-      "grade": ""
+      "productName": "Pistachio",
+      "size": "12/1.2 x 190 x 1900",
+      "grade": "A"
     },
     {
       "id": "bonheur-vanilla",

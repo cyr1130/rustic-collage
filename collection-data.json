@@ -265,7 +265,7 @@
     },
     {
       "id": "linen",
-      "name": "linen",
+      "name": "Linen",
       "category": "240",
       "thumbnail": "./images/projects/1778499210634-linen.jpg",
       "gallery": [
@@ -273,9 +273,9 @@
         "",
         ""
       ],
-      "productName": "linen",
-      "size": "",
-      "grade": ""
+      "productName": "Linen",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "natural-oak",

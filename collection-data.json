@@ -321,7 +321,7 @@
     },
     {
       "id": "sahara",
-      "name": "sahara",
+      "name": "Sahara",
       "category": "240",
       "thumbnail": "./images/projects/1778499624439-sahara.jpg",
       "gallery": [
@@ -329,9 +329,9 @@
         "",
         ""
       ],
-      "productName": "sahara",
-      "size": "",
-      "grade": ""
+      "productName": "Sahara",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "sunset",

@@ -14,16 +14,16 @@
     },
     {
       "id": "natural-oak-3",
-      "name": "natural oak 3",
+      "name": "Natural Oak 190 3",
       "category": "190",
       "thumbnail": "./images/projects/1778498273371-natural_oak_3.jpg",
       "gallery": [
         "./images/projects/1778498282594-natural_oak_3.jpg",
         ""
       ],
-      "productName": "natural oak 3",
-      "size": "",
-      "grade": ""
+      "productName": "Natural Oak 190 3",
+      "size": "14/2 x 190 x 1900",
+      "grade": "ABC"
     },
     {
       "id": "premium-oak-12",

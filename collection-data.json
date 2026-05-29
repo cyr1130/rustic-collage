@@ -97,17 +97,17 @@
     },
     {
       "id": "bonheur-vanilla",
-      "name": "bonheur-vanilla",
+      "name": "Vanilla",
       "category": "190",
-      "thumbnail": "./images/projects/1778498581148-bonheur-vanilla.jpg",
+      "thumbnail": "./images/projects/1780098670622-bonheur-vanilla.webp",
       "gallery": [
-        "./images/projects/1778498582075-bonheur-vanilla.jpg",
+        "./images/projects/1780098933590-bonheur-vanilla.webp",
         "",
         ""
       ],
-      "productName": "bonheur-vanilla",
-      "size": "",
-      "grade": ""
+      "productName": "Vanilla",
+      "size": "14/3 x 190 x 1900",
+      "grade": "ABC"
     },
     {
       "id": "dsc00101-2",

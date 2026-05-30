@@ -101,9 +101,7 @@
       "category": "190",
       "thumbnail": "./images/projects/1780099197562-bonheur-vanilla2.webp",
       "gallery": [
-        "./images/projects/1780099199896-bonheur-vanilla2.webp",
-        "",
-        ""
+        "./images/projects/1780099199896-bonheur-vanilla2.webp"
       ],
       "productName": "Vanilla",
       "size": "14/3 x 190 x 1900",
@@ -127,9 +125,9 @@
       "id": "luna-blanco-190",
       "name": "Blanco 190",
       "category": "190",
-      "thumbnail": "./images/projects/1778498828663-luna-blanco_190.jpg",
+      "thumbnail": "./images/projects/1780102314747-luna-blanco-190.webp",
       "gallery": [
-        "./images/projects/1778498830272-luna-blanco_190.jpg",
+        "./images/projects/1780102317414-luna-blanco-190.webp",
         "",
         ""
       ],

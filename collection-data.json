@@ -335,9 +335,9 @@
       "id": "sunset",
       "name": "Sunset",
       "category": "240",
-      "thumbnail": "./images/projects/1780109387839-sunset.webp",
+      "thumbnail": "./images/projects/1780109484374-sunset.webp",
       "gallery": [
-        "./images/projects/1780109389817-sunset.webp",
+        "./images/projects/1780109486762-sunset.webp",
         "",
         ""
       ],
@@ -349,9 +349,9 @@
       "id": "volcanic",
       "name": "Volcanic",
       "category": "240",
-      "thumbnail": "./images/projects/1780109285422-volcanic.webp",
+      "thumbnail": "./images/projects/1778499474936-volcanic.jpg",
       "gallery": [
-        "./images/projects/1780109287736-volcanic.webp",
+        "./images/projects/1778499475965-volcanic.jpg",
         "",
         ""
       ],

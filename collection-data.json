@@ -2,112 +2,110 @@
   "items": [
     {
       "id": "natural-oak-2",
-      "name": "natural oak 2",
+      "name": "Natural Oak 190 2",
       "category": "190",
-      "thumbnail": "./images/projects/1778498126514-natural_oak_2.jpg",
+      "thumbnail": "./images/projects/1780105201414-natural-oak-2-1.webp",
       "gallery": [
-        "./images/projects/1778549001732-1111111.webp"
+        "./images/projects/1780105203469-natural-oak-2-1.webp"
       ],
-      "productName": "natural oak 2",
-      "size": "",
-      "grade": ""
+      "productName": "Natural Oak 190 2",
+      "size": "14/2 x 190 x 1900",
+      "grade": "ABC"
     },
     {
       "id": "natural-oak-3",
-      "name": "natural oak 3",
+      "name": "Natural Oak 190 3",
       "category": "190",
-      "thumbnail": "./images/projects/1778498273371-natural_oak_3.jpg",
+      "thumbnail": "./images/projects/1780105842137-natural-oak-3.webp",
       "gallery": [
-        "./images/projects/1778498282594-natural_oak_3.jpg",
+        "./images/projects/1780105844519-natural-oak-3.webp",
         ""
       ],
-      "productName": "natural oak 3",
-      "size": "",
-      "grade": ""
+      "productName": "Natural Oak 190 3",
+      "size": "14/3 x 190 x 1900",
+      "grade": "ABC"
     },
     {
       "id": "premium-oak-12",
-      "name": "premium oak 1.2",
+      "name": "Premium Oak 190 1.2",
       "category": "190",
-      "thumbnail": "./images/projects/1778498347077-premium_oak_1.2.jpg",
+      "thumbnail": "./images/projects/1780105536883-premium-oak-1.webp",
       "gallery": [
-        "./images/projects/1778498350223-premium_oak_1.2.jpg",
+        "./images/projects/1780105541392-premium-oak-1.webp",
         "",
         ""
       ],
-      "productName": "",
-      "size": "",
-      "grade": ""
+      "productName": "Premium Oak 190 1.2",
+      "size": "12/1.2 x 190 x 1900",
+      "grade": "A"
     },
     {
       "id": "premium-oak-3",
-      "name": "premium oak 3",
+      "name": "Premium Oak 190 3",
       "category": "190",
-      "thumbnail": "./images/projects/1778498413922-premium_oak_3.jpg",
+      "thumbnail": "./images/projects/1780105977353-premium-oak-3.webp",
       "gallery": [
-        "./images/projects/1778498416601-premium_oak_3.jpg",
+        "./images/projects/1780105979762-premium-oak-3.webp",
         "",
         ""
       ],
-      "productName": "premium oak 3",
-      "size": "",
-      "grade": ""
+      "productName": "Premium Oak 190 3",
+      "size": "14/3 x 190 x 1900",
+      "grade": "A"
     },
     {
       "id": "solomon",
-      "name": "solomon",
+      "name": "Solomon",
       "category": "190",
-      "thumbnail": "./images/projects/1778498510233-solomon.jpg",
+      "thumbnail": "./images/projects/1780106062846-solomon.webp",
       "gallery": [
-        "./images/projects/1778498511759-solomon.jpg",
+        "./images/projects/1780106065664-solomon.webp",
         "",
         ""
       ],
-      "productName": "solomon",
-      "size": "",
-      "grade": ""
+      "productName": "Solomon",
+      "size": "14/3 x 190 x 1900",
+      "grade": "ABC"
     },
     {
       "id": "amara-cinnamon",
-      "name": "amara-cinnamon",
+      "name": "Cinnamon",
       "category": "190",
-      "thumbnail": "./images/projects/1778498535244-amara-cinnamon.jpg",
+      "thumbnail": "./images/projects/1780106154052-amara-cinnamon.webp",
       "gallery": [
-        "./images/projects/1778498537125-amara-cinnamon.jpg",
+        "./images/projects/1780106156566-amara-cinnamon.webp",
         "",
         ""
       ],
-      "productName": "amara-cinnamon",
-      "size": "",
-      "grade": ""
+      "productName": "Cinnamon",
+      "size": "12/1.2 x 190 x1900",
+      "grade": "A"
     },
     {
       "id": "aurora-pistachio",
-      "name": "aurora-pistachio",
+      "name": "Pistachio",
       "category": "190",
-      "thumbnail": "./images/projects/1778498557343-aurora-pistachio.jpg",
+      "thumbnail": "./images/projects/1780106324169-aurora-pistachio.webp",
       "gallery": [
-        "./images/projects/1778498558867-aurora-pistachio.jpg",
+        "./images/projects/1780106326356-aurora-pistachio.webp",
         "",
         ""
       ],
-      "productName": "aurora-pistachio",
-      "size": "",
-      "grade": ""
+      "productName": "Pistachio",
+      "size": "12/1.2 x 190 x 1900",
+      "grade": "A"
     },
     {
       "id": "bonheur-vanilla",
-      "name": "bonheur-vanilla",
+      "name": "Vanilla",
       "category": "190",
-      "thumbnail": "./images/projects/1778498581148-bonheur-vanilla.jpg",
+      "thumbnail": "./images/projects/1780099197562-bonheur-vanilla2.webp",
       "gallery": [
-        "./images/projects/1778498582075-bonheur-vanilla.jpg",
-        "",
-        ""
+        "./images/projects/1780099199896-bonheur-vanilla2.webp"
       ],
-      "productName": "bonheur-vanilla",
-      "size": "",
-      "grade": ""
+      "productName": "Vanilla",
+      "size": "14/3 x 190 x 1900",
+      "grade": "ABC"
     },
     {
       "id": "dsc00101-2",
@@ -125,21 +123,21 @@
     },
     {
       "id": "luna-blanco-190",
-      "name": "luna-blanco 190",
+      "name": "Blanco 190",
       "category": "190",
-      "thumbnail": "./images/projects/1778498828663-luna-blanco_190.jpg",
+      "thumbnail": "./images/projects/1780109901670-luna-blanco-190.webp",
       "gallery": [
-        "./images/projects/1778498830272-luna-blanco_190.jpg",
+        "./images/projects/1780109903948-luna-blanco-190.webp",
         "",
         ""
       ],
-      "productName": "luna-blanco 190",
-      "size": "",
-      "grade": ""
+      "productName": "Blanco 190",
+      "size": "12/1.2 x 190 x 1900",
+      "grade": "A"
     },
     {
       "id": "maia-limon",
-      "name": "maia-limon",
+      "name": "Limon",
       "category": "190",
       "thumbnail": "./images/projects/1778498850840-maia-limon.jpg",
       "gallery": [
@@ -147,9 +145,9 @@
         "",
         ""
       ],
-      "productName": "maia-limon",
-      "size": "",
-      "grade": ""
+      "productName": "Limon",
+      "size": "12/1.2 x 190 x 1900",
+      "grade": "A"
     },
     {
       "id": "petricoher",
@@ -195,7 +193,7 @@
     },
     {
       "id": "project",
-      "name": "마호가니",
+      "name": "Mahogany",
       "category": "190",
       "thumbnail": "./images/projects/1778498980436-_.jpg",
       "gallery": [
@@ -203,7 +201,7 @@
         "",
         ""
       ],
-      "productName": "마호가니",
+      "productName": "Blanco 190",
       "size": "",
       "grade": ""
     },
@@ -211,9 +209,9 @@
       "id": "antique-240",
       "name": "antique 240",
       "category": "240",
-      "thumbnail": "./images/projects/1778499102374-antique_240.jpg",
+      "thumbnail": "./images/projects/1780106447938-antique-240.webp",
       "gallery": [
-        "./images/projects/1778499109028-antique_240.jpg",
+        "./images/projects/1780106449707-antique-240.webp",
         "",
         ""
       ],
@@ -223,133 +221,133 @@
     },
     {
       "id": "blanco-240",
-      "name": "blanco 240",
+      "name": "Blanco 240",
       "category": "240",
-      "thumbnail": "./images/projects/1778499138826-blanco_240.jpg",
+      "thumbnail": "./images/projects/1780106668323-blanco-240.webp",
       "gallery": [
-        "./images/projects/1778499146226-blanco_240.jpg",
+        "./images/projects/1780106669938-blanco-240.webp",
         "",
         ""
       ],
-      "productName": "blanco 240",
-      "size": "",
-      "grade": ""
+      "productName": "Blanco 240",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "fiji",
-      "name": "fiji",
+      "name": "FIJI",
       "category": "240",
-      "thumbnail": "./images/projects/1778499164707-fiji.jpg",
+      "thumbnail": "./images/projects/1780107017359-fiji.webp",
       "gallery": [
-        "./images/projects/1778499167235-fiji.jpg",
+        "./images/projects/1780107019271-fiji.webp",
         "",
         ""
       ],
-      "productName": "fiji",
-      "size": "",
-      "grade": ""
+      "productName": "FIJI",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "hazel",
-      "name": "hazel",
+      "name": "Hazel",
       "category": "240",
-      "thumbnail": "./images/projects/1778499182376-hazel.jpg",
+      "thumbnail": "./images/projects/1780107160237-hazel.webp",
       "gallery": [
-        "./images/projects/1778499185081-hazel.jpg",
+        "./images/projects/1780107161781-hazel.webp",
         "",
         ""
       ],
-      "productName": "hazel",
-      "size": "",
-      "grade": ""
+      "productName": "Hazel",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "linen",
-      "name": "linen",
+      "name": "Linen",
       "category": "240",
-      "thumbnail": "./images/projects/1778499210634-linen.jpg",
+      "thumbnail": "./images/projects/1780107239169-linen.webp",
       "gallery": [
-        "./images/projects/1778499217071-linen.jpg",
+        "./images/projects/1780107241448-linen.webp",
         "",
         ""
       ],
-      "productName": "linen",
-      "size": "",
-      "grade": ""
+      "productName": "Linen",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "natural-oak",
-      "name": "natural oak",
+      "name": "Natural Oak 240",
       "category": "240",
-      "thumbnail": "./images/projects/1778499368708-natural_oak.jpg",
+      "thumbnail": "./images/projects/1780108321761-natural-oak-240.webp",
       "gallery": [
-        "./images/projects/1778499370077-natural_oak.jpg",
+        "./images/projects/1780108323756-natural-oak-240.webp",
         "",
         ""
       ],
-      "productName": "natural oak",
-      "size": "",
-      "grade": ""
+      "productName": "Natural Oak 240 ",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "pecan",
-      "name": "pecan",
+      "name": "Pecan",
       "category": "240",
-      "thumbnail": "./images/projects/1778499384889-pecan.jpg",
+      "thumbnail": "./images/projects/1780108408062-pecan.webp",
       "gallery": [
-        "./images/projects/1778499395112-pecan.jpg",
+        "./images/projects/1780108409987-pecan.webp",
         "",
         ""
       ],
-      "productName": "pecan",
-      "size": "",
-      "grade": ""
+      "productName": "Pecan",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "pitch-black-240",
-      "name": "pitch black 240",
+      "name": "Pitch Black 240",
       "category": "240",
-      "thumbnail": "./images/projects/1778499413725-pitch_black_240.jpg",
+      "thumbnail": "./images/projects/1780108631472-pitch-black-240.webp",
       "gallery": [
-        "./images/projects/1778499417062-pitch_black_240.jpg",
+        "./images/projects/1780108633805-pitch-black-240.webp",
         "",
         ""
       ],
-      "productName": "pitch black 240",
-      "size": "",
-      "grade": ""
+      "productName": "Pitch Black 240",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "sahara",
-      "name": "sahara",
+      "name": "Sahara",
       "category": "240",
-      "thumbnail": "./images/projects/1778499624439-sahara.jpg",
+      "thumbnail": "./images/projects/1780108732323-sahara.webp",
       "gallery": [
-        "./images/projects/1778499627039-sahara.jpg",
+        "./images/projects/1780108735395-sahara.webp",
         "",
         ""
       ],
-      "productName": "sahara",
-      "size": "",
-      "grade": ""
+      "productName": "Sahara",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "sunset",
-      "name": "sunset",
+      "name": "Sunset",
       "category": "240",
       "thumbnail": "./images/projects/1778499437835-sahara.jpg",
       "gallery": [
-        "./images/projects/1778499440886-sahara.jpg",
+        "./images/projects/1780109799129-sunset1.webp",
         "",
         ""
       ],
-      "productName": "sunset",
-      "size": "",
-      "grade": ""
+      "productName": "Sunset",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     },
     {
       "id": "volcanic",
-      "name": "volcanic",
+      "name": "Volcanic",
       "category": "240",
       "thumbnail": "./images/projects/1778499474936-volcanic.jpg",
       "gallery": [
@@ -357,9 +355,9 @@
         "",
         ""
       ],
-      "productName": "volcanic",
-      "size": "",
-      "grade": ""
+      "productName": "Volcanic",
+      "size": "14/3 x 240 x 2200",
+      "grade": "ABC"
     }
   ]
 }

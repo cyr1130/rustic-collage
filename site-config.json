@@ -1,9 +1,9 @@
 {
   "hero": {
     "images": [
-      "./images/projects/1777916791791-pasted-1777916789425.png",
-      "https://framerusercontent.com/images/7ZwkPLQSg8aybrFZSIETA0sh0.jpg?width=2400&height=1600",
-      "./images/projects/1779428238089-KakaoTalk_20260107_221417579.webp"
+      "./images/projects/1780469162365-KakaoTalk_20250707_162756307_09.webp",
+      "./images/projects/1780469443704-KakaoTalk_20260603_144938230.webp",
+      "./images/projects/1780468679438-KakaoTalk_20260420_082520850_21.webp"
     ],
     "title": "Rustic Collage",
     "copyKo": "나무마다 결이 다르듯, 사람도 모두 다릅니다.\n질감과 색상, 수종과 마감의 차이 속에서 나의 마루를 고르는 일.\n그 과정을 러스틱 꼴라주가 함께합니다.",
@@ -12,22 +12,22 @@
   "homeCollection": [
     {
       "name": "165",
-      "image": "./images/projects/1779432302316-jerrygrapher_13_-_126_.webp",
+      "image": "./images/projects/1780111133488-c42f2840-c03d-4e53-a581-720478805ebd.webp",
       "category": "165"
     },
     {
       "name": "190",
-      "image": "./images/projects/1778479658281-amara-cinnamon.jpg",
+      "image": "./images/projects/1780110844757-jerrygrapher_161_-_163_.webp",
       "category": "190"
     },
     {
       "name": "240",
-      "image": "./images/projects/1778479661271-bonheur-vanilla.jpg",
+      "image": "./images/projects/1780110873399-jerrygrapher_122_-_126_.webp",
       "category": "240"
     },
     {
       "name": "Collage",
-      "image": "./images/projects/1778479668966-petricoher.jpg",
+      "image": "./images/projects/1780110903825-jerrygrapher_111_-_170_.webp",
       "category": "collage"
     }
   ],

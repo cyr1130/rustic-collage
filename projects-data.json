@@ -3,7 +3,7 @@
     {
       "id": "01-copy-copy-copy-copy-copy-copy",
       "name": "Wei Quan Haus (Verticality House)",
-      "thumbnail": "./images/projects/1779507100045-KakaoTalk_20260101_215316645.webp",
+      "thumbnail": "./images/projects/1780584888537-DSC01673.webp",
       "title": "Wei Quan Haus (Verticality House)",
       "description": "Super Pie Design Studio",
       "details": "Rustic Collage Dark Rosé",
@@ -69,6 +69,43 @@
       "thumbnailTitle": "Dorang De Ville"
     },
     {
+      "id": "01-copy-copy-copy",
+      "name": "Umokmin Design Studio",
+      "thumbnail": "./images/projects/1779503800190-jerrygrapher_7_-_163_.webp",
+      "title": "Umokmin Design Studio",
+      "description": "Umokmin Design",
+      "details": "Rustic Collage Natural Oak 240",
+      "size": "14/3 x 240 x 2200",
+      "gallery": [
+        "./images/projects/1779504720320-jerrygrapher_3_-_163_.webp",
+        "./images/projects/1779504733264-jerrygrapher_27_-_163_.webp",
+        "./images/projects/1779504740002-jerrygrapher_33_-_163_.webp",
+        "./images/projects/1779504841986-jerrygrapher_103_-_163_.webp",
+        "./images/projects/1779504857883-jerrygrapher_1_-_163_.webp",
+        "./images/projects/1779504860953-jerrygrapher_124_-_163_.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Natural Oak 240 ",
+      "thumbnailTitle": "Umokmin Design Studio"
+    },
+    {
+      "id": "01-copy-copy-copy-copy-copy",
+      "name": "Aphae De Sel (아페드셀)",
+      "thumbnail": "./images/projects/1779506801097-DSC02239-HDR.webp",
+      "title": "Aphae De Sel (아페드셀)",
+      "description": "Rieul Dorang (리을도랑)",
+      "details": "Rustic Collage Harmony",
+      "size": "14/2 x 190 x 1900",
+      "gallery": [
+        "./images/projects/1779506641630-DSC02137-HDR.webp",
+        "./images/projects/1779506682015-DSC02166-HDR.webp",
+        "./images/projects/1779506693384-DSC02239-HDR.webp",
+        "./images/projects/1779506712491-DSC02113-HDR.webp",
+        "./images/projects/1779506719336-DSC02215-HDR.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Harmony",
+      "thumbnailTitle": "Aphae De Sel (아페드셀)"
+    },
+    {
       "id": "01-copy",
       "name": "Beomeo Soop Hwaseong Park S",
       "thumbnail": "./images/projects/1779433077101-jerrygrapher_13_-_126_.webp",
@@ -92,67 +129,6 @@
       ],
       "thumbnailDesc": "Rustic Collage Hazel 240",
       "thumbnailTitle": "Beomeo Soop Hwaseong Park S"
-    },
-    {
-      "id": "01-copy-copy-copy",
-      "name": "Umokmin Design Studio",
-      "thumbnail": "./images/projects/1779503800190-jerrygrapher_7_-_163_.webp",
-      "title": "Umokmin Design Studio",
-      "description": "Umokmin Design",
-      "details": "Rustic Collage Natural Oak 240",
-      "size": "14/3 x 240 x 2200",
-      "gallery": [
-        "./images/projects/1779504720320-jerrygrapher_3_-_163_.webp",
-        "./images/projects/1779504733264-jerrygrapher_27_-_163_.webp",
-        "./images/projects/1779504740002-jerrygrapher_33_-_163_.webp",
-        "./images/projects/1779504841986-jerrygrapher_103_-_163_.webp",
-        "./images/projects/1779504857883-jerrygrapher_1_-_163_.webp",
-        "./images/projects/1779504860953-jerrygrapher_124_-_163_.webp"
-      ],
-      "thumbnailDesc": "Rustic Collage Natural Oak 240 ",
-      "thumbnailTitle": "Umokmin Design Studio"
-    },
-    {
-      "id": "01-copy-copy",
-      "name": "Blueroom_my",
-      "thumbnail": "./images/projects/1779445837574-jerrygrapher_168_-_170_.webp",
-      "title": "Blueroom_my",
-      "description": "Blueroom_my, Han Design",
-      "details": "Rustic Collage Natural Oak 190 2",
-      "size": "14/2 x 190 x 1900",
-      "gallery": [
-        "./images/projects/1779446133644-jerrygrapher_89_-_170_.webp",
-        "./images/projects/1779446136279-jerrygrapher_57_-_170_.webp",
-        "./images/projects/1779446142307-jerrygrapher_63_-_170_.webp",
-        "./images/projects/1779446146351-jerrygrapher_65_-_170_.webp",
-        "./images/projects/1779446152442-jerrygrapher_75_-_170_.webp",
-        "./images/projects/1779446160527-jerrygrapher_64_-_170_.webp",
-        "./images/projects/1779446164169-jerrygrapher_168_-_170_.webp",
-        "./images/projects/1779446169175-jerrygrapher_164_-_170_.webp",
-        "./images/projects/1779446182077-jerrygrapher_55_-_170_.webp",
-        "./images/projects/1779446190757-jerrygrapher_73_-_170_.webp",
-        "./images/projects/1779446202064-jerrygrapher_96_-_170_.webp"
-      ],
-      "thumbnailDesc": "Rustic Collage Natural Oak 190 2",
-      "thumbnailTitle": "Blueroom_my"
-    },
-    {
-      "id": "01-copy-copy-copy-copy-copy",
-      "name": "Aphae De Sel (아페드셀)",
-      "thumbnail": "./images/projects/1779506801097-DSC02239-HDR.webp",
-      "title": "Aphae De Sel (아페드셀)",
-      "description": "Rieul Dorang (리을도랑)",
-      "details": "Rustic Collage Harmony",
-      "size": "14/2 x 190 x 1900",
-      "gallery": [
-        "./images/projects/1779506641630-DSC02137-HDR.webp",
-        "./images/projects/1779506682015-DSC02166-HDR.webp",
-        "./images/projects/1779506693384-DSC02239-HDR.webp",
-        "./images/projects/1779506712491-DSC02113-HDR.webp",
-        "./images/projects/1779506719336-DSC02215-HDR.webp"
-      ],
-      "thumbnailDesc": "Rustic Collage Harmony",
-      "thumbnailTitle": "Aphae De Sel (아페드셀)"
     },
     {
       "id": "01-copy-copy-copy-copy-copy-copy-3",
@@ -213,6 +189,30 @@
       "thumbnailTitle": "Doosan We've the Zenith"
     },
     {
+      "id": "01-copy-copy",
+      "name": "Blueroom_my",
+      "thumbnail": "./images/projects/1779445837574-jerrygrapher_168_-_170_.webp",
+      "title": "Blueroom_my",
+      "description": "Blueroom_my, Han Design",
+      "details": "Rustic Collage Natural Oak 190 2",
+      "size": "14/2 x 190 x 1900",
+      "gallery": [
+        "./images/projects/1779446133644-jerrygrapher_89_-_170_.webp",
+        "./images/projects/1779446136279-jerrygrapher_57_-_170_.webp",
+        "./images/projects/1779446142307-jerrygrapher_63_-_170_.webp",
+        "./images/projects/1779446146351-jerrygrapher_65_-_170_.webp",
+        "./images/projects/1779446152442-jerrygrapher_75_-_170_.webp",
+        "./images/projects/1779446160527-jerrygrapher_64_-_170_.webp",
+        "./images/projects/1779446164169-jerrygrapher_168_-_170_.webp",
+        "./images/projects/1779446169175-jerrygrapher_164_-_170_.webp",
+        "./images/projects/1779446182077-jerrygrapher_55_-_170_.webp",
+        "./images/projects/1779446190757-jerrygrapher_73_-_170_.webp",
+        "./images/projects/1779446202064-jerrygrapher_96_-_170_.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Natural Oak 190 2",
+      "thumbnailTitle": "Blueroom_my"
+    },
+    {
       "id": "01-copy-copy-copy-copy-copy-copy-2",
       "name": "House of Quiet Density (조용한 밀도의 집)",
       "thumbnail": "./images/projects/1779688571725-2Q3A6204.webp",
@@ -267,6 +267,28 @@
       ],
       "thumbnailDesc": "Rustic Collage Blanco 240 ",
       "thumbnailTitle": "A Blue-Columned House (푸른기둥 집)"
+    },
+    {
+      "id": "01-copy-copy-copy-copy-copy-2",
+      "name": "Villa Records",
+      "thumbnail": "./images/projects/1780581044543-_DSF4110_edit.webp",
+      "title": "Villa Records",
+      "description": "임성빈",
+      "details": "Rustic Collage Blanco 240\nRustic Collage Blanco 190\nRustic Collage Blanco 160\n",
+      "size": "14/3 x 240 x 2200\n12/1.2 x 190 x 1900\n14/2 x 60 x 1200",
+      "gallery": [
+        "./images/projects/1780581127677-_DSF4110_edit.webp",
+        "./images/projects/1780581135132-_-205.webp",
+        "./images/projects/1780581313452-_-189.webp",
+        "./images/projects/1780581322820-_DSF5021_edit.webp",
+        "./images/projects/1780581329238-_-135.webp",
+        "./images/projects/1780581344906-_-138.webp",
+        "./images/projects/1780581421246-_-141.webp",
+        "./images/projects/1780581497860-_DSF4916_edit.webp",
+        "./images/projects/1780581507715-_DSF4670_edit.webp"
+      ],
+      "thumbnailDesc": "Rustic Collage Blanco 240\n\nRustic Collage Blanco 190\n\nRustic Collage Blanco 160",
+      "thumbnailTitle": "Villa Records"
     },
     {
       "id": "01-copy-copy-copy-2",

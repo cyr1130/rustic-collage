@@ -14,15 +14,15 @@
     },
     {
       "id": "natural-oak-2-copy",
-      "name": "Natural Oak 190 2 (복제)",
+      "name": "Creamy Macadamia",
       "category": "165",
-      "thumbnail": "./images/projects/1780105201414-natural-oak-2-1.webp",
+      "thumbnail": "./images/projects/1788255848781-_1-100.webp",
       "gallery": [
-        "./images/projects/1780105203469-natural-oak-2-1.webp"
+        "./images/projects/1788255869876-_1-100.webp"
       ],
-      "productName": "Natural Oak 190 2",
-      "size": "14/2 x 190 x 1900",
-      "grade": "ABC"
+      "productName": "Creamy Macadamia",
+      "size": "165/1 x 165 x 1200",
+      "grade": "A"
     },
     {
       "id": "natural-oak-3",

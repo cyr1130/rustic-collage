@@ -13,6 +13,18 @@
       "grade": "ABC"
     },
     {
+      "id": "natural-oak-2-copy",
+      "name": "Natural Oak 190 2 (복제)",
+      "category": "165",
+      "thumbnail": "./images/projects/1780105201414-natural-oak-2-1.webp",
+      "gallery": [
+        "./images/projects/1780105203469-natural-oak-2-1.webp"
+      ],
+      "productName": "Natural Oak 190 2",
+      "size": "14/2 x 190 x 1900",
+      "grade": "ABC"
+    },
+    {
       "id": "natural-oak-3",
       "name": "Natural Oak 190 3",
       "category": "190",

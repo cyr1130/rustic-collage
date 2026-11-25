@@ -13,18 +13,6 @@
       "grade": "ABC"
     },
     {
-      "id": "natural-oak-2-copy",
-      "name": "Creamy Macadamia",
-      "category": "165",
-      "thumbnail": "./images/projects/1788255848781-_1-100.webp",
-      "gallery": [
-        "./images/projects/1788255869876-_1-100.webp"
-      ],
-      "productName": "Creamy Macadamia",
-      "size": "165/1 x 165 x 1200",
-      "grade": "A"
-    },
-    {
       "id": "natural-oak-3",
       "name": "Natural Oak 190 3",
       "category": "190",
